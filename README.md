@@ -1,46 +1,25 @@
-# Astro Starter Kit: Basics
+# WoodyIDApp 🌳
 
-```sh
-npm create astro@latest -- --template basics
-```
+A mobile-friendly plant identification and mapping tool for UGA students and faculty.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Features
+- **Interactive Campus Map**: Drag-and-drop plant pins on a high-res satellite map.
+- **Dynamic Plant Lists**: Categorized by study groups with search and detail views.
+- **Admin Dashboard**: Easy plant management and group creation.
 
-## 🚀 Project Structure
+## Deployment
 
-Inside of your Astro project, you'll see the following folders and files:
+This app is designed to be deployed to **Netlify**.
 
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
-```
+1. Connect this repo to a new Netlify site.
+2. In Netlify **Site Configuration > Environment variables**, add:
+   - `ASTRO_DB_REMOTE_URL`: (Your Turso DB URL)
+   - `ASTRO_DB_APP_TOKEN`: (Your Turso Auth Token)
+   - `ADMIN_PASSWORD`: `ugawoodies`
+3. Deploy!
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## Tech Stack
+- **Framework**: [Astro](https://astro.build)
+- **Database**: [Astro DB](https://docs.astro.build/en/guides/astro-db/) (powered by Turso/LibSQL)
+- **Styling**: Tailwind CSS
+- **Map**: Leaflet
