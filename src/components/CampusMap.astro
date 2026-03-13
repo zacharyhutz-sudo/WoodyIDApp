@@ -4,20 +4,19 @@ import { db, Groups } from 'astro:db';
 const groupsData = await db.select().from(Groups);
 ---
 
-<div class="space-y-4">
-  <!-- Group Filter -->
-  <div class="flex flex-col gap-2">
-    <span class="text-[10px] font-black uppercase text-stone-400 px-1 tracking-widest">Filter by Group</span>
-    <div class="flex overflow-x-auto gap-2 pb-2 -mx-4 px-4 no-scrollbar snap-x" id="map-group-filter">
+<div class="h-full flex flex-col bg-[#F2F2F7]">
+  <!-- iOS Style Filter Bar -->
+  <div class="px-4 py-3 bg-white/80 backdrop-blur-xl border-b-[0.5px] border-[#C6C6C8] shrink-0 overflow-hidden">
+    <div class="flex overflow-x-auto gap-2 no-scrollbar" id="map-group-filter">
       <button 
-        class="group-filter-btn px-4 py-2 rounded-xl bg-green-600 text-white text-xs font-bold shadow-sm whitespace-nowrap snap-start transition-all"
+        class="group-filter-btn px-4 py-1.5 rounded-full bg-[#007AFF] text-white text-[13px] font-semibold whitespace-nowrap transition-all"
         data-group="all"
       >
         All Plants
       </button>
       {groupsData.map((group) => (
         <button 
-          class="group-filter-btn px-4 py-2 rounded-xl bg-white border border-stone-200 text-stone-500 text-xs font-bold shadow-sm whitespace-nowrap snap-start hover:border-green-300 transition-all"
+          class="group-filter-btn px-4 py-1.5 rounded-full bg-[#E5E5EA] text-[#8E8E93] text-[13px] font-semibold whitespace-nowrap transition-all"
           data-group={group.id}
         >
           {group.name}
@@ -26,15 +25,12 @@ const groupsData = await db.select().from(Groups);
     </div>
   </div>
 
-  <div id="map-container" class="relative">
-    <div id="map" class="h-[60vh] md:h-[600px] w-full rounded-3xl border border-stone-200 shadow-sm overflow-hidden z-10"></div>
+  <div id="map-container" class="relative flex-grow">
+    <div id="map" class="absolute inset-0 z-10"></div>
     
-    <!-- Real-time Location Button -->
-    <button id="recenter-map" class="absolute bottom-6 right-6 z-20 w-12 h-12 bg-white rounded-2xl shadow-xl border border-stone-100 flex items-center justify-center text-blue-500 active:scale-90 transition-all">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-      </svg>
+    <!-- Real-time Location Button (iOS Style) -->
+    <button id="recenter-map" class="absolute bottom-24 right-5 z-20 w-11 h-11 bg-white/90 backdrop-blur rounded-xl shadow-lg border-[0.5px] border-[#C6C6C8] flex items-center justify-center text-[#007AFF] active:bg-[#F2F2F7] transition-all">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
     </button>
   </div>
 </div>
@@ -51,7 +47,6 @@ const groupsData = await db.select().from(Groups);
   if (mapElement) {
     const ugaCenter = [33.948, -83.375];
     const map = L.map('map', { zoomControl: false, tap: true }).setView(ugaCenter, 17);
-    L.control.zoom({ position: 'topright' }).addTo(map);
 
     L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
       attribution: 'Esri Satellite'
@@ -67,7 +62,7 @@ const groupsData = await db.select().from(Groups);
     map.locate({setView: false, watch: true, enableHighAccuracy: true});
     const locationIcon = L.divIcon({
       className: 'user-location-marker',
-      html: `<div class="w-4 h-4 bg-blue-500 border-2 border-white rounded-full shadow-[0_0_10px_rgba(59,130,246,0.8)] animate-pulse"></div>`,
+      html: `<div class="w-4 h-4 bg-[#007AFF] border-2 border-white rounded-full shadow-lg"></div>`,
       iconSize: [16, 16],
       iconAnchor: [8, 8]
     });
@@ -92,19 +87,17 @@ const groupsData = await db.select().from(Groups);
     const createPlantIcon = (commonName, number) => L.divIcon({
       className: 'plant-marker',
       html: `
-        <div class="flex flex-col items-center group">
-          <div class="bg-white/95 backdrop-blur px-2 py-1 rounded-lg border border-stone-200 shadow-lg mb-1 whitespace-nowrap scale-90 group-hover:scale-100 transition-transform">
-            <span class="text-[10px] font-black text-green-600 mr-1">${number}</span>
-            <span class="text-[10px] font-bold text-stone-800">${commonName}</span>
+        <div class="flex flex-col items-center">
+          <div class="bg-white px-2 py-0.5 rounded-full border-[0.5px] border-[#C6C6C8] shadow-md mb-1 whitespace-nowrap">
+            <span class="text-[10px] font-bold text-[#34C759] mr-1">${number}</span>
+            <span class="text-[10px] font-medium text-black">${commonName}</span>
           </div>
-          <div class="w-6 h-6 bg-white rounded-full flex items-center justify-center shadow-md border-2 border-green-500 active:scale-90 transition-transform">
-            <div class="w-2 h-2 bg-green-500 rounded-full"></div>
-          </div>
+          <div class="w-5 h-5 bg-[#34C759] rounded-full border-2 border-white shadow-md"></div>
         </div>
       `,
       iconSize: [120, 60],
-      iconAnchor: [60, 50],
-      popupAnchor: [0, -45]
+      iconAnchor: [60, 45],
+      popupAnchor: [0, -40]
     });
 
     // Global Focus Function
@@ -120,7 +113,6 @@ const groupsData = await db.select().from(Groups);
     fetch('/api/plants.json')
       .then(res => res.json())
       .then(plants => {
-        // Sort plants by scientific name within their groups to determine the "number"
         const sortedByGroup = {};
         plants.forEach(p => {
           if (!sortedByGroup[p.groupId]) sortedByGroup[p.groupId] = [];
@@ -144,18 +136,15 @@ const groupsData = await db.select().from(Groups);
             marker.groupId = plant.groupId;
             
             marker.bindPopup(`
-              <div class="min-w-[200px] font-sans p-1">
-                <div class="flex items-start justify-between gap-4 mb-2">
-                  <div>
-                    <div class="font-black text-stone-800 text-sm leading-tight">${plant.scientificName}</div>
-                    <div class="text-stone-500 text-[10px] italic leading-tight">${plant.commonName}</div>
-                  </div>
-                  <div class="text-[10px] font-black bg-stone-100 px-2 py-0.5 rounded text-stone-400 uppercase tracking-tighter shrink-0">${plant.groupId.replace('group-', '')}</div>
+              <div class="min-w-[200px] font-sans">
+                <div class="mb-2">
+                    <div class="text-[11px] font-bold text-[#8E8E93] uppercase tracking-tighter">${plant.groupId}</div>
+                    <div class="text-[17px] font-bold text-black leading-tight">${plant.scientificName}</div>
+                    <div class="text-[13px] italic text-[#8E8E93]">${plant.commonName}</div>
                 </div>
                 ${plant.imageUrl ? `<img src="${plant.imageUrl}" class="w-full h-24 object-cover rounded-xl mb-3 shadow-inner" />` : ''}
-                <div class="text-[10px] text-stone-600 leading-relaxed bg-stone-50 p-2 rounded-lg border border-stone-100">
-                  <strong class="text-stone-400 uppercase text-[8px] block mb-0.5">Quick ID</strong>
-                  ${plant.bark || plant.leafArrangement || 'Species details available in ID Guide.'}
+                <div class="text-[11px] text-black leading-relaxed bg-[#F2F2F7] p-2 rounded-lg border-[0.5px] border-[#C6C6C8]">
+                  ${plant.bark || plant.leafArrangement || 'Details in Library.'}
                 </div>
               </div>
             `);
@@ -176,15 +165,13 @@ const groupsData = await db.select().from(Groups);
 
       const selectedGroup = btn.dataset.group;
 
-      // Update UI
       document.querySelectorAll('.group-filter-btn').forEach(b => {
-        b.classList.remove('bg-green-600', 'text-white');
-        b.classList.add('bg-white', 'border-stone-200', 'text-stone-500');
+        b.classList.remove('bg-[#007AFF]', 'text-white');
+        b.classList.add('bg-[#E5E5EA]', 'text-[#8E8E93]');
       });
-      btn.classList.add('bg-green-600', 'text-white');
-      btn.classList.remove('bg-white', 'border-stone-200', 'text-stone-500');
+      btn.classList.add('bg-[#007AFF]', 'text-white');
+      btn.classList.remove('bg-[#E5E5EA]', 'text-[#8E8E93]');
 
-      // Filter Markers
       allMarkers.forEach(m => map.removeLayer(m));
       
       if (selectedGroup === 'all') {
@@ -203,18 +190,14 @@ const groupsData = await db.select().from(Groups);
 
 <style is:global>
   .leaflet-popup-content-wrapper {
-    border-radius: 20px !important;
-    padding: 4px !important;
+    border-radius: 14px !important;
+    padding: 2px !important;
     box-shadow: 0 10px 40px rgba(0,0,0,0.15) !important;
-    border: 1px solid rgba(0,0,0,0.05) !important;
   }
   .leaflet-popup-tip-container {
     display: none !important;
   }
   .leaflet-popup-content {
     margin: 12px !important;
-  }
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
   }
 </style>

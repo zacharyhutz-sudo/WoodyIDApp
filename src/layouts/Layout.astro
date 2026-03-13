@@ -6,32 +6,50 @@ import "../styles/global.css";
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, viewport-fit=cover" />
 		<meta name="apple-mobile-web-app-capable" content="yes" />
-		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="default" />
 		<meta name="theme-color" content="#ffffff" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
 		<title>Woody ID</title>
+		<style is:global>
+			:root {
+				--ios-bg: #F2F2F7;
+				--ios-card: #FFFFFF;
+				--ios-blue: #007AFF;
+				--ios-green: #34C759;
+				--ios-grey: #8E8E93;
+				--ios-separator: #C6C6C8;
+			}
+			
+			body {
+				font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+				background-color: var(--ios-bg);
+				-webkit-tap-highlight-color: transparent;
+				overflow-x: hidden;
+			}
+
+			/* iOS Style Large Title */
+			.large-title {
+				font-size: 34px;
+				font-weight: 700;
+				letter-spacing: -0.4px;
+				color: #000;
+			}
+
+			/* Hide scrollbars */
+			.no-scrollbar::-webkit-scrollbar {
+				display: none;
+			}
+			.no-scrollbar {
+				-ms-overflow-style: none;
+				scrollbar-width: none;
+			}
+		</style>
 	</head>
-	<body class="flex flex-col min-h-screen">
-		<div class="flex-grow">
-			<slot />
-		</div>
-		<footer class="py-8 bg-stone-100 border-t border-stone-200">
-			<div class="max-w-4xl mx-auto px-4 text-center">
-				<a href="/admin" class="text-xs font-medium text-stone-400 hover:text-stone-600 transition-colors">Admin Login</a>
-			</div>
-		</footer>
+	<body class="min-h-screen selection:bg-blue-100">
+		<slot />
 	</body>
 </html>
-
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>

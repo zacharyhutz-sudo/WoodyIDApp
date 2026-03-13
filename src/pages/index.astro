@@ -6,17 +6,12 @@ import { db, Groups, Plants, eq } from 'astro:db';
 const groupsData = await db.select().from(Groups);
 const plantsData = await db.select().from(Plants);
 
-// Reconstruct the grouped structure for the UI
-// Sort plants by scientific name within their groups to maintain consistent numbering
 const groups = groupsData.map(group => {
   const plantsInGroup = plantsData
     .filter(p => p.groupId === group.id)
     .sort((a, b) => a.scientificName.localeCompare(b.scientificName));
     
-  return {
-    ...group,
-    plants: plantsInGroup
-  };
+  return { ...group, plants: plantsInGroup };
 });
 
 const numberMap: Record<string, string> = {
@@ -33,133 +28,140 @@ const getDisplayNumber = (name: string) => {
 ---
 
 <Layout>
-	<main class="min-h-screen bg-stone-50 text-stone-900 font-sans pb-24 md:pb-12">
-		<!-- Mobile Header -->
-		<header class="sticky top-0 z-50 bg-white/90 backdrop-blur-xl border-b border-stone-200 px-4 py-3 md:py-6">
-			<div class="max-w-4xl mx-auto flex flex-col items-center gap-3">
-				<div class="flex items-center gap-2">
-					<div class="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center text-white">
-						<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-						</svg>
-					</div>
-					<h1 class="text-xl md:text-2xl font-black tracking-tight text-stone-800">Woody ID</h1>
-				</div>
-				
-				<div class="inline-flex p-1 bg-stone-100 rounded-2xl border border-stone-200 w-full max-w-[280px]" id="view-toggle">
-					<button 
-						class="flex-1 px-4 py-2 rounded-xl text-xs font-bold transition-all bg-white shadow-sm text-stone-900 active:scale-95"
-						data-view="lists"
-					>
-						Lists
-					</button>
-					<button 
-						class="flex-1 px-4 py-2 rounded-xl text-xs font-bold transition-all text-stone-400 hover:text-stone-700 active:scale-95"
-						data-view="maps"
-					>
-						Maps
-					</button>
-				</div>
+	<main class="pb-32 pt-12">
+		<!-- Header with Large Title -->
+		<div id="lists-header" class="px-5 mb-6">
+			<div class="flex justify-between items-end mb-1">
+				<span class="text-[13px] font-semibold text-[#8E8E93] uppercase tracking-tight">University of Georgia</span>
+				<a href="/admin" class="text-[#007AFF] text-sm font-medium">Admin</a>
 			</div>
-		</header>
+			<h1 class="large-title">Woody ID</h1>
+		</div>
 
-		<!-- Lists View -->
-		<div id="lists-view" class="max-w-4xl mx-auto px-4 py-6 md:py-10 space-y-10">
-			<section id="group-grid-container">
-				<h2 class="text-[10px] font-black uppercase tracking-widest text-stone-400 mb-6 px-1">Plant Inventory</h2>
-				<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-					{groups.map((group) => (
+		<!-- Lists View Content -->
+		<div id="lists-view" class="space-y-8 animate-in fade-in duration-500">
+			<!-- Grouped List -->
+			<div class="px-4">
+				<div class="bg-white rounded-xl overflow-hidden border-[0.5px] border-[#C6C6C8]">
+					{groups.map((group, index) => (
 						<button 
-							class="group-widget flex-none bg-white border border-stone-200 rounded-2xl p-5 md:p-6 shadow-sm hover:shadow-md active:scale-[0.98] transition-all text-left group"
+							class="group-widget w-full flex items-center justify-between py-3 px-4 active:bg-[#E5E5EA] transition-colors text-left border-b-[0.5px] border-[#C6C6C8] last:border-0"
 							data-group-id={group.id}
 						>
-							<div class="flex flex-row items-center justify-between">
-								<div>
-									<span class="text-[10px] font-black text-green-600 uppercase tracking-widest bg-green-50 px-2 py-0.5 rounded">Group</span>
-									<h3 class="text-2xl font-bold mt-2 group-hover:text-green-700 transition-colors">{getDisplayNumber(group.name)}</h3>
-									<div class="text-xs text-stone-400 mt-1 font-medium italic">
-										{group.plants.length} Study Species
-									</div>
+							<div class="flex items-center gap-4">
+								<div class={`w-7 h-7 rounded-lg flex items-center justify-center text-white text-[13px] font-bold ${['bg-[#FF9500]', 'bg-[#34C759]', 'bg-[#007AFF]', 'bg-[#5856D6]', 'bg-[#FF2D55]', 'bg-[#AF52DE]'][index % 6]}`}>
+									{group.name.match(/\d+/)?.[0] || 'G'}
 								</div>
-								<div class="h-10 w-10 rounded-xl bg-stone-50 flex items-center justify-center text-stone-300 group-hover:bg-green-50 group-hover:text-green-600 transition-colors">
-									<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
-									</svg>
+								<div>
+									<div class="text-[17px] font-normal text-black leading-tight">{group.name}</div>
+									<div class="text-[12px] text-[#8E8E93] leading-tight mt-0.5">{group.plants.length} Species</div>
 								</div>
 							</div>
+							<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-[#C4C4C6]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+							</svg>
 						</button>
 					))}
 				</div>
-			</section>
+			</div>
+		</div>
 
-			<!-- Detail View Container (hidden by default) -->
-			<div id="group-detail" class="hidden animate-in fade-in slide-in-from-bottom-6 duration-500">
-				<div class="flex items-center justify-between mb-8 px-1">
-					<div class="flex flex-col">
-						<span class="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-1">Viewing Collection</span>
-						<h2 id="detail-title" class="text-3xl font-bold text-stone-800"></h2>
-					</div>
-					<button id="close-detail" class="w-10 h-10 bg-stone-100 rounded-full flex items-center justify-center text-stone-400 hover:bg-stone-200 transition-colors active:scale-90">
-						<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-						</svg>
-					</button>
-				</div>
-				<div id="detail-list" class="space-y-4">
-					<!-- Plants will be injected here -->
-				</div>
+		<!-- Detail View (Nested Inset Grouped List) -->
+		<div id="group-detail" class="hidden animate-in slide-in-from-right duration-300">
+			<div class="px-5 mb-6 flex items-center gap-2">
+				<button id="close-detail" class="text-[#007AFF] flex items-center -ml-2 py-2">
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+					<span class="text-[17px]">Back</span>
+				</button>
+			</div>
+			<div class="px-5 mb-6">
+				<h2 id="detail-title" class="large-title"></h2>
+			</div>
+			
+			<div id="detail-list" class="space-y-6 px-4">
+				<!-- Plant cards will be injected here -->
 			</div>
 		</div>
 
 		<!-- Maps View -->
-		<div id="maps-view" class="hidden max-w-5xl mx-auto px-4 py-6 md:py-10">
-			<div class="mb-8">
-				<h2 class="text-3xl font-bold text-stone-800">Discovery Map</h2>
-				<p class="text-stone-500 text-sm mt-1 leading-relaxed">Navigate campus to find and identify plants in real-time.</p>
+		<div id="maps-view" class="hidden absolute inset-0 z-10 bg-white">
+			<div class="h-full flex flex-col pt-safe">
+				<div class="px-5 py-3 border-b-[0.5px] border-[#C6C6C8] bg-white/80 backdrop-blur-xl shrink-0">
+					<h2 class="text-[17px] font-semibold text-center">Discovery Map</h2>
+				</div>
+				<div class="flex-grow">
+					<CampusMap />
+				</div>
 			</div>
-			<CampusMap />
 		</div>
+
+		<!-- iOS Bottom Tab Bar -->
+		<nav class="fixed bottom-0 left-0 right-0 z-50 bg-[#F9F9F9]/80 backdrop-blur-2xl border-t-[0.5px] border-[#C6C6C8] pb-safe">
+			<div class="flex h-12 md:h-16 max-w-lg mx-auto">
+				<button 
+					class="tab-btn flex-1 flex flex-col items-center justify-center gap-1 text-[#007AFF]" 
+					data-view="lists"
+				>
+					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+					</svg>
+					<span class="text-[10px] font-medium">Library</span>
+				</button>
+				<button 
+					class="tab-btn flex-1 flex flex-col items-center justify-center gap-1 text-[#8E8E93]" 
+					data-view="maps"
+				>
+					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+					</svg>
+					<span class="text-[10px] font-medium">Map</span>
+				</button>
+			</div>
+		</nav>
 	</main>
 </Layout>
 
 <script define:vars={{ groups }}>
-	const viewToggle = document.getElementById('view-toggle');
+	const tabButtons = document.querySelectorAll('.tab-btn');
 	const listsView = document.getElementById('lists-view');
 	const mapsView = document.getElementById('maps-view');
-	const groupGrid = document.getElementById('group-grid-container');
+	const listsHeader = document.getElementById('lists-header');
 	const groupWidgets = document.querySelectorAll('.group-widget');
 	const groupDetail = document.getElementById('group-detail');
 	const detailTitle = document.getElementById('detail-title');
 	const detailList = document.getElementById('detail-list');
 	const closeDetail = document.getElementById('close-detail');
 
-	const switchView = (view) => {
-		viewToggle.querySelectorAll('button').forEach(btn => {
-			btn.classList.remove('bg-white', 'shadow-sm', 'text-stone-900');
-			btn.classList.add('text-stone-400');
+	const switchTab = (view) => {
+		tabButtons.forEach(btn => {
+			if (btn.dataset.view === view) {
+				btn.classList.add('text-[#007AFF]');
+				btn.classList.remove('text-[#8E8E93]');
+			} else {
+				btn.classList.remove('text-[#007AFF]');
+				btn.classList.add('text-[#8E8E93]');
+			}
 		});
-		const targetBtn = viewToggle.querySelector(`[data-view="${view}"]`);
-		targetBtn.classList.add('bg-white', 'shadow-sm', 'text-stone-900');
-		targetBtn.classList.remove('text-stone-400');
 
 		if (view === 'lists') {
 			listsView.classList.remove('hidden');
+			listsHeader.classList.remove('hidden');
 			mapsView.classList.add('hidden');
+			groupDetail.classList.add('hidden');
 		} else {
 			listsView.classList.add('hidden');
+			listsHeader.classList.add('hidden');
+			groupDetail.classList.add('hidden');
 			mapsView.classList.remove('hidden');
 			window.dispatchEvent(new Event('resize'));
 		}
 	};
 
-	// Toggle between Lists and Maps
-	viewToggle.addEventListener('click', (e) => {
-		const button = e.target.closest('button');
-		if (!button) return;
-		switchView(button.dataset.view);
+	tabButtons.forEach(btn => {
+		btn.addEventListener('click', () => switchTab(btn.dataset.view));
 	});
 
-	// Handle group selection
 	groupWidgets.forEach(widget => {
 		widget.addEventListener('click', () => {
 			const groupId = widget.dataset.groupId;
@@ -167,64 +169,60 @@ const getDisplayNumber = (name: string) => {
 			
 			if (group) {
 				detailTitle.textContent = group.name;
-				groupGrid.classList.add('hidden');
+				listsView.classList.add('hidden');
+				listsHeader.classList.add('hidden');
+				groupDetail.classList.remove('hidden');
 				
 				detailList.innerHTML = group.plants.map((plant, index) => `
-					<div class="bg-white border border-stone-200 rounded-2xl p-5 shadow-sm hover:border-green-300 transition-all group/item overflow-hidden">
-						<div class="flex flex-col md:flex-row gap-6">
-							${plant.imageUrl ? `
-								<div class="w-full md:w-32 h-40 md:h-32 shrink-0 rounded-xl overflow-hidden shadow-inner bg-stone-50">
-									<img src="${plant.imageUrl}" class="w-full h-full object-cover group-hover/item:scale-110 transition-transform duration-500" />
+					<div class="bg-white rounded-2xl overflow-hidden border-[0.5px] border-[#C6C6C8] shadow-sm">
+						${plant.imageUrl ? `
+							<div class="w-full h-48 bg-stone-100 overflow-hidden">
+								<img src="${plant.imageUrl}" class="w-full h-full object-cover" />
+							</div>
+						` : ''}
+						<div class="p-4">
+							<div class="flex items-start justify-between mb-4">
+								<div>
+									<div class="text-[20px] font-bold text-black">${plant.scientificName}</div>
+									<div class="text-[15px] italic text-[#8E8E93]">${plant.commonName}</div>
 								</div>
-							` : ''}
-							<div class="flex-grow min-w-0">
-								<div class="flex items-start justify-between gap-4">
-									<div class="min-w-0">
-										<div class="flex items-center gap-2 mb-1">
-											<span class="text-[10px] font-black text-green-600 bg-green-50 px-1.5 py-0.5 rounded">${index + 1}</span>
-											<div class="text-xl font-bold text-stone-800 leading-tight">${plant.scientificName}</div>
-										</div>
-										<div class="text-sm italic text-stone-500">${plant.family || ''} ${plant.family ? '•' : ''} ${plant.commonName}</div>
+								${plant.latitude ? `
+									<button 
+										class="see-on-map-btn w-10 h-10 bg-[#F2F2F7] rounded-full flex items-center justify-center text-[#007AFF] active:scale-90 transition-all"
+										data-lat="${plant.latitude}"
+										data-lng="${plant.longitude}"
+										data-id="${plant.id}"
+									>
+										<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+									</button>
+								` : ''}
+							</div>
+
+							<div class="space-y-3">
+								${[
+									{ label: 'Arrangement', val: plant.leafArrangement },
+									{ label: 'Shape', val: plant.leafShape },
+									{ label: 'Margin', val: plant.leafMargin },
+									{ label: 'Bark', val: plant.bark },
+									{ label: 'Flower', val: plant.flower },
+									{ label: 'Fruit', val: plant.fruit }
+								].filter(f => f.val).map(f => `
+									<div class="flex border-t-[0.5px] border-[#F2F2F7] pt-2">
+										<div class="w-24 text-[13px] font-medium text-[#8E8E93] uppercase tracking-tight">${f.label}</div>
+										<div class="flex-grow text-[15px] text-black">${f.val}</div>
 									</div>
-									${plant.latitude ? `
-										<button 
-											class="see-on-map-btn flex flex-col items-center gap-1 text-blue-500 hover:text-blue-700 transition-colors active:scale-90"
-											data-lat="${plant.latitude}"
-											data-lng="${plant.longitude}"
-											data-id="${plant.id}"
-										>
-											<div class="p-2 bg-blue-50 rounded-xl">
-												<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-													<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-													<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-												</svg>
-											</div>
-											<span class="text-[8px] font-black uppercase tracking-tighter">See on Map</span>
-										</button>
-									` : ''}
-								</div>
-								
-								<div class="grid grid-cols-2 md:grid-cols-3 gap-y-4 gap-x-6 mt-6 pt-6 border-t border-stone-50">
-									${plant.leafArrangement ? `<div><span class="text-[8px] font-black uppercase text-stone-300 block mb-0.5 tracking-tighter">Arrangement</span><span class="text-[11px] text-stone-600 leading-tight">${plant.leafArrangement}</span></div>` : ''}
-									${plant.leafShape ? `<div><span class="text-[8px] font-black uppercase text-stone-300 block mb-0.5 tracking-tighter">Leaf Shape</span><span class="text-[11px] text-stone-600 leading-tight">${plant.leafShape}</span></div>` : ''}
-									${plant.leafMargin ? `<div><span class="text-[8px] font-black uppercase text-stone-300 block mb-0.5 tracking-tighter">Leaf Margin</span><span class="text-[11px] text-stone-600 leading-tight">${plant.leafMargin}</span></div>` : ''}
-									${plant.bark ? `<div><span class="text-[8px] font-black uppercase text-stone-300 block mb-0.5 tracking-tighter">Bark</span><span class="text-[11px] text-stone-600 leading-tight">${plant.bark}</span></div>` : ''}
-									${plant.fruit ? `<div><span class="text-[8px] font-black uppercase text-stone-300 block mb-0.5 tracking-tighter">Fruit</span><span class="text-[11px] text-stone-600 leading-tight">${plant.fruit}</span></div>` : ''}
-									${plant.flower ? `<div><span class="text-[8px] font-black uppercase text-stone-300 block mb-0.5 tracking-tighter">Flower</span><span class="text-[11px] text-stone-600 leading-tight">${plant.flower}</span></div>` : ''}
-								</div>
+								`).join('')}
 							</div>
 						</div>
 					</div>
 				`).join('');
 				
-				groupDetail.classList.remove('hidden');
-				groupDetail.scrollIntoView({ behavior: 'smooth', block: 'start' });
+				window.scrollTo({ top: 0, behavior: 'instant' });
 
-				// Attach events to new buttons
 				document.querySelectorAll('.see-on-map-btn').forEach(btn => {
 					btn.addEventListener('click', () => {
 						const { lat, lng, id } = btn.dataset;
-						switchView('maps');
+						switchTab('maps');
 						if (window.focusPlant) {
 							window.focusPlant(parseFloat(lat), parseFloat(lng), id);
 						}
@@ -234,10 +232,9 @@ const getDisplayNumber = (name: string) => {
 		});
 	});
 
-	// Close detail view
 	closeDetail.addEventListener('click', () => {
 		groupDetail.classList.add('hidden');
-		groupGrid.classList.remove('hidden');
-		window.scrollTo({ top: 0, behavior: 'smooth' });
+		listsView.classList.remove('hidden');
+		listsHeader.classList.remove('hidden');
 	});
 </script>

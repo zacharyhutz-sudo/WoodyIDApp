@@ -1,0 +1,121 @@
+{
+  "Acer buergerianum": {
+    "leafArrangement": "Opposite",
+    "leafMargin": "Entire to slightly serrate, 3-lobed",
+    "leafShape": "Trident-shaped (3 lobes pointing forward)",
+    "bark": "Grey-brown, exfoliating in long strips on older trees",
+    "fruit": "Samara, wings parallel to slightly divergent"
+  },
+  "Acer griseum": {
+    "leafArrangement": "Opposite",
+    "leafMargin": "Trifoliate (3 leaflets), coarsely toothed",
+    "leafShape": "Elliptic to ovate leaflets",
+    "bark": "Spectacular cinnamon-brown exfoliating papery bark",
+    "fruit": "Large, fuzzy samaras"
+  },
+  "Acer negundo": {
+    "leafArrangement": "Opposite",
+    "leafMargin": "Pinnately compound (3-7 leaflets), coarsely serrate",
+    "leafShape": "Ovate to lanceolate leaflets",
+    "bark": "Grey-brown, deeply furrowed with age",
+    "fruit": "Samaras in drooping clusters"
+  },
+  "Acer rubrum": {
+    "leafArrangement": "Opposite",
+    "leafMargin": "3-5 lobes, irregularly serrate, V-shaped sinuses",
+    "leafShape": "Ovate, whitish underside",
+    "bark": "Smooth grey when young, shaggy/darker with age",
+    "fruit": "Reddish samaras, ripening in spring"
+  },
+  "Betula nigra": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Doubly serrate, wedge-shaped base",
+    "leafShape": "Deltoid to ovate",
+    "bark": "Salmon-pink to reddish-brown, extremely papery and peeling",
+    "fruit": "Cone-like strobiles"
+  },
+  "Carpinus caroliniana": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Doubly serrate",
+    "leafShape": "Ovate-oblong",
+    "bark": "Smooth, bluish-grey, fluted (looks like muscle/sinew)",
+    "fruit": "Small nutlet at the base of a 3-lobed bract"
+  },
+  "Cercidiphyllum japonicum": {
+    "leafArrangement": "Sub-opposite (nearly opposite)",
+    "leafMargin": "Crenate-serrate",
+    "leafShape": "Cordate (heart-shaped) or orbicular",
+    "bark": "Brownish-grey, shaggy with age; fallen leaves smell like burnt sugar",
+    "fruit": "Small pods (follicles)"
+  },
+  "Diospyros virginiana": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Entire",
+    "leafShape": "Ovate-elliptic, lustrous dark green",
+    "bark": "Very distinct 'alligator skin' (deeply blocky/square checks)",
+    "fruit": "Large orange edible berry (persimmon)"
+  },
+  "Lagerstroemia indica": {
+    "leafArrangement": "Alternate (sometimes opposite/whorled on same branch)",
+    "leafMargin": "Entire",
+    "leafShape": "Elliptic to oblong",
+    "bark": "Extremely smooth, exfoliating to reveal pinkish-inner bark",
+    "flower": "Showy terminal panicles (white, pink, red, lavender)"
+  },
+  "Liquidambar styraciflua": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Finely serrate, star-shaped (5-7 lobes)",
+    "leafShape": "Palmate",
+    "bark": "Greyish-brown, deeply furrowed, often with corky ridges on twigs",
+    "fruit": "Spiny 'gumball' (woody capsule)"
+  },
+  "Liriodendron tulipifera": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Entire, 4-lobed (tulip-shaped)",
+    "leafShape": "Broadly ovate",
+    "bark": "Grey, furrowed into long, rough, interlacing ridges",
+    "flower": "Tulip-like, yellow-green with orange center"
+  },
+  "Quercus alba": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Pinnately lobed (7-9 lobes), lobes are rounded",
+    "leafShape": "Obovate-oblong",
+    "bark": "Light grey, shaggy/peeling in vertical strips",
+    "fruit": "Acorn with warty cap"
+  },
+  "Quercus phellos": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Entire (willow-like)",
+    "leafShape": "Linear-lanceolate",
+    "bark": "Grey-black, becoming deeply furrowed and ridged",
+    "fruit": "Small acorns with shallow caps"
+  },
+  "Cornus florida": {
+    "leafArrangement": "Opposite",
+    "leafMargin": "Entire, veins curve toward leaf tip (arcuate)",
+    "leafShape": "Ovate to elliptic",
+    "bark": "Broken into small, square, 'alligator' blocks",
+    "flower": "Small green cluster surrounded by 4 large white/pink bracts"
+  },
+  "Cercis canadensis": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Entire",
+    "leafShape": "Cordate (perfect heart shape)",
+    "bark": "Dark grey-brown, becoming scaly with age",
+    "flower": "Small magenta-pink pea-like flowers along branches"
+  },
+  "Ginkgo biloba": {
+    "leafArrangement": "Alternate, often in clusters on short spurs",
+    "leafMargin": "Entire but often 2-lobed at apex",
+    "leafShape": "Fan-shaped with dichotomous venation",
+    "bark": "Grey-brown with deep longitudinal furrows",
+    "fruit": "Plum-like (naked seed) with foul-smelling fleshy coat"
+  },
+  "Magnolia grandiflora": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Entire, thick and leathery",
+    "leafShape": "Elliptic-oblong, rusty-brown fuzz underneath",
+    "bark": "Grey, smooth when young, scaly when old",
+    "flower": "Large, white, fragrant (8-12 inches wide)"
+  }
+}
