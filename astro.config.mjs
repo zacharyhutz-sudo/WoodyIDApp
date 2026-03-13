@@ -5,11 +5,14 @@ import tailwindcss from '@tailwindcss/vite';
 
 import db from '@astrojs/db';
 
+import netlify from '@astrojs/netlify';
+
 // https://astro.build/config
 export default defineConfig({
   vite: {
     plugins: [tailwindcss()]
   },
 
-  integrations: [db()]
+  integrations: [db()],
+  adapter: netlify()
 });
