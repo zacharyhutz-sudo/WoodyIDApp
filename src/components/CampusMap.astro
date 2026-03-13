@@ -1,0 +1,66 @@
+---
+interface Props {
+  plants?: any[];
+  mode?: 'view' | 'edit';
+}
+
+const { plants = [], mode = 'view' } = Astro.props;
+---
+
+<div id="map" class="h-[500px] w-full rounded-2xl border border-stone-200 shadow-inner overflow-hidden z-10"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+<script>
+  import L from 'leaflet';
+
+  const mapElement = document.getElementById('map');
+  if (mapElement) {
+    // Center of UGA campus approx (Lumpkin St / Baxter St area)
+    const ugaCenter = [33.948, -83.375];
+    
+    const map = L.map('map').setView(ugaCenter, 16);
+
+    // Esri World Imagery (Satellite) - High res for campus
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+      attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EBP, and the GIS User Community'
+    }).addTo(map);
+
+    // Standard labels on top (White/Clean)
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+      subdomains: 'abcd',
+      maxZoom: 20
+    }).addTo(map);
+
+    // Add a simple "You are here" circle
+    map.locate({setView: false, watch: true});
+    const locationCircle = L.circle([0,0], {radius: 0, opacity: 0}).addTo(map);
+
+    map.on('locationfound', (e) => {
+      locationCircle.setLatLng(e.latlng);
+      locationCircle.setRadius(e.accuracy / 2);
+      locationCircle.setStyle({opacity: 0.5, color: '#10b981', fillColor: '#10b981'});
+    });
+
+    // Fetch and display pins
+    fetch('/api/plants.json')
+      .then(res => res.json())
+      .then(plants => {
+        plants.forEach(plant => {
+          if (plant.latitude && plant.longitude) {
+            const marker = L.marker([plant.latitude, plant.longitude]).addTo(map);
+            marker.bindPopup(`
+              <div class="font-sans">
+                <div class="font-bold text-base">${plant.scientificName}</div>
+                <div class="text-stone-500 text-sm italic mb-2">${plant.commonName}</div>
+                ${plant.imageUrl ? `<img src="${plant.imageUrl}" class="w-full h-32 object-cover rounded-lg mb-2" />` : ''}
+                <div class="text-xs text-stone-600 line-clamp-2">${plant.bark || 'No details available.'}</div>
+                <button class="mt-2 text-[10px] font-bold text-green-600 uppercase tracking-widest">View ID Guide</button>
+              </div>
+            `);
+          }
+        });
+      });
+  }
+</script>

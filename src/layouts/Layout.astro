@@ -1,3 +1,7 @@
+---
+import "../styles/global.css";
+---
+
 <!doctype html>
 <html lang="en">
 	<head>
@@ -6,10 +10,17 @@
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+		<title>Woody ID</title>
 	</head>
-	<body>
-		<slot />
+	<body class="flex flex-col min-h-screen">
+		<div class="flex-grow">
+			<slot />
+		</div>
+		<footer class="py-8 bg-stone-100 border-t border-stone-200">
+			<div class="max-w-4xl mx-auto px-4 text-center">
+				<a href="/admin" class="text-xs font-medium text-stone-400 hover:text-stone-600 transition-colors">Admin Login</a>
+			</div>
+		</footer>
 	</body>
 </html>
 
