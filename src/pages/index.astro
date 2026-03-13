@@ -204,10 +204,13 @@ const getDisplayNumber = (name: string) => {
 									` : ''}
 								</div>
 								
-								<div class="grid grid-cols-2 md:grid-cols-3 gap-y-3 gap-x-6 mt-6 pt-6 border-t border-stone-50">
-									${plant.bark ? `<div><span class="text-[8px] font-black uppercase text-stone-300 block mb-0.5 tracking-tighter">Bark</span><span class="text-[11px] text-stone-600 leading-tight">${plant.bark}</span></div>` : ''}
+								<div class="grid grid-cols-2 md:grid-cols-3 gap-y-4 gap-x-6 mt-6 pt-6 border-t border-stone-50">
 									${plant.leafArrangement ? `<div><span class="text-[8px] font-black uppercase text-stone-300 block mb-0.5 tracking-tighter">Arrangement</span><span class="text-[11px] text-stone-600 leading-tight">${plant.leafArrangement}</span></div>` : ''}
+									${plant.leafShape ? `<div><span class="text-[8px] font-black uppercase text-stone-300 block mb-0.5 tracking-tighter">Leaf Shape</span><span class="text-[11px] text-stone-600 leading-tight">${plant.leafShape}</span></div>` : ''}
+									${plant.leafMargin ? `<div><span class="text-[8px] font-black uppercase text-stone-300 block mb-0.5 tracking-tighter">Leaf Margin</span><span class="text-[11px] text-stone-600 leading-tight">${plant.leafMargin}</span></div>` : ''}
+									${plant.bark ? `<div><span class="text-[8px] font-black uppercase text-stone-300 block mb-0.5 tracking-tighter">Bark</span><span class="text-[11px] text-stone-600 leading-tight">${plant.bark}</span></div>` : ''}
 									${plant.fruit ? `<div><span class="text-[8px] font-black uppercase text-stone-300 block mb-0.5 tracking-tighter">Fruit</span><span class="text-[11px] text-stone-600 leading-tight">${plant.fruit}</span></div>` : ''}
+									${plant.flower ? `<div><span class="text-[8px] font-black uppercase text-stone-300 block mb-0.5 tracking-tighter">Flower</span><span class="text-[11px] text-stone-600 leading-tight">${plant.flower}</span></div>` : ''}
 								</div>
 							</div>
 						</div>
