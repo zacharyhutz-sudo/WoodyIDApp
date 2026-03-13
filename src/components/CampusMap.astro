@@ -1,13 +1,43 @@
 ---
-interface Props {
-  plants?: any[];
-  mode?: 'view' | 'edit';
-}
+import { db, Groups } from 'astro:db';
 
-const { plants = [], mode = 'view' } = Astro.props;
+const groupsData = await db.select().from(Groups);
 ---
 
-<div id="map" class="h-[60vh] md:h-[600px] w-full rounded-3xl border border-stone-200 shadow-sm overflow-hidden z-10"></div>
+<div class="space-y-4">
+  <!-- Group Filter -->
+  <div class="flex flex-col gap-2">
+    <span class="text-[10px] font-black uppercase text-stone-400 px-1 tracking-widest">Filter by Group</span>
+    <div class="flex overflow-x-auto gap-2 pb-2 -mx-4 px-4 no-scrollbar snap-x" id="map-group-filter">
+      <button 
+        class="group-filter-btn px-4 py-2 rounded-xl bg-green-600 text-white text-xs font-bold shadow-sm whitespace-nowrap snap-start transition-all"
+        data-group="all"
+      >
+        All Plants
+      </button>
+      {groupsData.map((group) => (
+        <button 
+          class="group-filter-btn px-4 py-2 rounded-xl bg-white border border-stone-200 text-stone-500 text-xs font-bold shadow-sm whitespace-nowrap snap-start hover:border-green-300 transition-all"
+          data-group={group.id}
+        >
+          {group.name}
+        </button>
+      ))}
+    </div>
+  </div>
+
+  <div id="map-container" class="relative">
+    <div id="map" class="h-[60vh] md:h-[600px] w-full rounded-3xl border border-stone-200 shadow-sm overflow-hidden z-10"></div>
+    
+    <!-- Real-time Location Button -->
+    <button id="recenter-map" class="absolute bottom-6 right-6 z-20 w-12 h-12 bg-white rounded-2xl shadow-xl border border-stone-100 flex items-center justify-center text-blue-500 active:scale-90 transition-all">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+      </svg>
+    </button>
+  </div>
+</div>
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
 
@@ -15,41 +45,35 @@ const { plants = [], mode = 'view' } = Astro.props;
   import L from 'leaflet';
 
   const mapElement = document.getElementById('map');
+  const groupFilter = document.getElementById('map-group-filter');
+  const recenterBtn = document.getElementById('recenter-map');
+  
   if (mapElement) {
-    // Center of UGA campus approx
     const ugaCenter = [33.948, -83.375];
-    
-    const map = L.map('map', {
-      zoomControl: false,
-      tap: true
-    }).setView(ugaCenter, 17);
+    const map = L.map('map', { zoomControl: false, tap: true }).setView(ugaCenter, 17);
+    L.control.zoom({ position: 'topright' }).addTo(map);
 
-    L.control.zoom({ position: 'bottomright' }).addTo(map);
-
-    // Satellite imagery
     L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
       attribution: 'Esri Satellite'
     }).addTo(map);
 
-    // Labels
     L.tileLayer('https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}{r}.png', {
       subdomains: 'abcd',
       maxZoom: 20
     }).addTo(map);
 
-    // Add "You are here" indicator
+    // User Location
+    let userPos = null;
     map.locate({setView: false, watch: true, enableHighAccuracy: true});
-    
     const locationIcon = L.divIcon({
       className: 'user-location-marker',
       html: `<div class="w-4 h-4 bg-blue-500 border-2 border-white rounded-full shadow-[0_0_10px_rgba(59,130,246,0.8)] animate-pulse"></div>`,
       iconSize: [16, 16],
       iconAnchor: [8, 8]
     });
-
-    let locationMarker: any = null;
-
+    let locationMarker = null;
     map.on('locationfound', (e) => {
+      userPos = e.latlng;
       if (!locationMarker) {
         locationMarker = L.marker(e.latlng, { icon: locationIcon }).addTo(map);
       } else {
@@ -57,28 +81,68 @@ const { plants = [], mode = 'view' } = Astro.props;
       }
     });
 
-    // Custom Plant Icon
-    const plantIcon = L.divIcon({
-      className: 'plant-marker',
-      html: `
-        <div class="w-8 h-8 bg-white/90 backdrop-blur rounded-full flex items-center justify-center shadow-lg border-2 border-green-500 transform transition-transform hover:scale-110">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-          </svg>
-        </div>
-      `,
-      iconSize: [32, 32],
-      iconAnchor: [16, 16],
-      popupAnchor: [0, -16]
+    recenterBtn.addEventListener('click', () => {
+      if (userPos) map.flyTo(userPos, 18);
     });
 
-    // Fetch and display pins
+    // Marker Management
+    const allMarkers = [];
+    const markersByGroup = {};
+
+    const createPlantIcon = (commonName, number) => L.divIcon({
+      className: 'plant-marker',
+      html: `
+        <div class="flex flex-col items-center group">
+          <div class="bg-white/95 backdrop-blur px-2 py-1 rounded-lg border border-stone-200 shadow-lg mb-1 whitespace-nowrap scale-90 group-hover:scale-100 transition-transform">
+            <span class="text-[10px] font-black text-green-600 mr-1">${number}</span>
+            <span class="text-[10px] font-bold text-stone-800">${commonName}</span>
+          </div>
+          <div class="w-6 h-6 bg-white rounded-full flex items-center justify-center shadow-md border-2 border-green-500 active:scale-90 transition-transform">
+            <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+          </div>
+        </div>
+      `,
+      iconSize: [120, 60],
+      iconAnchor: [60, 50],
+      popupAnchor: [0, -45]
+    });
+
+    // Global Focus Function
+    window.focusPlant = (lat, lng, id) => {
+      map.flyTo([lat, lng], 19, { duration: 1.5 });
+      const marker = allMarkers.find(m => m.plantId === id);
+      if (marker) {
+        setTimeout(() => marker.openPopup(), 1600);
+      }
+    };
+
+    // Load Data
     fetch('/api/plants.json')
       .then(res => res.json())
       .then(plants => {
+        // Sort plants by scientific name within their groups to determine the "number"
+        const sortedByGroup = {};
+        plants.forEach(p => {
+          if (!sortedByGroup[p.groupId]) sortedByGroup[p.groupId] = [];
+          sortedByGroup[p.groupId].push(p);
+        });
+        
+        Object.keys(sortedByGroup).forEach(gid => {
+          sortedByGroup[gid].sort((a, b) => a.scientificName.localeCompare(b.scientificName));
+        });
+
         plants.forEach(plant => {
           if (plant.latitude && plant.longitude) {
-            const marker = L.marker([plant.latitude, plant.longitude], { icon: plantIcon }).addTo(map);
+            const groupList = sortedByGroup[plant.groupId] || [];
+            const plantNumber = groupList.findIndex(p => p.id === plant.id) + 1;
+            
+            const marker = L.marker([plant.latitude, plant.longitude], { 
+              icon: createPlantIcon(plant.commonName, plantNumber) 
+            });
+            
+            marker.plantId = plant.id;
+            marker.groupId = plant.groupId;
+            
             marker.bindPopup(`
               <div class="min-w-[200px] font-sans p-1">
                 <div class="flex items-start justify-between gap-4 mb-2">
@@ -86,7 +150,7 @@ const { plants = [], mode = 'view' } = Astro.props;
                     <div class="font-black text-stone-800 text-sm leading-tight">${plant.scientificName}</div>
                     <div class="text-stone-500 text-[10px] italic leading-tight">${plant.commonName}</div>
                   </div>
-                  <div class="text-[8px] font-black bg-stone-100 px-1.5 py-0.5 rounded text-stone-400 uppercase tracking-tighter shrink-0">${plant.groupId}</div>
+                  <div class="text-[10px] font-black bg-stone-100 px-2 py-0.5 rounded text-stone-400 uppercase tracking-tighter shrink-0">${plant.groupId.replace('group-', '')}</div>
                 </div>
                 ${plant.imageUrl ? `<img src="${plant.imageUrl}" class="w-full h-24 object-cover rounded-xl mb-3 shadow-inner" />` : ''}
                 <div class="text-[10px] text-stone-600 leading-relaxed bg-stone-50 p-2 rounded-lg border border-stone-100">
@@ -95,9 +159,45 @@ const { plants = [], mode = 'view' } = Astro.props;
                 </div>
               </div>
             `);
+
+            allMarkers.push(marker);
+            if (!markersByGroup[plant.groupId]) markersByGroup[plant.groupId] = [];
+            markersByGroup[plant.groupId].push(marker);
+            
+            marker.addTo(map);
           }
         });
       });
+
+    // Filter Logic
+    groupFilter.addEventListener('click', (e) => {
+      const btn = e.target.closest('button');
+      if (!btn) return;
+
+      const selectedGroup = btn.dataset.group;
+
+      // Update UI
+      document.querySelectorAll('.group-filter-btn').forEach(b => {
+        b.classList.remove('bg-green-600', 'text-white');
+        b.classList.add('bg-white', 'border-stone-200', 'text-stone-500');
+      });
+      btn.classList.add('bg-green-600', 'text-white');
+      btn.classList.remove('bg-white', 'border-stone-200', 'text-stone-500');
+
+      // Filter Markers
+      allMarkers.forEach(m => map.removeLayer(m));
+      
+      if (selectedGroup === 'all') {
+        allMarkers.forEach(m => m.addTo(map));
+      } else {
+        const groupMarkers = markersByGroup[selectedGroup] || [];
+        groupMarkers.forEach(m => m.addTo(map));
+        if (groupMarkers.length > 0) {
+          const groupBounds = L.featureGroup(groupMarkers).getBounds();
+          map.fitBounds(groupBounds, { padding: [50, 50] });
+        }
+      }
+    });
   }
 </script>
 
@@ -113,5 +213,8 @@ const { plants = [], mode = 'view' } = Astro.props;
   }
   .leaflet-popup-content {
     margin: 12px !important;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
   }
 </style>

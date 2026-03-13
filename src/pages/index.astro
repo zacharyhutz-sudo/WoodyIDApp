@@ -7,10 +7,17 @@ const groupsData = await db.select().from(Groups);
 const plantsData = await db.select().from(Plants);
 
 // Reconstruct the grouped structure for the UI
-const groups = groupsData.map(group => ({
-  ...group,
-  plants: plantsData.filter(p => p.groupId === group.id)
-}));
+// Sort plants by scientific name within their groups to maintain consistent numbering
+const groups = groupsData.map(group => {
+  const plantsInGroup = plantsData
+    .filter(p => p.groupId === group.id)
+    .sort((a, b) => a.scientificName.localeCompare(b.scientificName));
+    
+  return {
+    ...group,
+    plants: plantsInGroup
+  };
+});
 
 const numberMap: Record<string, string> = {
   '01': 'One', '02': 'Two', '03': 'Three', '04': 'Four', '05': 'Five',
@@ -58,7 +65,7 @@ const getDisplayNumber = (name: string) => {
 
 		<!-- Lists View -->
 		<div id="lists-view" class="max-w-4xl mx-auto px-4 py-6 md:py-10 space-y-10">
-			<section>
+			<section id="group-grid-container">
 				<h2 class="text-[10px] font-black uppercase tracking-widest text-stone-400 mb-6 px-1">Plant Inventory</h2>
 				<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
 					{groups.map((group) => (
@@ -119,26 +126,21 @@ const getDisplayNumber = (name: string) => {
 	const viewToggle = document.getElementById('view-toggle');
 	const listsView = document.getElementById('lists-view');
 	const mapsView = document.getElementById('maps-view');
+	const groupGrid = document.getElementById('group-grid-container');
 	const groupWidgets = document.querySelectorAll('.group-widget');
 	const groupDetail = document.getElementById('group-detail');
 	const detailTitle = document.getElementById('detail-title');
 	const detailList = document.getElementById('detail-list');
 	const closeDetail = document.getElementById('close-detail');
 
-	// Toggle between Lists and Maps
-	viewToggle.addEventListener('click', (e) => {
-		const button = e.target.closest('button');
-		if (!button) return;
-
-		const view = button.dataset.view;
-		
-		// Update UI
+	const switchView = (view) => {
 		viewToggle.querySelectorAll('button').forEach(btn => {
 			btn.classList.remove('bg-white', 'shadow-sm', 'text-stone-900');
 			btn.classList.add('text-stone-400');
 		});
-		button.classList.add('bg-white', 'shadow-sm', 'text-stone-900');
-		button.classList.remove('text-stone-400');
+		const targetBtn = viewToggle.querySelector(`[data-view="${view}"]`);
+		targetBtn.classList.add('bg-white', 'shadow-sm', 'text-stone-900');
+		targetBtn.classList.remove('text-stone-400');
 
 		if (view === 'lists') {
 			listsView.classList.remove('hidden');
@@ -146,9 +148,15 @@ const getDisplayNumber = (name: string) => {
 		} else {
 			listsView.classList.add('hidden');
 			mapsView.classList.remove('hidden');
-			// Trigger map resize if needed
 			window.dispatchEvent(new Event('resize'));
 		}
+	};
+
+	// Toggle between Lists and Maps
+	viewToggle.addEventListener('click', (e) => {
+		const button = e.target.closest('button');
+		if (!button) return;
+		switchView(button.dataset.view);
 	});
 
 	// Handle group selection
@@ -158,11 +166,10 @@ const getDisplayNumber = (name: string) => {
 			const group = groups.find(g => g.id === groupId);
 			
 			if (group) {
-				// Update title
 				detailTitle.textContent = group.name;
+				groupGrid.classList.add('hidden');
 				
-				// Clear and inject plants
-				detailList.innerHTML = group.plants.map(plant => `
+				detailList.innerHTML = group.plants.map((plant, index) => `
 					<div class="bg-white border border-stone-200 rounded-2xl p-5 shadow-sm hover:border-green-300 transition-all group/item overflow-hidden">
 						<div class="flex flex-col md:flex-row gap-6">
 							${plant.imageUrl ? `
@@ -173,16 +180,27 @@ const getDisplayNumber = (name: string) => {
 							<div class="flex-grow min-w-0">
 								<div class="flex items-start justify-between gap-4">
 									<div class="min-w-0">
-										<div class="text-xl font-bold text-stone-800 leading-tight">${plant.scientificName}</div>
-										<div class="text-sm italic text-stone-500 mt-1">${plant.family || ''} ${plant.family ? '•' : ''} ${plant.commonName}</div>
+										<div class="flex items-center gap-2 mb-1">
+											<span class="text-[10px] font-black text-green-600 bg-green-50 px-1.5 py-0.5 rounded">${index + 1}</span>
+											<div class="text-xl font-bold text-stone-800 leading-tight">${plant.scientificName}</div>
+										</div>
+										<div class="text-sm italic text-stone-500">${plant.family || ''} ${plant.family ? '•' : ''} ${plant.commonName}</div>
 									</div>
 									${plant.latitude ? `
-										<div class="text-blue-500 shrink-0 mt-1">
-											<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-												<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-												<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-											</svg>
-										</div>
+										<button 
+											class="see-on-map-btn flex flex-col items-center gap-1 text-blue-500 hover:text-blue-700 transition-colors active:scale-90"
+											data-lat="${plant.latitude}"
+											data-lng="${plant.longitude}"
+											data-id="${plant.id}"
+										>
+											<div class="p-2 bg-blue-50 rounded-xl">
+												<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+													<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+													<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+												</svg>
+											</div>
+											<span class="text-[8px] font-black uppercase tracking-tighter">See on Map</span>
+										</button>
 									` : ''}
 								</div>
 								
@@ -196,11 +214,19 @@ const getDisplayNumber = (name: string) => {
 					</div>
 				`).join('');
 				
-				// Show detail view
 				groupDetail.classList.remove('hidden');
-				
-				// Scroll to detail
 				groupDetail.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+				// Attach events to new buttons
+				document.querySelectorAll('.see-on-map-btn').forEach(btn => {
+					btn.addEventListener('click', () => {
+						const { lat, lng, id } = btn.dataset;
+						switchView('maps');
+						if (window.focusPlant) {
+							window.focusPlant(parseFloat(lat), parseFloat(lng), id);
+						}
+					});
+				});
 			}
 		});
 	});
@@ -208,5 +234,7 @@ const getDisplayNumber = (name: string) => {
 	// Close detail view
 	closeDetail.addEventListener('click', () => {
 		groupDetail.classList.add('hidden');
+		groupGrid.classList.remove('hidden');
+		window.scrollTo({ top: 0, behavior: 'smooth' });
 	});
 </script>
