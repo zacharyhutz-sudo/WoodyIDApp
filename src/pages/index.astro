@@ -26,21 +26,28 @@ const getDisplayNumber = (name: string) => {
 ---
 
 <Layout>
-	<main class="min-h-screen bg-stone-50 text-stone-900 font-sans pb-12">
-		<!-- Header / Toggle -->
-		<header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-stone-200 px-4 py-4">
-			<div class="max-w-4xl mx-auto flex flex-col items-center gap-4">
-				<h1 class="text-xl font-bold tracking-tight text-stone-800">Woody ID</h1>
+	<main class="min-h-screen bg-stone-50 text-stone-900 font-sans pb-24 md:pb-12">
+		<!-- Mobile Header -->
+		<header class="sticky top-0 z-50 bg-white/90 backdrop-blur-xl border-b border-stone-200 px-4 py-3 md:py-6">
+			<div class="max-w-4xl mx-auto flex flex-col items-center gap-3">
+				<div class="flex items-center gap-2">
+					<div class="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center text-white">
+						<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+						</svg>
+					</div>
+					<h1 class="text-xl md:text-2xl font-black tracking-tight text-stone-800">Woody ID</h1>
+				</div>
 				
-				<div class="inline-flex p-1 bg-stone-100 rounded-full border border-stone-200" id="view-toggle">
+				<div class="inline-flex p-1 bg-stone-100 rounded-2xl border border-stone-200 w-full max-w-[280px]" id="view-toggle">
 					<button 
-						class="px-6 py-1.5 rounded-full text-sm font-medium transition-all bg-white shadow-sm text-stone-900"
+						class="flex-1 px-4 py-2 rounded-xl text-xs font-bold transition-all bg-white shadow-sm text-stone-900 active:scale-95"
 						data-view="lists"
 					>
 						Lists
 					</button>
 					<button 
-						class="px-6 py-1.5 rounded-full text-sm font-medium transition-all text-stone-500 hover:text-stone-700"
+						class="flex-1 px-4 py-2 rounded-xl text-xs font-bold transition-all text-stone-400 hover:text-stone-700 active:scale-95"
 						data-view="maps"
 					>
 						Maps
@@ -50,26 +57,26 @@ const getDisplayNumber = (name: string) => {
 		</header>
 
 		<!-- Lists View -->
-		<div id="lists-view" class="max-w-4xl mx-auto px-4 py-8 space-y-8">
+		<div id="lists-view" class="max-w-4xl mx-auto px-4 py-6 md:py-10 space-y-10">
 			<section>
-				<h2 class="text-sm font-semibold uppercase tracking-wider text-stone-400 mb-4 px-2">Plant Groups</h2>
+				<h2 class="text-[10px] font-black uppercase tracking-widest text-stone-400 mb-6 px-1">Plant Inventory</h2>
 				<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
 					{groups.map((group) => (
 						<button 
-							class="group-widget flex-none bg-white border border-stone-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition-all text-left group"
+							class="group-widget flex-none bg-white border border-stone-200 rounded-2xl p-5 md:p-6 shadow-sm hover:shadow-md active:scale-[0.98] transition-all text-left group"
 							data-group-id={group.id}
 						>
 							<div class="flex flex-row items-center justify-between">
 								<div>
-									<span class="text-xs font-bold text-green-600 uppercase tracking-widest">Group</span>
-									<h3 class="text-2xl font-bold group-hover:text-green-700 transition-colors">{getDisplayNumber(group.name)}</h3>
-									<div class="text-sm text-stone-500 mt-1">
-										{group.plants.length} Species
+									<span class="text-[10px] font-black text-green-600 uppercase tracking-widest bg-green-50 px-2 py-0.5 rounded">Group</span>
+									<h3 class="text-2xl font-bold mt-2 group-hover:text-green-700 transition-colors">{getDisplayNumber(group.name)}</h3>
+									<div class="text-xs text-stone-400 mt-1 font-medium italic">
+										{group.plants.length} Study Species
 									</div>
 								</div>
-								<div class="h-12 w-12 rounded-full bg-stone-50 flex items-center justify-center text-stone-300 group-hover:bg-green-50 group-hover:text-green-500 transition-colors">
-									<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+								<div class="h-10 w-10 rounded-xl bg-stone-50 flex items-center justify-center text-stone-300 group-hover:bg-green-50 group-hover:text-green-600 transition-colors">
+									<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
 									</svg>
 								</div>
 							</div>
@@ -79,22 +86,29 @@ const getDisplayNumber = (name: string) => {
 			</section>
 
 			<!-- Detail View Container (hidden by default) -->
-			<div id="group-detail" class="hidden animate-in fade-in slide-in-from-bottom-4 duration-300">
-				<div class="flex items-center justify-between mb-6 px-2">
-					<h2 id="detail-title" class="text-2xl font-bold"></h2>
-					<button id="close-detail" class="text-sm font-medium text-stone-500 hover:text-stone-900">Close</button>
+			<div id="group-detail" class="hidden animate-in fade-in slide-in-from-bottom-6 duration-500">
+				<div class="flex items-center justify-between mb-8 px-1">
+					<div class="flex flex-col">
+						<span class="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-1">Viewing Collection</span>
+						<h2 id="detail-title" class="text-3xl font-bold text-stone-800"></h2>
+					</div>
+					<button id="close-detail" class="w-10 h-10 bg-stone-100 rounded-full flex items-center justify-center text-stone-400 hover:bg-stone-200 transition-colors active:scale-90">
+						<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+						</svg>
+					</button>
 				</div>
-				<div id="detail-list" class="space-y-3">
+				<div id="detail-list" class="space-y-4">
 					<!-- Plants will be injected here -->
 				</div>
 			</div>
 		</div>
 
 		<!-- Maps View -->
-		<div id="maps-view" class="hidden max-w-4xl mx-auto px-4 py-8">
-			<div class="mb-6">
-				<h2 class="text-2xl font-bold">Campus Map</h2>
-				<p class="text-stone-500 text-sm">Find plants located across the UGA campus.</p>
+		<div id="maps-view" class="hidden max-w-5xl mx-auto px-4 py-6 md:py-10">
+			<div class="mb-8">
+				<h2 class="text-3xl font-bold text-stone-800">Discovery Map</h2>
+				<p class="text-stone-500 text-sm mt-1 leading-relaxed">Navigate campus to find and identify plants in real-time.</p>
 			</div>
 			<CampusMap />
 		</div>
@@ -121,10 +135,10 @@ const getDisplayNumber = (name: string) => {
 		// Update UI
 		viewToggle.querySelectorAll('button').forEach(btn => {
 			btn.classList.remove('bg-white', 'shadow-sm', 'text-stone-900');
-			btn.classList.add('text-stone-500');
+			btn.classList.add('text-stone-400');
 		});
 		button.classList.add('bg-white', 'shadow-sm', 'text-stone-900');
-		button.classList.remove('text-stone-500');
+		button.classList.remove('text-stone-400');
 
 		if (view === 'lists') {
 			listsView.classList.remove('hidden');
@@ -132,6 +146,8 @@ const getDisplayNumber = (name: string) => {
 		} else {
 			listsView.classList.add('hidden');
 			mapsView.classList.remove('hidden');
+			// Trigger map resize if needed
+			window.dispatchEvent(new Event('resize'));
 		}
 	});
 
@@ -147,11 +163,35 @@ const getDisplayNumber = (name: string) => {
 				
 				// Clear and inject plants
 				detailList.innerHTML = group.plants.map(plant => `
-					<div class="bg-white border border-stone-200 rounded-xl p-4 shadow-sm hover:border-green-300 transition-colors">
-						<div class="flex flex-col">
-							<span class="text-sm font-bold text-stone-900">${plant.scientificName}</span>
-							<span class="text-xs italic text-stone-500 mb-1">${plant.family || ''} ${plant.family ? '•' : ''} ${plant.commonName}</span>
-							${plant.bark ? `<div class="mt-2 text-xs text-stone-600 bg-stone-50 p-2 rounded-lg border border-stone-100"><strong>Bark:</strong> ${plant.bark}</div>` : ''}
+					<div class="bg-white border border-stone-200 rounded-2xl p-5 shadow-sm hover:border-green-300 transition-all group/item overflow-hidden">
+						<div class="flex flex-col md:flex-row gap-6">
+							${plant.imageUrl ? `
+								<div class="w-full md:w-32 h-40 md:h-32 shrink-0 rounded-xl overflow-hidden shadow-inner bg-stone-50">
+									<img src="${plant.imageUrl}" class="w-full h-full object-cover group-hover/item:scale-110 transition-transform duration-500" />
+								</div>
+							` : ''}
+							<div class="flex-grow min-w-0">
+								<div class="flex items-start justify-between gap-4">
+									<div class="min-w-0">
+										<div class="text-xl font-bold text-stone-800 leading-tight">${plant.scientificName}</div>
+										<div class="text-sm italic text-stone-500 mt-1">${plant.family || ''} ${plant.family ? '•' : ''} ${plant.commonName}</div>
+									</div>
+									${plant.latitude ? `
+										<div class="text-blue-500 shrink-0 mt-1">
+											<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+												<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+												<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+											</svg>
+										</div>
+									` : ''}
+								</div>
+								
+								<div class="grid grid-cols-2 md:grid-cols-3 gap-y-3 gap-x-6 mt-6 pt-6 border-t border-stone-50">
+									${plant.bark ? `<div><span class="text-[8px] font-black uppercase text-stone-300 block mb-0.5 tracking-tighter">Bark</span><span class="text-[11px] text-stone-600 leading-tight">${plant.bark}</span></div>` : ''}
+									${plant.leafArrangement ? `<div><span class="text-[8px] font-black uppercase text-stone-300 block mb-0.5 tracking-tighter">Arrangement</span><span class="text-[11px] text-stone-600 leading-tight">${plant.leafArrangement}</span></div>` : ''}
+									${plant.fruit ? `<div><span class="text-[8px] font-black uppercase text-stone-300 block mb-0.5 tracking-tighter">Fruit</span><span class="text-[11px] text-stone-600 leading-tight">${plant.fruit}</span></div>` : ''}
+								</div>
+							</div>
 						</div>
 					</div>
 				`).join('');
@@ -170,13 +210,3 @@ const getDisplayNumber = (name: string) => {
 		groupDetail.classList.add('hidden');
 	});
 </script>
-
-<style>
-	.no-scrollbar::-webkit-scrollbar {
-		display: none;
-	}
-	.no-scrollbar {
-		-ms-overflow-style: none;
-		scrollbar-width: none;
-	}
-</style>
