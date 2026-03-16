@@ -169,10 +169,10 @@ const groups = groupsData.map(group => {
 				detailList.innerHTML = group.plants.map((plant) => `
 					<div class="bg-white rounded-3xl overflow-hidden border-[0.5px] border-slate-200 shadow-sm transition-all hover:shadow-md">
 						${plant.imageUrl ? `
-							<div class="w-full h-56 bg-slate-100 overflow-hidden relative">
+							<button class="w-full h-56 bg-slate-100 overflow-hidden relative cursor-zoom-in" onclick="window.openLightbox('${plant.imageUrl}')">
 								<img src="${plant.imageUrl}" class="w-full h-full object-cover" loading="lazy" />
 								<div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-							</div>
+							</button>
 						` : ''}
 						<div class="p-6">
 							<div class="flex items-start justify-between mb-6">
