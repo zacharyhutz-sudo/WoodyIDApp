@@ -44,9 +44,12 @@ const groupsData = await db.select().from(Groups);
 </div>
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
 
 <script>
   import L from 'leaflet';
+  import 'leaflet.markercluster';
 
   const mapElement = document.getElementById('map');
   const groupFilter = document.getElementById('map-group-filter');
@@ -91,12 +94,13 @@ const groupsData = await db.select().from(Groups);
     // Marker Management
     const allMarkers = [];
     const markersByGroup = {};
+    let currentClusterGroup = null;
 
     const createPlantIcon = (commonName, number) => L.divIcon({
       className: 'plant-marker',
       html: `
-        <div class="flex flex-col items-center">
-          <div class="bg-slate-900 px-2 py-1 rounded-lg border-[1px] border-white shadow-lg mb-1 whitespace-nowrap">
+        <div class="flex flex-col items-center group">
+          <div class="plant-label bg-slate-900 px-2 py-1 rounded-lg border-[1px] border-white shadow-lg mb-1 whitespace-nowrap transition-all duration-300">
             <span class="text-[10px] font-black text-emerald-400 mr-1.5">${number}</span>
             <span class="text-[10px] font-bold text-white uppercase tracking-tighter">${commonName}</span>
           </div>
@@ -106,6 +110,46 @@ const groupsData = await db.select().from(Groups);
       iconSize: [140, 60],
       iconAnchor: [70, 45]
     });
+
+    const createClusterIcon = (cluster) => {
+        const count = cluster.getChildCount();
+        return L.divIcon({
+            className: 'custom-cluster',
+            html: `
+                <div class="flex items-center justify-center w-10 h-10 bg-slate-900 rounded-2xl border-2 border-emerald-500 shadow-xl">
+                    <span class="text-white font-black text-sm">${count}</span>
+                </div>
+            `,
+            iconSize: [40, 40],
+            iconAnchor: [20, 20]
+        });
+    };
+
+    const updateMapMarkers = (selectedGroupId) => {
+        // Remove existing cluster group
+        if (currentClusterGroup) {
+            map.removeLayer(currentClusterGroup);
+        }
+
+        // Create new cluster group with specific iOS-like behaviors
+        currentClusterGroup = L.markerClusterGroup({
+            showCoverageOnHover: false,
+            maxClusterRadius: 40, // Keeps clusters tight
+            spiderfyOnMaxZoom: true,
+            iconCreateFunction: createClusterIcon,
+            disableClusteringAtZoom: 19, // Show individual labels when zoomed way in
+            animate: true
+        });
+
+        const groupMarkers = markersByGroup[selectedGroupId] || [];
+        currentClusterGroup.addLayers(groupMarkers);
+        map.addLayer(currentClusterGroup);
+
+        if (groupMarkers.length > 0) {
+            const groupBounds = L.featureGroup(groupMarkers).getBounds();
+            map.fitBounds(groupBounds, { padding: [50, 50] });
+        }
+    };
 
     // Modal Display Logic
     const showPlantDetail = (plant) => {
@@ -181,8 +225,9 @@ const groupsData = await db.select().from(Groups);
             // Update filter bar to match the group of the plant we are focusing
             const btns = document.querySelectorAll('.group-filter-btn');
             btns.forEach(btn => {
-                if (btn.dataset.group === plant.groupId) {
-                    btn.click();
+                const b = btn as HTMLElement;
+                if (b.dataset.group === plant.groupId) {
+                    b.click();
                 }
             });
             setTimeout(() => showPlantDetail(plant), 1600);
@@ -227,20 +272,14 @@ const groupsData = await db.select().from(Groups);
         });
 
         // Default to the first group
-        const firstBtn = document.querySelector('.group-filter-btn');
+        const firstBtn = document.querySelector('.group-filter-btn') as HTMLElement;
         if (firstBtn) {
-            const firstGroupId = firstBtn.dataset.group;
-            const groupMarkers = markersByGroup[firstGroupId] || [];
-            groupMarkers.forEach(m => m.addTo(map));
-            if (groupMarkers.length > 0) {
-              const groupBounds = L.featureGroup(groupMarkers).getBounds();
-              map.fitBounds(groupBounds, { padding: [50, 50] });
-            }
+            updateMapMarkers(firstBtn.dataset.group);
         }
       });
 
     groupFilter.addEventListener('click', (e) => {
-      const btn = e.target.closest('button');
+      const btn = (e.target as HTMLElement).closest('button');
       if (!btn) return;
 
       const selectedGroup = btn.dataset.group;
@@ -252,15 +291,7 @@ const groupsData = await db.select().from(Groups);
       btn.classList.add('bg-emerald-700', 'text-white');
       btn.classList.remove('bg-white', 'text-slate-50', 'border-[0.5px]', 'border-slate-200');
 
-      // Clear current markers
-      allMarkers.forEach(m => map.removeLayer(m));
-      
-      const groupMarkers = markersByGroup[selectedGroup] || [];
-      groupMarkers.forEach(m => m.addTo(map));
-      if (groupMarkers.length > 0) {
-        const groupBounds = L.featureGroup(groupMarkers).getBounds();
-        map.fitBounds(groupBounds, { padding: [50, 50] });
-      }
+      if (selectedGroup) updateMapMarkers(selectedGroup);
     });
   }
 </script>
