@@ -104,16 +104,12 @@ const groupsData = await db.select().from(Groups);
     const createPlantIcon = (commonName, number) => L.divIcon({
       className: 'plant-marker',
       html: `
-        <div class="flex flex-col items-center">
-          <div class="bg-slate-900 px-2 py-1 rounded-lg border-[1px] border-white shadow-lg mb-1 whitespace-nowrap">
-            <span class="text-[10px] font-black text-emerald-400 mr-1.5">${number}</span>
-            <span class="text-[10px] font-bold text-white uppercase tracking-tighter">${commonName}</span>
-          </div>
-          <div class="w-4 h-4 bg-emerald-600 rounded-full border-2 border-white shadow-md"></div>
+        <div class="flex items-center justify-center w-8 h-8 bg-slate-900 rounded-full border-2 border-emerald-500 shadow-2xl transition-transform active:scale-95">
+          <span class="text-white font-black text-[13px] tracking-tighter">${number}</span>
         </div>
       `,
-      iconSize: [140, 60],
-      iconAnchor: [70, 45]
+      iconSize: [32, 32],
+      iconAnchor: [16, 16]
     });
 
     // Modal Display Logic
