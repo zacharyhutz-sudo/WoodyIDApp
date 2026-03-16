@@ -8,15 +8,9 @@ const groupsData = await db.select().from(Groups);
   <!-- iOS Style Filter Bar -->
   <div class="px-4 py-3 glass border-b-[0.5px] border-slate-200 shrink-0 overflow-hidden z-20">
     <div class="flex overflow-x-auto gap-2 no-scrollbar" id="map-group-filter">
-      <button 
-        class="group-filter-btn px-4 py-2 rounded-full bg-emerald-700 text-white text-[12px] font-bold uppercase tracking-widest whitespace-nowrap transition-all shadow-sm"
-        data-group="all"
-      >
-        All Species
-      </button>
-      {groupsData.map((group) => (
+      {groupsData.map((group, index) => (
         <button 
-          class="group-filter-btn px-4 py-2 rounded-full bg-white border-[0.5px] border-slate-200 text-slate-500 text-[12px] font-bold uppercase tracking-widest whitespace-nowrap transition-all shadow-sm"
+          class={`group-filter-btn px-4 py-2 rounded-full text-[12px] font-bold uppercase tracking-widest whitespace-nowrap transition-all shadow-sm ${index === 0 ? 'bg-emerald-700 text-white' : 'bg-white border-[0.5px] border-slate-200 text-slate-500'}`}
           data-group={group.id}
         >
           {group.name}
@@ -184,6 +178,13 @@ const groupsData = await db.select().from(Groups);
         .then(plants => {
           const plant = plants.find(p => p.id === id);
           if (plant) {
+            // Update filter bar to match the group of the plant we are focusing
+            const btns = document.querySelectorAll('.group-filter-btn');
+            btns.forEach(btn => {
+                if (btn.dataset.group === plant.groupId) {
+                    btn.click();
+                }
+            });
             setTimeout(() => showPlantDetail(plant), 1600);
           }
         });
@@ -202,6 +203,7 @@ const groupsData = await db.select().from(Groups);
           sortedByGroup[gid].sort((a, b) => a.scientificName.localeCompare(b.scientificName));
         });
 
+        // Initialize markers but don't add to map yet
         plants.forEach(plant => {
           if (plant.latitude && plant.longitude) {
             const groupList = sortedByGroup[plant.groupId] || [];
@@ -221,10 +223,20 @@ const groupsData = await db.select().from(Groups);
             allMarkers.push(marker);
             if (!markersByGroup[plant.groupId]) markersByGroup[plant.groupId] = [];
             markersByGroup[plant.groupId].push(marker);
-            
-            marker.addTo(map);
           }
         });
+
+        // Default to the first group
+        const firstBtn = document.querySelector('.group-filter-btn');
+        if (firstBtn) {
+            const firstGroupId = firstBtn.dataset.group;
+            const groupMarkers = markersByGroup[firstGroupId] || [];
+            groupMarkers.forEach(m => m.addTo(map));
+            if (groupMarkers.length > 0) {
+              const groupBounds = L.featureGroup(groupMarkers).getBounds();
+              map.fitBounds(groupBounds, { padding: [50, 50] });
+            }
+        }
       });
 
     groupFilter.addEventListener('click', (e) => {
@@ -235,22 +247,19 @@ const groupsData = await db.select().from(Groups);
 
       document.querySelectorAll('.group-filter-btn').forEach(b => {
         b.classList.remove('bg-emerald-700', 'text-white');
-        b.classList.add('bg-white', 'text-slate-500');
+        b.classList.add('bg-white', 'text-slate-500', 'border-[0.5px]', 'border-slate-200');
       });
       btn.classList.add('bg-emerald-700', 'text-white');
-      btn.classList.remove('bg-white', 'text-slate-50');
+      btn.classList.remove('bg-white', 'text-slate-50', 'border-[0.5px]', 'border-slate-200');
 
+      // Clear current markers
       allMarkers.forEach(m => map.removeLayer(m));
       
-      if (selectedGroup === 'all') {
-        allMarkers.forEach(m => m.addTo(map));
-      } else {
-        const groupMarkers = markersByGroup[selectedGroup] || [];
-        groupMarkers.forEach(m => m.addTo(map));
-        if (groupMarkers.length > 0) {
-          const groupBounds = L.featureGroup(groupMarkers).getBounds();
-          map.fitBounds(groupBounds, { padding: [50, 50] });
-        }
+      const groupMarkers = markersByGroup[selectedGroup] || [];
+      groupMarkers.forEach(m => m.addTo(map));
+      if (groupMarkers.length > 0) {
+        const groupBounds = L.featureGroup(groupMarkers).getBounds();
+        map.fitBounds(groupBounds, { padding: [50, 50] });
       }
     });
   }
