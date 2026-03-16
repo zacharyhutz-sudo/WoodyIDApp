@@ -13,7 +13,8 @@ const plants = await db.select().from(Plants);
 
 <Layout title="Map Editor">
   <main class="h-screen bg-[#F2F2F7] flex flex-col overflow-hidden">
-    <header class="bg-white/80 backdrop-blur-xl border-b-[0.5px] border-[#C6C6C8] p-4 flex justify-between items-center shrink-0">
+    <!-- Header -->
+    <header class="bg-white/80 backdrop-blur-xl border-b-[0.5px] border-[#C6C6C8] p-4 flex justify-between items-center shrink-0 z-30">
       <div class="flex items-center gap-3">
         <a href="/admin" class="text-[#007AFF] p-1 -ml-2">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
@@ -23,33 +24,40 @@ const plants = await db.select().from(Plants);
       <div id="status-badge" class="hidden text-[10px] font-black bg-[#E8F5E9] text-[#4CAF50] px-2 py-1 rounded-full uppercase tracking-widest animate-pulse">Saving</div>
     </header>
 
-    <div class="flex-grow relative flex flex-col md:flex-row">
-      <div id="admin-map" class="flex-grow z-10 h-full"></div>
+    <!-- Main Workspace -->
+    <div class="flex-grow relative flex flex-col md:flex-row overflow-hidden">
       
-      <!-- Mobile Hint Bubble -->
-      <div id="mobile-hint" class="md:hidden absolute top-4 left-1/2 -translate-x-1/2 z-20 bg-black/80 backdrop-blur text-white text-[12px] px-5 py-2 rounded-full font-medium pointer-events-none transition-opacity duration-300 opacity-0 shadow-2xl">
-        Tap map to place plant
+      <!-- Map Area -->
+      <div class="flex-grow relative z-10 h-full order-1 md:order-2">
+        <div id="admin-map" class="absolute inset-0"></div>
+        
+        <!-- Mobile Hint Bubble -->
+        <div id="mobile-hint" class="md:hidden absolute top-4 left-1/2 -translate-x-1/2 z-20 bg-black/80 backdrop-blur text-white text-[12px] px-5 py-2 rounded-full font-medium pointer-events-none transition-opacity duration-300 opacity-0 shadow-2xl">
+          Tap map to place plant
+        </div>
       </div>
 
-      <!-- iOS Style Bottom Sheet -->
+      <!-- Plant Picker Sheet/Sidebar -->
       <div 
         id="plant-panel"
-        class="absolute bottom-0 left-0 right-0 md:relative md:w-80 z-20 bg-white/95 backdrop-blur-2xl border-t-[0.5px] md:border-t-0 md:border-l-[0.5px] border-[#C6C6C8] transition-all duration-500 ease-in-out h-[40vh] md:h-full flex flex-col shadow-[0_-10px_40px_rgba(0,0,0,0.1)] md:shadow-none"
+        class="absolute bottom-0 left-0 right-0 md:relative md:w-80 z-20 bg-white/95 backdrop-blur-2xl border-t-[0.5px] md:border-t-0 md:border-r-[0.5px] border-[#C6C6C8] transition-all duration-500 ease-in-out h-[40vh] md:h-full flex flex-col shadow-[0_-10px_40px_rgba(0,0,0,0.1)] md:shadow-none order-2 md:order-1"
       >
-        <!-- iOS Grabber -->
-        <div class="md:hidden w-full h-6 flex items-center justify-center cursor-pointer" id="panel-toggle">
+        <!-- iOS Grabber (Mobile Only) -->
+        <div class="md:hidden w-full h-6 flex items-center justify-center cursor-pointer shrink-0" id="panel-toggle">
           <div class="w-9 h-1.25 bg-[#C6C6C8] rounded-full"></div>
         </div>
 
-        <div class="px-5 py-2 border-b-[0.5px] border-[#F2F2F7] flex flex-col gap-2 shrink-0">
+        <!-- Search & Info -->
+        <div class="px-5 py-3 border-b-[0.5px] border-[#F2F2F7] flex flex-col gap-2 shrink-0">
            <div class="flex items-center justify-between">
              <h2 class="text-[13px] font-semibold text-[#8E8E93] uppercase tracking-tight">Inventory</h2>
              <span id="placed-count" class="text-[11px] font-bold text-[#8E8E93] bg-[#F2F2F7] px-2 py-0.5 rounded-full">0 / 0</span>
            </div>
-           <input type="text" id="plant-search" placeholder="Search plants..." class="w-full px-4 py-2 bg-[#F2F2F7] rounded-xl text-[15px] outline-none focus:ring-2 focus:ring-[#007AFF]/20 transition-all" />
+           <input type="text" id="plant-search" placeholder="Search plants..." class="w-full px-4 py-2.5 bg-[#F2F2F7] rounded-xl text-[15px] outline-none focus:ring-2 focus:ring-[#007AFF]/20 transition-all border-none" />
         </div>
 
-        <div class="flex-grow overflow-y-auto p-2 bg-[#F2F2F7]/30" id="unplaced-list">
+        <!-- Scrollable List -->
+        <div class="flex-grow overflow-y-auto p-3 no-scrollbar" id="unplaced-list">
           {plants.map(plant => (
             <button 
               class="plant-item w-full text-left p-4 rounded-xl bg-white border-[0.5px] border-[#C6C6C8] shadow-sm hover:border-[#007AFF] transition-all group relative active:scale-[0.98] mb-2"
@@ -58,8 +66,8 @@ const plants = await db.select().from(Plants);
               data-placed={plant.latitude ? 'true' : 'false'}
             >
               <div class="pr-8">
-                <div class="text-[15px] font-semibold text-black leading-tight group-data-[placed=true]:text-[#8E8E93]">{plant.scientificName}</div>
-                <div class="text-[12px] text-[#8E8E93] truncate group-data-[placed=true]:text-[#C4C4C6] italic">{plant.commonName}</div>
+                <div class="text-[14px] font-semibold text-black leading-tight group-data-[placed=true]:text-[#8E8E93]">{plant.scientificName}</div>
+                <div class="text-[11px] text-[#8E8E93] truncate group-data-[placed=true]:text-[#C4C4C6] italic">{plant.commonName}</div>
               </div>
               
               <div class="absolute right-4 top-1/2 -translate-y-1/2">
@@ -82,7 +90,7 @@ const plants = await db.select().from(Plants);
           <div class="flex items-center justify-between gap-4">
             <div class="min-w-0">
               <div class="text-[11px] uppercase font-bold opacity-70 tracking-widest">Placing Species</div>
-              <div id="selected-plant-name" class="font-bold truncate text-[17px]"></div>
+              <div id="selected-plant-name" class="font-bold truncate text-[16px]"></div>
             </div>
             <button id="cancel-selection" class="px-4 py-2 bg-white/20 hover:bg-white/30 rounded-full text-[13px] font-bold transition-colors">Cancel</button>
           </div>
@@ -108,14 +116,25 @@ const plants = await db.select().from(Plants);
   const panel = document.getElementById('plant-panel');
   const panelToggle = document.getElementById('panel-toggle');
 
-  const map = L.map('admin-map', { zoomControl: false, tap: true }).setView([33.948, -83.375], 17);
+  // Map Initialization with performance settings
+  const map = L.map('admin-map', { 
+    zoomControl: false, 
+    tap: true,
+    preferCanvas: true // Use canvas rendering for markers
+  }).setView([33.948, -83.375], 17);
+  
   L.control.zoom({ position: 'topright' }).addTo(map);
   
-  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-    attribution: 'Esri Satellite'
+  // Use a faster tile provider or optimize layer loading
+  const baseLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+    attribution: 'Esri Satellite',
+    maxZoom: 19
   }).addTo(map);
 
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}{r}.png', { subdomains: 'abcd', maxZoom: 20 }).addTo(map);
+  const labelsLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}{r}.png', { 
+    subdomains: 'abcd', 
+    maxZoom: 19 
+  }).addTo(map);
 
   const updatePlacedCount = () => {
     const total = document.querySelectorAll('.plant-item').length;
@@ -137,49 +156,63 @@ const plants = await db.select().from(Plants);
       if (plantEl) {
         plantEl.setAttribute('data-placed', 'true');
         const iconContainer = plantEl.querySelector('.absolute.right-4');
-        iconContainer.innerHTML = `<div class="text-[#34C759] animate-in zoom-in duration-300"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>`;
-        plantEl.querySelector('.text-[15px]').classList.add('text-[#8E8E93]');
+        if (iconContainer) {
+            iconContainer.innerHTML = `<div class="text-[#34C759] animate-in zoom-in duration-300"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>`;
+        }
+        plantEl.querySelector('.text-[14px]')?.classList.add('text-[#8E8E93]');
       }
       updatePlacedCount();
     } catch (e) {
-      alert("Error saving location.");
+      console.error(e);
     } finally {
       setTimeout(() => statusBadge.classList.add('hidden'), 1000);
     }
   };
 
   const loadPins = async () => {
-    const res = await fetch('/api/plants.json');
-    const plants = await res.json();
-    plants.forEach(plant => {
-      if (plant.latitude && plant.longitude) {
-        addMarker(plant.id, plant.latitude, plant.longitude, plant.scientificName);
-      }
-    });
-    updatePlacedCount();
-  };
-
-  const addMarker = (id, lat, lng, name) => {
-    if (markers.has(id)) map.removeLayer(markers.get(id));
-    const marker = L.marker([lat, lng], { draggable: true }).addTo(map);
-    marker.bindPopup(`<div class="font-bold text-[15px]">${name}</div><div class="text-[11px] text-[#8E8E93]">Drag to move</div>`);
-    marker.on('dragend', async () => {
-      const pos = marker.getLatLng();
-      await updateLocation(id, pos.lat, pos.lng);
-    });
-    markers.set(id, marker);
-    return marker;
+    try {
+        const res = await fetch('/api/plants.json');
+        const plants = await res.json();
+        
+        // Use a DocumentFragment or similar logic? Leaflet handles batch well with FeatureGroup
+        const markerGroup = L.featureGroup();
+        
+        plants.forEach(plant => {
+          if (plant.latitude && plant.longitude) {
+            const marker = L.marker([plant.latitude, plant.longitude], { draggable: true });
+            marker.bindPopup(`<div class="font-bold text-[15px]">${plant.scientificName}</div><div class="text-[11px] text-[#8E8E93]">Drag to move</div>`);
+            
+            marker.on('dragend', async () => {
+                const pos = marker.getLatLng();
+                await updateLocation(plant.id, pos.lat, pos.lng);
+            });
+            
+            markers.set(plant.id, marker);
+            markerGroup.addLayer(marker);
+          }
+        });
+        
+        markerGroup.addTo(map);
+        updatePlacedCount();
+    } catch (err) {
+        console.error("Failed to load pins:", err);
+    }
   };
 
   loadPins();
 
+  // Desktop/Mobile interaction logic
   document.querySelectorAll('.plant-item').forEach(item => {
     item.addEventListener('click', () => {
       selectedPlantId = item.dataset.id;
       selectedNameEl.textContent = item.dataset.name;
       selectionBar.classList.remove('hidden');
       mobileHint.classList.remove('opacity-0');
-      if (window.innerWidth < 768) panel.style.height = '140px';
+      
+      if (window.innerWidth < 768) {
+        panel.style.height = '120px';
+      }
+      
       document.querySelectorAll('.plant-item').forEach(el => el.classList.remove('ring-2', 'ring-[#007AFF]'));
       item.classList.add('ring-2', 'ring-[#007AFF]');
     });
@@ -187,8 +220,25 @@ const plants = await db.select().from(Plants);
 
   map.on('click', async (e) => {
     if (!selectedPlantId) return;
-    addMarker(selectedPlantId, e.latlng.lat, e.latlng.lng, selectedNameEl.textContent);
-    await updateLocation(selectedPlantId, e.latlng.lat, e.latlng.lng);
+    
+    const lat = e.latlng.lat;
+    const lng = e.latlng.lng;
+    const name = selectedNameEl.textContent;
+    
+    // Add or move marker
+    if (markers.has(selectedPlantId)) {
+        markers.get(selectedPlantId).setLatLng(e.latlng);
+    } else {
+        const marker = L.marker([lat, lng], { draggable: true }).addTo(map);
+        marker.bindPopup(`<div class="font-bold text-[15px]">${name}</div><div class="text-[11px] text-[#8E8E93]">Drag to move</div>`);
+        marker.on('dragend', async () => {
+            const pos = marker.getLatLng();
+            await updateLocation(selectedPlantId, pos.lat, pos.lng);
+        });
+        markers.set(selectedPlantId, marker);
+    }
+    
+    await updateLocation(selectedPlantId, lat, lng);
     cancelSelection();
   });
 
@@ -205,11 +255,10 @@ const plants = await db.select().from(Plants);
     cancelSelection();
   });
 
-  let isExpanded = false;
   panelToggle.addEventListener('click', () => {
-    if (selectedPlantId) return;
-    isExpanded = !isExpanded;
-    panel.style.height = isExpanded ? '85vh' : '40vh';
+    if (selectedPlantId || window.innerWidth >= 768) return;
+    const currentHeight = panel.style.height;
+    panel.style.height = (currentHeight === '85vh') ? '40vh' : '85vh';
   });
 
   document.getElementById('plant-search').addEventListener('input', (e) => {
@@ -225,5 +274,12 @@ const plants = await db.select().from(Plants);
   .leaflet-popup-content-wrapper {
     border-radius: 14px !important;
     box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 </style>
