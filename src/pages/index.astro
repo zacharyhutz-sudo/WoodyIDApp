@@ -29,25 +29,29 @@ const groups = groupsData.map(group => {
 		<!-- Library View -->
 		<div id="lists-view" class="mt-6 px-4 animate-in fade-in duration-500">
 			<div class="ios-inset-list shadow-sm">
-				{groups.map((group, index) => (
-					<button 
-						class="group-widget w-full ios-row text-left"
-						data-group-id={group.id}
-					>
-						<div class="flex items-center gap-4">
-							<div class="w-10 h-10 rounded-xl flex items-center justify-center bg-slate-100 text-slate-600">
-								<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+				{groups.map((group, index) => {
+					// Extract number from "Group 01" -> 1
+					const groupNum = parseInt(group.name.match(/\d+/)?.[0] || "0");
+					return (
+						<button 
+							class="group-widget w-full ios-row text-left"
+							data-group-id={group.id}
+						>
+							<div class="flex items-center gap-4">
+								<div class="w-10 h-10 rounded-xl flex items-center justify-center bg-slate-900 text-emerald-400 font-black text-lg shadow-inner border border-white/10">
+									{groupNum}
+								</div>
+								<div>
+									<div class="text-[17px] font-semibold text-slate-800 leading-tight">{group.name}</div>
+									<div class="text-[13px] text-slate-400 font-medium mt-0.5">{group.plants.length} Species cataloged</div>
+								</div>
 							</div>
-							<div>
-								<div class="text-[17px] font-semibold text-slate-800 leading-tight">{group.name}</div>
-								<div class="text-[13px] text-slate-400 font-medium mt-0.5">{group.plants.length} Species cataloged</div>
-							</div>
-						</div>
-						<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7" />
-						</svg>
-					</button>
-				))}
+							<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7" />
+							</svg>
+						</button>
+					);
+				})}
 			</div>
 			
 			<!-- Branding/Footer Info -->
