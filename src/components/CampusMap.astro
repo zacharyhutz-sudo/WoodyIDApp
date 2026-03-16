@@ -44,9 +44,11 @@ const groupsData = await db.select().from(Groups);
 </div>
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
 
 <script>
   import L from 'leaflet';
+  import 'leaflet.markercluster';
 
   const mapElement = document.getElementById('map');
   const groupFilter = document.getElementById('map-group-filter');
@@ -79,7 +81,7 @@ const groupsData = await db.select().from(Groups);
     map.locate({setView: false, watch: true, enableHighAccuracy: true});
     const locationIcon = L.divIcon({
       className: 'user-location-marker',
-      html: `<div class="w-4 h-4 bg-emerald-500 border-2 border-white rounded-full shadow-[0_0_15px_rgba(16,185,129,0.8)]"></div>`,
+      html: `<div class="w-4 h-4 bg-red-500 border-2 border-white rounded-full shadow-[0_0_15px_rgba(239,68,68,0.8)] animate-pulse"></div>`,
       iconSize: [16, 16],
       iconAnchor: [8, 8]
     });
@@ -100,6 +102,7 @@ const groupsData = await db.select().from(Groups);
     // Marker Management
     const allMarkers = [];
     const markersByGroup = {};
+    let currentClusterGroup = null;
 
     const createPlantIcon = (commonName, number) => L.divIcon({
       className: 'plant-marker',
@@ -111,6 +114,39 @@ const groupsData = await db.select().from(Groups);
       iconSize: [32, 32],
       iconAnchor: [16, 16]
     });
+
+    const updateMapMarkers = (selectedGroupId) => {
+        if (currentClusterGroup) {
+            map.removeLayer(currentClusterGroup);
+        }
+
+        // Invisible clustering that spiderfies automatically
+        currentClusterGroup = L.markerClusterGroup({
+            showCoverageOnHover: false,
+            maxClusterRadius: 45, // Sensitivity for spidering
+            spiderfyOnMaxZoom: true,
+            // Make clusters invisible so they just spiderfy
+            iconCreateFunction: () => L.divIcon({ className: 'hidden' }),
+            spiderLegPolylineOptions: { weight: 2.5, color: '#ef4444', opacity: 0.6 },
+            disableClusteringAtZoom: 20, // Keep spidered at extreme zoom
+            animate: true,
+            spiderfyDistanceMultiplier: 1.5 // Give more room for labels
+        });
+
+        // Auto-spiderfy when a cluster is "clicked" or zoomed into
+        currentClusterGroup.on('clusterclick', (a) => {
+            a.layer.spiderfy();
+        });
+
+        const groupMarkers = markersByGroup[selectedGroupId] || [];
+        currentClusterGroup.addLayers(groupMarkers);
+        map.addLayer(currentClusterGroup);
+
+        if (groupMarkers.length > 0) {
+            const groupBounds = L.featureGroup(groupMarkers).getBounds();
+            map.fitBounds(groupBounds, { padding: [50, 50] });
+        }
+    };
 
     // Modal Display Logic
     const showPlantDetail = (plant) => {
@@ -235,13 +271,7 @@ const groupsData = await db.select().from(Groups);
         // Default to the first group
         const firstBtn = document.querySelector('.group-filter-btn') as HTMLElement;
         if (firstBtn) {
-            const firstGroupId = firstBtn.dataset.group;
-            const groupMarkers = markersByGroup[firstGroupId] || [];
-            groupMarkers.forEach(m => m.addTo(map));
-            if (groupMarkers.length > 0) {
-              const groupBounds = L.featureGroup(groupMarkers).getBounds();
-              map.fitBounds(groupBounds, { padding: [50, 50] });
-            }
+            updateMapMarkers(firstBtn.dataset.group);
         }
       });
 
@@ -258,15 +288,7 @@ const groupsData = await db.select().from(Groups);
       btn.classList.add('bg-emerald-700', 'text-white');
       btn.classList.remove('bg-white', 'text-slate-50', 'border-[0.5px]', 'border-slate-200');
 
-      // Clear current markers
-      allMarkers.forEach(m => map.removeLayer(m));
-      
-      const groupMarkers = markersByGroup[selectedGroup] || [];
-      groupMarkers.forEach(m => m.addTo(map));
-      if (groupMarkers.length > 0) {
-        const groupBounds = L.featureGroup(groupMarkers).getBounds();
-        map.fitBounds(groupBounds, { padding: [50, 50] });
-      }
+      if (selectedGroup) updateMapMarkers(selectedGroup);
     });
   }
 </script>
