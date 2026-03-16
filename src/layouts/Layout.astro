@@ -8,35 +8,51 @@ import "../styles/global.css";
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, viewport-fit=cover" />
 		<meta name="apple-mobile-web-app-capable" content="yes" />
-		<meta name="apple-mobile-web-app-status-bar-style" content="default" />
-		<meta name="theme-color" content="#ffffff" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+		<meta name="theme-color" content="#f8fafc" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
 		<title>Woody ID</title>
 		<style is:global>
 			:root {
-				--ios-bg: #F2F2F7;
-				--ios-card: #FFFFFF;
-				--ios-blue: #007AFF;
-				--ios-green: #34C759;
-				--ios-grey: #8E8E93;
-				--ios-separator: #C6C6C8;
+				--slate-50: #f8fafc;
+				--slate-100: #f1f5f9;
+				--slate-200: #e2e8f0;
+				--slate-300: #cbd5e1;
+				--slate-400: #94a3b8;
+				--slate-500: #64748b;
+				--slate-600: #475569;
+				--slate-700: #334155;
+				--slate-800: #1e293b;
+				--slate-900: #0f172a;
+				
+				--app-green: #065f46; /* Deep mature green */
+				--app-green-light: #10b981;
+				--app-green-soft: #ecfdf5;
 			}
 			
 			body {
-				font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-				background-color: var(--ios-bg);
+				font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+				background-color: var(--slate-50);
+				color: var(--slate-900);
 				-webkit-tap-highlight-color: transparent;
+				-webkit-font-smoothing: antialiased;
 				overflow-x: hidden;
 			}
 
 			/* iOS Style Large Title */
 			.large-title {
 				font-size: 34px;
-				font-weight: 700;
-				letter-spacing: -0.4px;
-				color: #000;
+				font-weight: 800;
+				letter-spacing: -0.5px;
+				color: var(--slate-900);
+			}
+
+			.glass {
+				background-color: rgba(255, 255, 255, 0.8);
+				backdrop-filter: blur(20px);
+				-webkit-backdrop-filter: blur(20px);
 			}
 
 			/* Hide scrollbars */
@@ -47,9 +63,31 @@ import "../styles/global.css";
 				-ms-overflow-style: none;
 				scrollbar-width: none;
 			}
+
+			.ios-inset-list {
+				background-color: white;
+				border-radius: 12px;
+				border: 0.5px solid var(--slate-200);
+				overflow: hidden;
+			}
+
+			.ios-row {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				padding: 12px 16px;
+				border-bottom: 0.5px solid var(--slate-100);
+				transition: background-color 0.2s;
+			}
+			.ios-row:last-child {
+				border-bottom: none;
+			}
+			.ios-row:active {
+				background-color: var(--slate-100);
+			}
 		</style>
 	</head>
-	<body class="min-h-screen selection:bg-blue-100">
+	<body class="min-h-screen selection:bg-emerald-100">
 		<slot />
 	</body>
 </html>

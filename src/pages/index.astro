@@ -13,81 +13,76 @@ const groups = groupsData.map(group => {
     
   return { ...group, plants: plantsInGroup };
 });
-
-const numberMap: Record<string, string> = {
-  '01': 'One', '02': 'Two', '03': 'Three', '04': 'Four', '05': 'Five',
-  '06': 'Six', '07': 'Seven', '08': 'Eight', '09': 'Nine', '10': 'Ten'
-};
-
-const getDisplayNumber = (name: string) => {
-  const parts = name.split(' ');
-  if (parts.length < 2) return name;
-  const num = parts[1];
-  return numberMap[num] || num;
-};
 ---
 
 <Layout>
-	<main class="pb-32 pt-12">
-		<!-- Header with Large Title -->
-		<div id="lists-header" class="px-5 mb-6">
-			<div class="flex justify-between items-end mb-1">
-				<span class="text-[13px] font-semibold text-[#8E8E93] uppercase tracking-tight">University of Georgia</span>
-				<a href="/admin" class="text-[#007AFF] text-sm font-medium">Admin</a>
+	<main class="pb-32">
+		<!-- Dynamic Top Navigation (Sticky) -->
+		<nav class="sticky top-0 z-40 glass border-b-[0.5px] border-slate-200 px-5 pt-12 pb-3 transition-all duration-300" id="top-nav">
+			<div class="flex justify-between items-center mb-1">
+				<span class="text-[13px] font-bold text-slate-400 uppercase tracking-widest">Woody ID</span>
+				<a href="/admin" class="text-emerald-700 text-sm font-semibold hover:opacity-70 transition-opacity">Admin</a>
 			</div>
-			<h1 class="large-title">Woody ID</h1>
-		</div>
+			<h1 class="large-title transition-all duration-300" id="nav-title">Library</h1>
+		</nav>
 
-		<!-- Lists View Content -->
-		<div id="lists-view" class="space-y-8 animate-in fade-in duration-500">
-			<!-- Grouped List -->
-			<div class="px-4">
-				<div class="bg-white rounded-xl overflow-hidden border-[0.5px] border-[#C6C6C8]">
-					{groups.map((group, index) => (
-						<button 
-							class="group-widget w-full flex items-center justify-between py-3 px-4 active:bg-[#E5E5EA] transition-colors text-left border-b-[0.5px] border-[#C6C6C8] last:border-0"
-							data-group-id={group.id}
-						>
-							<div class="flex items-center gap-4">
-								<div class={`w-7 h-7 rounded-lg flex items-center justify-center text-white text-[13px] font-bold ${['bg-[#FF9500]', 'bg-[#34C759]', 'bg-[#007AFF]', 'bg-[#5856D6]', 'bg-[#FF2D55]', 'bg-[#AF52DE]'][index % 6]}`}>
-									{group.name.match(/\d+/)?.[0] || 'G'}
-								</div>
-								<div>
-									<div class="text-[17px] font-normal text-black leading-tight">{group.name}</div>
-									<div class="text-[12px] text-[#8E8E93] leading-tight mt-0.5">{group.plants.length} Species</div>
-								</div>
+		<!-- Library View -->
+		<div id="lists-view" class="mt-6 px-4 animate-in fade-in duration-500">
+			<div class="ios-inset-list shadow-sm">
+				{groups.map((group, index) => (
+					<button 
+						class="group-widget w-full ios-row text-left"
+						data-group-id={group.id}
+					>
+						<div class="flex items-center gap-4">
+							<div class="w-10 h-10 rounded-xl flex items-center justify-center bg-slate-100 text-slate-600">
+								<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
 							</div>
-							<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-[#C4C4C6]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
-							</svg>
-						</button>
-					))}
-				</div>
-			</div>
-		</div>
-
-		<!-- Detail View (Nested Inset Grouped List) -->
-		<div id="group-detail" class="hidden animate-in slide-in-from-right duration-300">
-			<div class="px-5 mb-6 flex items-center gap-2">
-				<button id="close-detail" class="text-[#007AFF] flex items-center -ml-2 py-2">
-					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-					<span class="text-[17px]">Back</span>
-				</button>
-			</div>
-			<div class="px-5 mb-6">
-				<h2 id="detail-title" class="large-title"></h2>
+							<div>
+								<div class="text-[17px] font-semibold text-slate-800 leading-tight">{group.name}</div>
+								<div class="text-[13px] text-slate-400 font-medium mt-0.5">{group.plants.length} Species cataloged</div>
+							</div>
+						</div>
+						<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7" />
+						</svg>
+					</button>
+				))}
 			</div>
 			
-			<div id="detail-list" class="space-y-6 px-4">
-				<!-- Plant cards will be injected here -->
+			<!-- Branding/Footer Info -->
+			<div class="mt-8 px-2 text-center">
+				<p class="text-[13px] text-slate-400 font-medium leading-relaxed">
+					University of Georgia<br/>Woody Ornamentals Laboratory
+				</p>
+			</div>
+		</div>
+
+		<!-- Detail View -->
+		<div id="group-detail" class="hidden fixed inset-0 z-50 bg-slate-50 overflow-y-auto no-scrollbar animate-in slide-in-from-right duration-300">
+			<header class="sticky top-0 z-10 glass border-b-[0.5px] border-slate-200 px-4 py-4 flex items-center justify-between">
+				<button id="close-detail" class="text-emerald-700 flex items-center gap-1 font-semibold">
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+					<span>Library</span>
+				</button>
+				<h2 id="header-detail-title" class="text-[17px] font-bold text-slate-800 truncate px-4"></h2>
+				<div class="w-20"></div> <!-- Spacer -->
+			</header>
+			
+			<div class="px-5 mt-6 mb-8">
+				<h2 id="detail-title" class="large-title"></h2>
+			</div>
+
+			<div id="detail-list" class="space-y-6 px-4 pb-24">
+				<!-- Plant cards injected here -->
 			</div>
 		</div>
 
 		<!-- Maps View -->
-		<div id="maps-view" class="hidden absolute inset-0 z-10 bg-white">
+		<div id="maps-view" class="hidden fixed inset-0 z-30 bg-white">
 			<div class="h-full flex flex-col pt-safe">
-				<div class="px-5 py-3 border-b-[0.5px] border-[#C6C6C8] bg-white/80 backdrop-blur-xl shrink-0">
-					<h2 class="text-[17px] font-semibold text-center">Discovery Map</h2>
+				<div class="px-5 py-3 border-b-[0.5px] border-slate-200 glass shrink-0">
+					<h2 class="text-[17px] font-bold text-center text-slate-800 uppercase tracking-widest">Campus Discovery</h2>
 				</div>
 				<div class="flex-grow">
 					<CampusMap />
@@ -95,27 +90,26 @@ const getDisplayNumber = (name: string) => {
 			</div>
 		</div>
 
-		<!-- iOS Bottom Tab Bar -->
-		<nav class="fixed bottom-0 left-0 right-0 z-50 bg-[#F9F9F9]/80 backdrop-blur-2xl border-t-[0.5px] border-[#C6C6C8] pb-safe">
-			<div class="flex h-12 md:h-16 max-w-lg mx-auto">
+		<!-- Mature iOS Tab Bar -->
+		<nav class="fixed bottom-0 left-0 right-0 z-[60] glass border-t-[0.5px] border-slate-200 pb-safe">
+			<div class="flex h-16 max-w-lg mx-auto">
 				<button 
-					class="tab-btn flex-1 flex flex-col items-center justify-center gap-1 text-[#007AFF]" 
+					class="tab-btn flex-1 flex flex-col items-center justify-center gap-1.5 transition-colors text-emerald-700" 
 					data-view="lists"
 				>
-					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
-					</svg>
-					<span class="text-[10px] font-medium">Library</span>
+					<div class="p-1.5 rounded-xl transition-colors">
+						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M8 7h6"/><path d="M8 11h8"/></svg>
+					</div>
+					<span class="text-[10px] font-bold uppercase tracking-widest">Library</span>
 				</button>
 				<button 
-					class="tab-btn flex-1 flex flex-col items-center justify-center gap-1 text-[#8E8E93]" 
+					class="tab-btn flex-1 flex flex-col items-center justify-center gap-1.5 transition-colors text-slate-400" 
 					data-view="maps"
 				>
-					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-					</svg>
-					<span class="text-[10px] font-medium">Map</span>
+					<div class="p-1.5 rounded-xl transition-colors">
+						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+					</div>
+					<span class="text-[10px] font-bold uppercase tracking-widest">Campus Map</span>
 				</button>
 			</div>
 		</nav>
@@ -126,32 +120,31 @@ const getDisplayNumber = (name: string) => {
 	const tabButtons = document.querySelectorAll('.tab-btn');
 	const listsView = document.getElementById('lists-view');
 	const mapsView = document.getElementById('maps-view');
-	const listsHeader = document.getElementById('lists-header');
 	const groupWidgets = document.querySelectorAll('.group-widget');
 	const groupDetail = document.getElementById('group-detail');
 	const detailTitle = document.getElementById('detail-title');
+	const headerDetailTitle = document.getElementById('header-detail-title');
 	const detailList = document.getElementById('detail-list');
 	const closeDetail = document.getElementById('close-detail');
 
 	const switchTab = (view) => {
 		tabButtons.forEach(btn => {
 			if (btn.dataset.view === view) {
-				btn.classList.add('text-[#007AFF]');
-				btn.classList.remove('text-[#8E8E93]');
+				btn.classList.add('text-emerald-700');
+				btn.classList.remove('text-slate-400');
 			} else {
-				btn.classList.remove('text-[#007AFF]');
-				btn.classList.add('text-[#8E8E93]');
+				btn.classList.remove('text-emerald-700');
+				btn.classList.add('text-slate-400');
 			}
 		});
 
 		if (view === 'lists') {
 			listsView.classList.remove('hidden');
-			listsHeader.classList.remove('hidden');
+			document.getElementById('top-nav').classList.remove('hidden');
 			mapsView.classList.add('hidden');
-			groupDetail.classList.add('hidden');
 		} else {
 			listsView.classList.add('hidden');
-			listsHeader.classList.add('hidden');
+			document.getElementById('top-nav').classList.add('hidden');
 			groupDetail.classList.add('hidden');
 			mapsView.classList.remove('hidden');
 			window.dispatchEvent(new Event('resize'));
@@ -169,47 +162,48 @@ const getDisplayNumber = (name: string) => {
 			
 			if (group) {
 				detailTitle.textContent = group.name;
-				listsView.classList.add('hidden');
-				listsHeader.classList.add('hidden');
+				headerDetailTitle.textContent = group.name;
 				groupDetail.classList.remove('hidden');
+				document.body.classList.add('overflow-hidden');
 				
-				detailList.innerHTML = group.plants.map((plant, index) => `
-					<div class="bg-white rounded-2xl overflow-hidden border-[0.5px] border-[#C6C6C8] shadow-sm">
+				detailList.innerHTML = group.plants.map((plant) => `
+					<div class="bg-white rounded-3xl overflow-hidden border-[0.5px] border-slate-200 shadow-sm transition-all hover:shadow-md">
 						${plant.imageUrl ? `
-							<div class="w-full h-48 bg-stone-100 overflow-hidden">
-								<img src="${plant.imageUrl}" class="w-full h-full object-cover" />
+							<div class="w-full h-56 bg-slate-100 overflow-hidden relative">
+								<img src="${plant.imageUrl}" class="w-full h-full object-cover" loading="lazy" />
+								<div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
 							</div>
 						` : ''}
-						<div class="p-4">
-							<div class="flex items-start justify-between mb-4">
-								<div>
-									<div class="text-[20px] font-bold text-black">${plant.scientificName}</div>
-									<div class="text-[15px] italic text-[#8E8E93]">${plant.commonName}</div>
+						<div class="p-6">
+							<div class="flex items-start justify-between mb-6">
+								<div class="min-w-0">
+									<div class="text-[22px] font-bold text-slate-900 leading-tight">${plant.scientificName}</div>
+									<div class="text-[15px] font-medium text-slate-400 italic mt-0.5">${plant.commonName}</div>
 								</div>
 								${plant.latitude ? `
 									<button 
-										class="see-on-map-btn w-10 h-10 bg-[#F2F2F7] rounded-full flex items-center justify-center text-[#007AFF] active:scale-90 transition-all"
+										class="see-on-map-btn w-12 h-12 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-600 active:scale-90 transition-all shrink-0"
 										data-lat="${plant.latitude}"
 										data-lng="${plant.longitude}"
 										data-id="${plant.id}"
 									>
-										<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+										<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
 									</button>
 								` : ''}
 							</div>
 
-							<div class="space-y-3">
+							<div class="grid grid-cols-1 gap-y-4">
 								${[
-									{ label: 'Arrangement', val: plant.leafArrangement },
-									{ label: 'Shape', val: plant.leafShape },
-									{ label: 'Margin', val: plant.leafMargin },
-									{ label: 'Bark', val: plant.bark },
+									{ label: 'Leaf Arrangement', val: plant.leafArrangement },
+									{ label: 'Leaf Shape', val: plant.leafShape },
+									{ label: 'Leaf Margin', val: plant.leafMargin },
+									{ label: 'Bark Features', val: plant.bark },
 									{ label: 'Flower', val: plant.flower },
 									{ label: 'Fruit', val: plant.fruit }
 								].filter(f => f.val).map(f => `
-									<div class="flex border-t-[0.5px] border-[#F2F2F7] pt-2">
-										<div class="w-24 text-[13px] font-medium text-[#8E8E93] uppercase tracking-tight">${f.label}</div>
-										<div class="flex-grow text-[15px] text-black">${f.val}</div>
+									<div class="flex items-baseline gap-4">
+										<div class="w-24 shrink-0 text-[11px] font-black text-slate-300 uppercase tracking-widest">${f.label}</div>
+										<div class="text-[15px] text-slate-700 font-medium leading-snug">${f.val}</div>
 									</div>
 								`).join('')}
 							</div>
@@ -217,12 +211,14 @@ const getDisplayNumber = (name: string) => {
 					</div>
 				`).join('');
 				
-				window.scrollTo({ top: 0, behavior: 'instant' });
+				groupDetail.scrollTo({ top: 0, behavior: 'instant' });
 
 				document.querySelectorAll('.see-on-map-btn').forEach(btn => {
 					btn.addEventListener('click', () => {
 						const { lat, lng, id } = btn.dataset;
 						switchTab('maps');
+						groupDetail.classList.add('hidden');
+						document.body.classList.remove('overflow-hidden');
 						if (window.focusPlant) {
 							window.focusPlant(parseFloat(lat), parseFloat(lng), id);
 						}
@@ -234,7 +230,21 @@ const getDisplayNumber = (name: string) => {
 
 	closeDetail.addEventListener('click', () => {
 		groupDetail.classList.add('hidden');
-		listsView.classList.remove('hidden');
-		listsHeader.classList.remove('hidden');
+		document.body.classList.remove('overflow-hidden');
+	});
+
+	// Dynamic nav effect
+	window.addEventListener('scroll', () => {
+		const nav = document.getElementById('top-nav');
+		const title = document.getElementById('nav-title');
+		if (window.scrollY > 40) {
+			nav.classList.add('py-2');
+			nav.classList.remove('pt-12', 'pb-3');
+			title.style.fontSize = '20px';
+		} else {
+			nav.classList.remove('py-2');
+			nav.classList.add('pt-12', 'pb-3');
+			title.style.fontSize = '34px';
+		}
 	});
 </script>

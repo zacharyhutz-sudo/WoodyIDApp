@@ -4,19 +4,19 @@ import { db, Groups } from 'astro:db';
 const groupsData = await db.select().from(Groups);
 ---
 
-<div class="h-full flex flex-col bg-[#F2F2F7]">
+<div class="h-full flex flex-col bg-slate-50">
   <!-- iOS Style Filter Bar -->
-  <div class="px-4 py-3 bg-white/80 backdrop-blur-xl border-b-[0.5px] border-[#C6C6C8] shrink-0 overflow-hidden">
+  <div class="px-4 py-3 glass border-b-[0.5px] border-slate-200 shrink-0 overflow-hidden">
     <div class="flex overflow-x-auto gap-2 no-scrollbar" id="map-group-filter">
       <button 
-        class="group-filter-btn px-4 py-1.5 rounded-full bg-[#007AFF] text-white text-[13px] font-semibold whitespace-nowrap transition-all"
+        class="group-filter-btn px-4 py-2 rounded-full bg-emerald-700 text-white text-[12px] font-bold uppercase tracking-widest whitespace-nowrap transition-all shadow-sm"
         data-group="all"
       >
-        All Plants
+        All Species
       </button>
       {groupsData.map((group) => (
         <button 
-          class="group-filter-btn px-4 py-1.5 rounded-full bg-[#E5E5EA] text-[#8E8E93] text-[13px] font-semibold whitespace-nowrap transition-all"
+          class="group-filter-btn px-4 py-2 rounded-full bg-white border-[0.5px] border-slate-200 text-slate-500 text-[12px] font-bold uppercase tracking-widest whitespace-nowrap transition-all shadow-sm"
           data-group={group.id}
         >
           {group.name}
@@ -29,8 +29,8 @@ const groupsData = await db.select().from(Groups);
     <div id="map" class="absolute inset-0 z-10"></div>
     
     <!-- Real-time Location Button (iOS Style) -->
-    <button id="recenter-map" class="absolute bottom-24 right-5 z-20 w-11 h-11 bg-white/90 backdrop-blur rounded-xl shadow-lg border-[0.5px] border-[#C6C6C8] flex items-center justify-center text-[#007AFF] active:bg-[#F2F2F7] transition-all">
-      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+    <button id="recenter-map" class="absolute bottom-24 right-5 z-20 w-12 h-12 glass rounded-2xl shadow-xl border-[0.5px] border-slate-200 flex items-center justify-center text-emerald-700 active:bg-slate-100 transition-all">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
     </button>
   </div>
 </div>
@@ -46,23 +46,20 @@ const groupsData = await db.select().from(Groups);
   
   if (mapElement) {
     const ugaCenter = [33.948, -83.375];
-    const map = L.map('map', { zoomControl: false, tap: true }).setView(ugaCenter, 17);
+    const map = L.map('map', { zoomControl: false, tap: true, preferCanvas: true }).setView(ugaCenter, 17);
 
     L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
       attribution: 'Esri Satellite'
     }).addTo(map);
 
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}{r}.png', {
-      subdomains: 'abcd',
-      maxZoom: 20
-    }).addTo(map);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}{r}.png', { subdomains: 'abcd', maxZoom: 20 }).addTo(map);
 
     // User Location
     let userPos = null;
     map.locate({setView: false, watch: true, enableHighAccuracy: true});
     const locationIcon = L.divIcon({
       className: 'user-location-marker',
-      html: `<div class="w-4 h-4 bg-[#007AFF] border-2 border-white rounded-full shadow-lg"></div>`,
+      html: `<div class="w-4 h-4 bg-emerald-500 border-2 border-white rounded-full shadow-[0_0_15px_rgba(16,185,129,0.8)]"></div>`,
       iconSize: [16, 16],
       iconAnchor: [8, 8]
     });
@@ -88,15 +85,15 @@ const groupsData = await db.select().from(Groups);
       className: 'plant-marker',
       html: `
         <div class="flex flex-col items-center">
-          <div class="bg-white px-2 py-0.5 rounded-full border-[0.5px] border-[#C6C6C8] shadow-md mb-1 whitespace-nowrap">
-            <span class="text-[10px] font-bold text-[#34C759] mr-1">${number}</span>
-            <span class="text-[10px] font-medium text-black">${commonName}</span>
+          <div class="bg-slate-900 px-2 py-1 rounded-lg border-[1px] border-white shadow-lg mb-1 whitespace-nowrap">
+            <span class="text-[10px] font-black text-emerald-400 mr-1.5">${number}</span>
+            <span class="text-[10px] font-bold text-white uppercase tracking-tighter">${commonName}</span>
           </div>
-          <div class="w-5 h-5 bg-[#34C759] rounded-full border-2 border-white shadow-md"></div>
+          <div class="w-4 h-4 bg-emerald-600 rounded-full border-2 border-white shadow-md"></div>
         </div>
       `,
-      iconSize: [120, 60],
-      iconAnchor: [60, 45],
+      iconSize: [140, 60],
+      iconAnchor: [70, 45],
       popupAnchor: [0, -40]
     });
 
@@ -109,7 +106,6 @@ const groupsData = await db.select().from(Groups);
       }
     };
 
-    // Load Data
     fetch('/api/plants.json')
       .then(res => res.json())
       .then(plants => {
@@ -136,18 +132,19 @@ const groupsData = await db.select().from(Groups);
             marker.groupId = plant.groupId;
             
             marker.bindPopup(`
-              <div class="min-w-[200px] font-sans">
-                <div class="mb-2">
-                    <div class="text-[11px] font-bold text-[#8E8E93] uppercase tracking-tighter">${plant.groupId}</div>
-                    <div class="text-[17px] font-bold text-black leading-tight">${plant.scientificName}</div>
-                    <div class="text-[13px] italic text-[#8E8E93]">${plant.commonName}</div>
+              <div class="min-w-[200px] font-sans p-1">
+                <div class="mb-3">
+                    <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest">${plant.groupId}</div>
+                    <div class="text-[18px] font-extrabold text-slate-900 leading-tight">${plant.scientificName}</div>
+                    <div class="text-[14px] italic text-slate-500 font-medium">${plant.commonName}</div>
                 </div>
-                ${plant.imageUrl ? `<img src="${plant.imageUrl}" class="w-full h-24 object-cover rounded-xl mb-3 shadow-inner" />` : ''}
-                <div class="text-[11px] text-black leading-relaxed bg-[#F2F2F7] p-2 rounded-lg border-[0.5px] border-[#C6C6C8]">
-                  ${plant.bark || plant.leafArrangement || 'Details in Library.'}
+                ${plant.imageUrl ? `<img src="${plant.imageUrl}" class="w-full h-28 object-cover rounded-2xl mb-4 shadow-sm" />` : ''}
+                <div class="text-[11px] text-slate-600 leading-relaxed bg-slate-50 p-3 rounded-xl border-[0.5px] border-slate-100">
+                  <span class="block text-[9px] font-black text-slate-300 uppercase tracking-tighter mb-1">Botanical Summary</span>
+                  ${plant.bark || plant.leafArrangement || 'Species details available in Library.'}
                 </div>
               </div>
-            `);
+            `, { maxWidth: 280 });
 
             allMarkers.push(marker);
             if (!markersByGroup[plant.groupId]) markersByGroup[plant.groupId] = [];
@@ -158,7 +155,6 @@ const groupsData = await db.select().from(Groups);
         });
       });
 
-    // Filter Logic
     groupFilter.addEventListener('click', (e) => {
       const btn = e.target.closest('button');
       if (!btn) return;
@@ -166,11 +162,11 @@ const groupsData = await db.select().from(Groups);
       const selectedGroup = btn.dataset.group;
 
       document.querySelectorAll('.group-filter-btn').forEach(b => {
-        b.classList.remove('bg-[#007AFF]', 'text-white');
-        b.classList.add('bg-[#E5E5EA]', 'text-[#8E8E93]');
+        b.classList.remove('bg-emerald-700', 'text-white');
+        b.classList.add('bg-white', 'text-slate-500');
       });
-      btn.classList.add('bg-[#007AFF]', 'text-white');
-      btn.classList.remove('bg-[#E5E5EA]', 'text-[#8E8E93]');
+      btn.classList.add('bg-emerald-700', 'text-white');
+      btn.classList.remove('bg-white', 'text-slate-50');
 
       allMarkers.forEach(m => map.removeLayer(m));
       
@@ -190,14 +186,17 @@ const groupsData = await db.select().from(Groups);
 
 <style is:global>
   .leaflet-popup-content-wrapper {
-    border-radius: 14px !important;
-    padding: 2px !important;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.15) !important;
+    border-radius: 24px !important;
+    padding: 4px !important;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.2) !important;
   }
   .leaflet-popup-tip-container {
     display: none !important;
   }
   .leaflet-popup-content {
-    margin: 12px !important;
+    margin: 16px !important;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
   }
 </style>
