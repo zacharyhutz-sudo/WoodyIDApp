@@ -9,7 +9,10 @@ import AstroPWA from '@vite-pwa/astro';
 export default defineConfig({
   output: 'server',
   image: {
-    domains: ['supabase.co', 'res.cloudinary.com'],
+    service: {
+      entrypoint: 'astro/assets/services/sharp'
+    },
+    domains: ['supabase.co', 'res.cloudinary.com', 'hwtpsvukkyhuvhghulue.supabase.co'],
     remotePatterns: [
       {
         protocol: 'https',
@@ -106,5 +109,7 @@ export default defineConfig({
       }
     })
   ],
-  adapter: netlify()
+  adapter: netlify({
+    imageCDN: false
+  })
 });

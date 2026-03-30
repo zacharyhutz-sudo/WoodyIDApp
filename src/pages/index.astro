@@ -199,7 +199,7 @@ const groups = groupsData.map(group => {
 						${plant.imageUrl ? `
 							<button class="w-full h-72 bg-forest-deep overflow-hidden relative cursor-zoom-in" onclick="window.openLightbox('${plant.imageUrl}')">
 								<img 
-									src="/.netlify/images?url=${encodeURIComponent(plant.imageUrl)}&w=800&fm=webp" 
+									src="/_astro/image?url=${encodeURIComponent(plant.imageUrl)}&w=800&f=webp" 
 									class="w-full h-full object-cover" 
 									loading="lazy" 
 								/>
