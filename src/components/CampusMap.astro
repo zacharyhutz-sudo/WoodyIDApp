@@ -246,12 +246,13 @@ const groupsData = await db.select().from(Groups);
 
     // Modal Display Logic
     const showPlantDetail = (plant) => {
+      const optimizedUrl = plant.imageUrl ? `/_astro/image?src=${encodeURIComponent(plant.imageUrl)}&w=800&h=600&f=webp` : null;
       modalContent.innerHTML = `
         <div class="w-full">
           <div class="w-full h-72 bg-forest-deep overflow-hidden relative">
-            ${plant.imageUrl ? `
+            ${optimizedUrl ? `
               <button class="w-full h-full cursor-zoom-in" onclick="window.openLightbox('${plant.imageUrl}')">
-                <img src="${plant.imageUrl}" class="w-full h-full object-cover grayscale-[0.2]" />
+                <img src="${optimizedUrl}" class="w-full h-full object-cover grayscale-[0.2]" />
               </button>
             ` : `
               <div class="w-full h-full flex items-center justify-center text-sage-light/20">

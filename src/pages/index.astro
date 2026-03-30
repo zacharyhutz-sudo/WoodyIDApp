@@ -1,7 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import CampusMap from '../components/CampusMap.astro';
-import { db, Groups, Plants, eq } from 'astro:db';
+import { db, Groups, Plants } from 'astro:db';
+import { Image } from 'astro:assets';
 
 const groupsData = await db.select().from(Groups);
 const plantsData = await db.select().from(Plants);
@@ -40,7 +41,14 @@ const groups = groupsData.map(group => {
 					>
 						<!-- Hero Background Image -->
 						{group.heroImage ? (
-							<img src={group.heroImage} class="absolute inset-0 w-full h-full object-cover grayscale-[0.2]" alt={group.name} />
+							<Image 
+								src={group.heroImage} 
+								width={800} 
+								height={400} 
+								format="webp"
+								class="absolute inset-0 w-full h-full object-cover grayscale-[0.2]" 
+								alt={group.name} 
+							/>
 						) : (
 							<div class="absolute inset-0 bg-sage-muted" />
 						)}
@@ -188,7 +196,11 @@ const groups = groupsData.map(group => {
 					<div class="bg-sage-muted rounded-[2rem] overflow-hidden border border-sage-light/30 shadow-2xl transition-all">
 						${plant.imageUrl ? `
 							<button class="w-full h-72 bg-forest-deep overflow-hidden relative cursor-zoom-in" onclick="window.openLightbox('${plant.imageUrl}')">
-								<img src="${plant.imageUrl}" class="w-full h-full object-cover" loading="lazy" />
+								<img 
+									src="/_astro/image?src=${encodeURIComponent(plant.imageUrl)}&w=800&h=600&f=webp" 
+									class="w-full h-full object-cover" 
+									loading="lazy" 
+								/>
 								<div class="absolute inset-0 bg-gradient-to-t from-forest-deep/60 to-transparent"></div>
 							</button>
 						` : ''}
