@@ -2,21 +2,39 @@
 import Layout from '../layouts/Layout.astro';
 import CampusMap from '../components/CampusMap.astro';
 import { db, Groups, Plants } from 'astro:db';
-import { Image } from 'astro:assets';
+import { Image, getImage } from 'astro:assets';
 
 const groupsData = await db.select().from(Groups);
 const plantsData = await db.select().from(Plants);
 
-const groups = groupsData.map(group => {
+const groups = await Promise.all(groupsData.map(async (group) => {
   const plantsInGroup = plantsData
     .filter(p => p.groupId === group.id)
     .sort((a, b) => a.scientificName.localeCompare(b.scientificName));
   
+  const plantsWithOptimizedImages = await Promise.all(plantsInGroup.map(async (plant) => {
+    let optimizedImageUrl = plant.imageUrl;
+    if (plant.imageUrl) {
+      try {
+        const optimized = await getImage({ 
+          src: plant.imageUrl, 
+          width: 800, 
+          format: 'webp',
+          quality: 80
+        });
+        optimizedImageUrl = optimized.src;
+      } catch (e) {
+        console.error(`Failed to optimize image for ${plant.scientificName}:`, e);
+      }
+    }
+    return { ...plant, optimizedImageUrl };
+  }));
+
   const heroPlant = plantsInGroup.find(p => p.imageUrl);
   const heroImage = heroPlant ? heroPlant.imageUrl : null;
     
-  return { ...group, plants: plantsInGroup, heroImage };
-});
+  return { ...group, plants: plantsWithOptimizedImages, heroImage };
+}));
 ---
 
 <Layout>
@@ -196,10 +214,10 @@ const groups = groupsData.map(group => {
 				
 				detailList.innerHTML = group.plants.map((plant) => `
 					<div class="bg-sage-muted rounded-[2rem] overflow-hidden border border-sage-light/30 shadow-2xl transition-all">
-						${plant.imageUrl ? `
+						${plant.optimizedImageUrl ? `
 							<button class="w-full h-72 bg-forest-deep overflow-hidden relative cursor-zoom-in" onclick="window.openLightbox('${plant.imageUrl}')">
 								<img 
-									src="/_astro/image?url=${encodeURIComponent(plant.imageUrl)}&w=800&f=webp" 
+									src="${plant.optimizedImageUrl}" 
 									class="w-full h-full object-cover" 
 									loading="lazy" 
 								/>
