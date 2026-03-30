@@ -4,13 +4,13 @@ import { db, Groups } from 'astro:db';
 const groupsData = await db.select().from(Groups);
 ---
 
-<div class="h-full flex flex-col bg-slate-50 relative">
+<div class="h-full flex flex-col bg-forest-deep relative">
   <!-- iOS Style Filter Bar -->
-  <div class="px-4 py-3 glass border-b-[0.5px] border-slate-200 shrink-0 overflow-hidden z-20">
+  <div class="px-4 py-3 glass border-b-[0.5px] border-white/5 shrink-0 overflow-hidden z-20">
     <div class="flex overflow-x-auto gap-2 no-scrollbar" id="map-group-filter">
       {groupsData.map((group, index) => (
         <button 
-          class={`group-filter-btn px-4 py-2 rounded-full text-[12px] font-bold uppercase tracking-widest whitespace-nowrap transition-all shadow-sm ${index === 0 ? 'bg-emerald-700 text-white' : 'bg-white border-[0.5px] border-slate-200 text-slate-500'}`}
+          class={`group-filter-btn px-4 py-2 rounded-full text-[11px] font-bold uppercase tracking-widest whitespace-nowrap transition-all shadow-sm font-header ${index === 0 ? 'bg-forest-deep text-cream-warm border border-cream-warm/30' : 'bg-sage-muted/40 border border-white/10 text-cream-warm/60'}`}
           data-group={group.id}
         >
           {group.name}
@@ -23,16 +23,16 @@ const groupsData = await db.select().from(Groups);
     <div id="map" class="absolute inset-0 z-10"></div>
     
     <!-- Real-time Location Button (iOS Style) -->
-    <button id="recenter-map" class="absolute bottom-24 right-5 z-20 w-12 h-12 glass rounded-2xl shadow-xl border-[0.5px] border-slate-200 flex items-center justify-center text-emerald-700 active:bg-slate-100 transition-all">
+    <button id="recenter-map" class="absolute bottom-24 right-5 z-20 w-12 h-12 glass rounded-2xl shadow-xl border-[0.5px] border-white/10 flex items-center justify-center text-cream-warm active:scale-95 transition-all">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
     </button>
   </div>
 
   <!-- iOS Style Full-Screen Detail Modal -->
-  <div id="map-plant-modal" class="hidden fixed inset-0 z-[100] bg-slate-900/40 backdrop-blur-sm animate-in fade-in duration-200 p-4 flex items-end sm:items-center justify-center">
-    <div class="bg-white w-full max-w-2xl max-h-[90vh] rounded-[2rem] shadow-2xl overflow-hidden flex flex-col animate-in slide-in-from-bottom duration-500 relative">
+  <div id="map-plant-modal" class="hidden fixed inset-0 z-[100] bg-forest-deep/60 backdrop-blur-md animate-in fade-in duration-200 p-4 flex items-end sm:items-center justify-center">
+    <div class="bg-forest-deep w-full max-w-2xl max-h-[90vh] rounded-[2rem] shadow-2xl border border-white/10 overflow-hidden flex flex-col animate-in slide-in-from-bottom duration-500 relative">
       <!-- Close Button -->
-      <button id="close-map-modal" class="absolute top-5 right-5 z-20 w-10 h-10 bg-slate-900/10 backdrop-blur rounded-full flex items-center justify-center text-slate-800 hover:bg-slate-900/20 active:scale-90 transition-all">
+      <button id="close-map-modal" class="absolute top-5 right-5 z-20 w-10 h-10 bg-white/10 backdrop-blur rounded-full flex items-center justify-center text-cream-warm hover:bg-white/20 active:scale-90 transition-all">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
       </button>
 
@@ -108,8 +108,8 @@ const groupsData = await db.select().from(Groups);
     const createPlantIcon = (number) => L.divIcon({
       className: 'plant-marker',
       html: `
-        <div class="flex items-center justify-center w-8 h-8 bg-slate-900 rounded-full border-2 border-emerald-500 shadow-2xl transition-transform active:scale-95">
-          <span class="text-white font-black text-[13px] tracking-tighter">${number}</span>
+        <div class="flex items-center justify-center w-8 h-8 bg-[#E7E2D6] rounded-full border-2 border-[#5E6F66] shadow-2xl transition-transform active:scale-95">
+          <span class="text-[#2A3A34] font-black text-[13px] tracking-tighter font-header">${number}</span>
         </div>
       `,
       iconSize: [32, 32],
@@ -148,9 +148,9 @@ const groupsData = await db.select().from(Groups);
         const plants = markersByGroup[selectedGroupId] || [];
         if (plants.length === 0) return;
 
-        // Group plants by coordinates (rounding slightly to catch "close enough")
+        // Group plants by coordinates
         const proximityGroups = [];
-        const threshold = 5.0; // Increased to 5 meters
+        const threshold = 5.0; 
 
         plants.forEach(plant => {
             let foundGroup = proximityGroups.find(g => getDistance(plant.latitude, plant.longitude, g.lat, g.lng) < threshold);
@@ -165,33 +165,26 @@ const groupsData = await db.select().from(Groups);
 
         proximityGroups.forEach(group => {
             const count = group.members.length;
-            
-            // Calculate Centroid of the group for the Trunk point
             const centerLat = group.members.reduce((sum, p) => sum + p.latitude, 0) / count;
             const centerLng = group.members.reduce((sum, p) => sum + p.longitude, 0) / count;
 
             if (count > 1) {
-                // Show a red "Trunk" at centroid
                 L.marker([centerLat, centerLng], { 
                     icon: createTrunkIcon(), 
                     pane: 'spiderPane',
                     interactive: false 
                 }).addTo(groupLayers);
 
-                // Find nearby plants NOT in this group to avoid pointing towards them
                 const obstacles = plants.filter(p => !group.members.includes(p) && getDistance(centerLat, centerLng, p.latitude, p.longitude) < 15);
                 const obstacleBearings = obstacles.map(p => getBearing(centerLat, centerLng, p.latitude, p.longitude));
 
-                // Find a good starting angle that avoids obstacles
                 let bestStartAngle = 0;
                 let maxMinDistance = 0;
                 
-                // Try various starting angles to find the one with the clearest path
                 for (let a = 0; a < 360; a += 15) {
                     let minDistanceToObstacle = 360;
                     group.members.forEach((_, i) => {
                         let angle = (a + (i / count) * 360) % 360;
-                        // Angle Guard: For 2 plants, avoid straight 180 lines (favor 45/180 or similar)
                         if (count === 2 && i === 1) angle = (a + 135) % 360;
                         
                         obstacleBearings.forEach(ob => {
@@ -206,8 +199,7 @@ const groupsData = await db.select().from(Groups);
                     }
                 }
 
-                // Spider out the pins
-                const radius = 0.00018; // Slightly larger offset for better clearance
+                const radius = 0.00018; 
                 group.members.forEach((plant, i) => {
                     let angle = (bestStartAngle + (i / count) * 360) % 360;
                     if (count === 2 && i === 1) angle = (bestStartAngle + 135) % 360;
@@ -216,7 +208,6 @@ const groupsData = await db.select().from(Groups);
                     const newLat = centerLat + (radius * Math.cos(rad));
                     const newLng = centerLng + (radius * Math.sin(rad));
 
-                    // Add a "Haloed" red Branch line (White glow + Red dashed line)
                     L.polyline([[centerLat, centerLng], [newLat, newLng]], {
                         color: 'white',
                         weight: 4.5,
@@ -234,7 +225,7 @@ const groupsData = await db.select().from(Groups);
 
                     const marker = L.marker([newLat, newLng], { 
                         icon: createPlantIcon(plant.number),
-                        zIndexOffset: 1000 // Ensure markers are always on top
+                        zIndexOffset: 1000 
                     });
                     marker.on('click', () => showPlantDetail(plant));
                     marker.addTo(groupLayers);
@@ -259,24 +250,24 @@ const groupsData = await db.select().from(Groups);
     const showPlantDetail = (plant) => {
       modalContent.innerHTML = `
         <div class="w-full">
-          <div class="w-full h-72 bg-slate-100 overflow-hidden relative">
+          <div class="w-full h-72 bg-forest-deep overflow-hidden relative">
             ${plant.imageUrl ? `
               <button class="w-full h-full cursor-zoom-in" onclick="window.openLightbox('${plant.imageUrl}')">
-                <img src="${plant.imageUrl}" class="w-full h-full object-cover" />
+                <img src="${plant.imageUrl}" class="w-full h-full object-cover grayscale-[0.2]" />
               </button>
             ` : `
-              <div class="w-full h-full flex items-center justify-center text-slate-200">
+              <div class="w-full h-full flex items-center justify-center text-sage-light/20">
                 <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
               </div>
             `}
-            <div class="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent pointer-events-none"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-forest-deep via-transparent to-transparent pointer-events-none"></div>
           </div>
           
           <div class="px-8 -mt-12 relative z-10">
-            <div class="bg-white/80 backdrop-blur-xl p-6 rounded-3xl border-[0.5px] border-slate-100 shadow-xl mb-8">
-              <div class="text-[10px] font-black text-emerald-600 uppercase tracking-[0.2em] mb-2">Species Discovery</div>
-              <h2 class="text-3xl font-extrabold text-slate-900 leading-tight">${plant.scientificName}</h2>
-              <h3 class="text-lg font-medium text-slate-400 italic mt-1">${plant.commonName}</h3>
+            <div class="bg-forest-deep/80 backdrop-blur-xl p-6 rounded-3xl border border-white/10 shadow-xl mb-8">
+              <div class="text-[10px] font-black text-earth-brown uppercase tracking-[0.2em] mb-3 font-header">Species Discovery</div>
+              <h2 class="text-3xl font-extrabold text-cream-warm leading-tight font-header uppercase tracking-tight">${plant.scientificName}</h2>
+              <h3 class="text-lg font-medium text-cream-warm/70 italic mt-2">${plant.commonName}</h3>
             </div>
 
             <div class="space-y-6">
@@ -290,9 +281,9 @@ const groupsData = await db.select().from(Groups);
                   { label: 'Fruit', val: plant.fruit },
                   { label: 'Family', val: plant.family }
                 ].filter(f => f.val).map(f => `
-                  <div class="flex items-baseline gap-6 border-b border-slate-50 pb-4">
-                    <div class="w-28 shrink-0 text-[11px] font-black text-slate-300 uppercase tracking-widest">${f.label}</div>
-                    <div class="text-[16px] text-slate-700 font-semibold leading-snug">${f.val}</div>
+                  <div class="flex items-baseline gap-6 border-b border-white/5 pb-4">
+                    <div class="w-32 shrink-0 text-[10px] font-black text-earth-brown uppercase tracking-widest font-header">${f.label}</div>
+                    <div class="text-[17px] text-cream-warm font-semibold leading-snug">${f.val}</div>
                   </div>
                 `).join('')}
               </div>
@@ -317,7 +308,6 @@ const groupsData = await db.select().from(Groups);
     });
 
     window.focusPlant = (lat, lng, id) => {
-      map.flyTo([lat, lng], 19, { duration: 1.5 });
       fetch('/api/plants.json')
         .then(res => res.json())
         .then(plants => {
@@ -325,12 +315,15 @@ const groupsData = await db.select().from(Groups);
           if (plant) {
             const btns = document.querySelectorAll('.group-filter-btn');
             btns.forEach(btn => {
-                const b = btn as HTMLElement;
+                const b = btn;
                 if (b.dataset.group === plant.groupId) {
                     b.click();
                 }
             });
-            setTimeout(() => showPlantDetail(plant), 1600);
+            setTimeout(() => {
+                map.flyTo([lat, lng], 19, { duration: 1.5 });
+                setTimeout(() => showPlantDetail(plant), 1600);
+            }, 300);
           }
         });
     };
@@ -358,24 +351,25 @@ const groupsData = await db.select().from(Groups);
           }
         });
 
-        const firstBtn = document.querySelector('.group-filter-btn') as HTMLElement;
+        const firstBtn = document.querySelector('.group-filter-btn');
         if (firstBtn) {
             updateMapMarkers(firstBtn.dataset.group);
         }
       });
 
     groupFilter.addEventListener('click', (e) => {
-      const btn = (e.target as HTMLElement).closest('button');
+      const btn = (e.target).closest('button');
       if (!btn) return;
 
       const selectedGroup = btn.dataset.group;
 
       document.querySelectorAll('.group-filter-btn').forEach(b => {
-        b.classList.remove('bg-emerald-700', 'text-white');
-        b.classList.add('bg-white', 'text-slate-500', 'border-[0.5px]', 'border-slate-200');
+        b.classList.remove('bg-forest-deep', 'border-cream-warm/30');
+        b.classList.add('bg-sage-muted/40', 'border-white/10', 'text-cream-warm/60');
+        b.classList.remove('text-cream-warm');
       });
-      btn.classList.add('bg-emerald-700', 'text-white');
-      btn.classList.remove('bg-white', 'text-slate-50', 'border-[0.5px]', 'border-slate-200');
+      btn.classList.add('bg-forest-deep', 'border-cream-warm/30', 'text-cream-warm');
+      btn.classList.remove('bg-sage-muted/40', 'border-white/10', 'text-cream-warm/60');
 
       if (selectedGroup) updateMapMarkers(selectedGroup);
     });
