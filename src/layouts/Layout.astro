@@ -9,49 +9,56 @@ import "../styles/global.css";
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, viewport-fit=cover" />
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-		<meta name="theme-color" content="#020617" />
+		<meta name="theme-color" content="#2A3A34" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
 		<title>Woody ID</title>
+		<!-- Google Fonts for EB Garamond -->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+		
 		<style is:global>
 			:root {
-				--slate-50: #f8fafc;
-				--slate-100: #f1f5f9;
-				--slate-200: #e2e8f0;
-				--slate-300: #cbd5e1;
-				--slate-400: #94a3b8;
-				--slate-500: #64748b;
-				--slate-600: #475569;
-				--slate-700: #334155;
-				--slate-800: #1e293b;
-				--slate-900: #0f172a;
-				--slate-950: #020617;
+				/* Earth & Forest Palette */
+				--forest-deep: #2A3A34;
+				--sage-muted: #5E6F66;
+				--sage-light: #AAB8B0;
+				--earth-brown: #7A6A55;
+				--cream-warm: #E7E2D6;
 				
-				--app-green: #065f46; /* Deep mature green */
-				--app-green-light: #10b981;
-				--app-green-soft: #ecfdf5;
+				--slate-950: #020617;
 			}
 			
 			body {
-				font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
-				background-color: var(--slate-950);
-				color: white;
+				font-family: 'EB Garamond', serif;
+				background-color: var(--forest-deep);
+				color: var(--cream-warm);
 				-webkit-tap-highlight-color: transparent;
 				-webkit-font-smoothing: antialiased;
 				overflow-x: hidden;
 			}
 
+			/* Header Font (Outfit as a stand-in for Echo Easy) */
+			h1, h2, h3, .nav-header, .font-header {
+				font-family: 'Outfit', sans-serif;
+				text-transform: uppercase;
+				letter-spacing: 0.05em;
+			}
+
 			/* iOS Style Large Title */
 			.large-title {
+				font-family: 'Outfit', sans-serif;
 				font-size: 34px;
 				font-weight: 800;
 				letter-spacing: -1px;
-				color: white;
+				color: var(--cream-warm);
+				text-transform: uppercase;
 			}
 
 			.glass {
-				background-color: rgba(15, 23, 42, 0.7);
+				background-color: rgba(42, 58, 52, 0.85);
 				backdrop-filter: blur(25px);
 				-webkit-backdrop-filter: blur(25px);
 			}
@@ -83,9 +90,9 @@ import "../styles/global.css";
 			}
 
 			.ios-inset-list {
-				background-color: rgba(255, 255, 255, 0.05);
+				background-color: var(--sage-muted);
 				border-radius: 20px;
-				border: 0.5px solid rgba(255, 255, 255, 0.1);
+				border: 0.5px solid var(--sage-light);
 				overflow: hidden;
 			}
 
@@ -94,7 +101,7 @@ import "../styles/global.css";
 				align-items: center;
 				justify-content: space-between;
 				padding: 16px 20px;
-				border-bottom: 0.5px solid rgba(255, 255, 255, 0.05);
+				border-bottom: 0.5px solid var(--sage-light);
 				transition: all 0.3s;
 			}
 			.ios-row:last-child {
@@ -106,7 +113,7 @@ import "../styles/global.css";
 			}
 		</style>
 	</head>
-	<body class="min-h-screen selection:bg-emerald-100 selection:text-slate-900">
+	<body class="min-h-screen selection:bg-cream-warm selection:text-forest-deep">
 		<slot />
 
 		<!-- Shared Image Lightbox -->
@@ -119,10 +126,10 @@ import "../styles/global.css";
 
 		<script>
 			const lightbox = document.getElementById('image-lightbox');
-			const lightboxImg = document.getElementById('lightbox-img') as HTMLImageElement;
+			const lightboxImg = document.getElementById('lightbox-img');
 			const closeLightbox = document.getElementById('close-lightbox');
 
-			window.openLightbox = (src: string) => {
+			window.openLightbox = (src) => {
 				if (!lightbox || !lightboxImg) return;
 				lightboxImg.src = src;
 				lightbox.classList.remove('hidden');

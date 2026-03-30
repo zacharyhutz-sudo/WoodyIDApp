@@ -11,7 +11,6 @@ const groups = groupsData.map(group => {
     .filter(p => p.groupId === group.id)
     .sort((a, b) => a.scientificName.localeCompare(b.scientificName));
   
-  // Find the first plant with an image to use as the hero background
   const heroPlant = plantsInGroup.find(p => p.imageUrl);
   const heroImage = heroPlant ? heroPlant.imageUrl : null;
     
@@ -20,49 +19,48 @@ const groups = groupsData.map(group => {
 ---
 
 <Layout>
-	<main class="pb-32 bg-slate-950">
+	<main class="pb-32 bg-forest-deep">
 		<!-- Dynamic Top Navigation (Sticky) -->
 		<nav class="sticky top-0 z-40 glass border-b-[0.5px] border-white/5 px-5 pt-12 pb-3 transition-all duration-300" id="top-nav">
 			<div class="flex justify-between items-center mb-1">
-				<span class="text-[13px] font-bold text-slate-500 uppercase tracking-widest">Woody ID Discovery</span>
-				<a href="/admin" class="text-emerald-400 text-sm font-semibold hover:opacity-70 transition-opacity">Admin</a>
+				<span class="text-[13px] font-bold text-sage-light uppercase tracking-widest nav-header">Woody ID Discovery</span>
+				<a href="/admin" class="text-sage-light text-sm font-semibold hover:opacity-70 transition-opacity nav-header">Admin</a>
 			</div>
 			<h1 class="large-title transition-all duration-300" id="nav-title">Library</h1>
 		</nav>
 
 		<!-- Library View -->
 		<div id="lists-view" class="mt-6 px-4">
-			<div class="space-y-4">
+			<div class="space-y-6">
 				{groups.map((group, index) => (
 					<button 
-						class="group-widget w-full relative h-44 rounded-[2rem] overflow-hidden shadow-2xl active:scale-[0.98] transition-all duration-300 animate-fade-up border border-white/10"
+						class="group-widget w-full relative h-48 rounded-[2rem] overflow-hidden shadow-2xl active:scale-[0.98] transition-all duration-300 animate-fade-up border border-sage-light/20"
 						style={`animation-delay: ${index * 100}ms`}
 						data-group-id={group.id}
 					>
 						<!-- Hero Background Image -->
 						{group.heroImage ? (
-							<img src={group.heroImage} class="absolute inset-0 w-full h-full object-cover" alt={group.name} />
+							<img src={group.heroImage} class="absolute inset-0 w-full h-full object-cover grayscale-[0.2]" alt={group.name} />
 						) : (
-							<div class="absolute inset-0 bg-slate-900" />
+							<div class="absolute inset-0 bg-sage-muted" />
 						)}
 						
 						<!-- Gradient Overlay -->
-						<div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
+						<div class="absolute inset-0 bg-gradient-to-t from-forest-deep via-forest-deep/50 to-transparent" />
 						
 						<!-- Content -->
 						<div class="absolute bottom-0 left-0 right-0 p-8 text-left">
 							<div class="flex items-end justify-between">
 								<div>
-									<h2 class="text-3xl font-black text-white tracking-tight leading-none mb-2">{group.name}</h2>
+									<h2 class="text-3xl font-black text-cream-warm tracking-tight leading-none mb-3 font-header uppercase">{group.name}</h2>
 									<div class="flex items-center gap-2">
-										<span class="bg-emerald-500/20 text-emerald-400 text-[11px] font-bold px-2.5 py-1 rounded-full border border-emerald-500/20 uppercase tracking-widest">
+										<span class="bg-forest-deep/60 text-cream-warm text-[10px] font-bold px-3 py-1.5 rounded-full border border-sage-light/30 uppercase tracking-widest nav-header">
 											{group.plants.length} Species
 										</span>
-										<span class="text-slate-400 text-[11px] font-medium uppercase tracking-widest">Available now</span>
 									</div>
 								</div>
-								<div class="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white">
-									<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+								<div class="w-12 h-12 rounded-full bg-cream-warm/10 backdrop-blur-md border border-cream-warm/20 flex items-center justify-center text-cream-warm">
+									<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
 								</div>
 							</div>
 						</div>
@@ -72,20 +70,20 @@ const groups = groupsData.map(group => {
 			
 			<!-- Branding/Footer Info -->
 			<div class="mt-12 px-2 text-center pb-10">
-				<p class="text-[13px] text-slate-500 font-medium leading-relaxed uppercase tracking-[0.2em]">
+				<p class="text-[12px] text-sage-light font-medium leading-relaxed uppercase tracking-[0.2em] nav-header">
 					University of Georgia<br/>Woody Ornamentals Lab
 				</p>
 			</div>
 		</div>
 
 		<!-- Detail View -->
-		<div id="group-detail" class="hidden fixed inset-0 z-50 bg-slate-950 overflow-y-auto no-scrollbar animate-in slide-in-from-right duration-300">
+		<div id="group-detail" class="hidden fixed inset-0 z-50 bg-forest-deep overflow-y-auto no-scrollbar animate-in slide-in-from-right duration-300">
 			<header class="sticky top-0 z-10 glass border-b-[0.5px] border-white/5 px-4 py-4 flex items-center justify-between">
-				<button id="close-detail" class="text-emerald-400 flex items-center gap-1 font-semibold">
+				<button id="close-detail" class="text-cream-warm flex items-center gap-1 font-semibold nav-header">
 					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
 					<span>Library</span>
 				</button>
-				<h2 id="header-detail-title" class="text-[17px] font-bold text-white truncate px-4"></h2>
+				<h2 id="header-detail-title" class="text-[17px] font-bold text-cream-warm truncate px-4 font-header uppercase"></h2>
 				<div class="w-20"></div> <!-- Spacer -->
 			</header>
 			
@@ -99,10 +97,10 @@ const groups = groupsData.map(group => {
 		</div>
 
 		<!-- Maps View -->
-		<div id="maps-view" class="hidden fixed inset-0 z-30 bg-slate-950">
+		<div id="maps-view" class="hidden fixed inset-0 z-30 bg-forest-deep">
 			<div class="h-full flex flex-col pt-safe">
 				<div class="px-5 py-3 border-b-[0.5px] border-white/5 glass shrink-0">
-					<h2 class="text-[17px] font-bold text-center text-white uppercase tracking-widest">Campus Discovery</h2>
+					<h2 class="text-[17px] font-bold text-center text-cream-warm uppercase tracking-widest font-header">Campus Discovery</h2>
 				</div>
 				<div class="flex-grow">
 					<CampusMap />
@@ -114,22 +112,22 @@ const groups = groupsData.map(group => {
 		<nav class="fixed bottom-0 left-0 right-0 z-[60] glass border-t-[0.5px] border-white/5 pb-safe">
 			<div class="flex h-16 max-w-lg mx-auto">
 				<button 
-					class="tab-btn flex-1 flex flex-col items-center justify-center gap-1.5 transition-colors text-emerald-400" 
+					class="tab-btn flex-1 flex flex-col items-center justify-center gap-1.5 transition-colors text-cream-warm" 
 					data-view="lists"
 				>
 					<div class="p-1.5 rounded-xl transition-colors">
 						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M8 7h6"/><path d="M8 11h8"/></svg>
 					</div>
-					<span class="text-[10px] font-bold uppercase tracking-widest">Library</span>
+					<span class="text-[10px] font-bold uppercase tracking-widest nav-header">Library</span>
 				</button>
 				<button 
-					class="tab-btn flex-1 flex flex-col items-center justify-center gap-1.5 transition-colors text-slate-500" 
+					class="tab-btn flex-1 flex flex-col items-center justify-center gap-1.5 transition-colors text-sage-light/60" 
 					data-view="maps"
 				>
 					<div class="p-1.5 rounded-xl transition-colors">
 						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
 					</div>
-					<span class="text-[10px] font-bold uppercase tracking-widest">Campus Map</span>
+					<span class="text-[10px] font-bold uppercase tracking-widest nav-header">Campus Map</span>
 				</button>
 			</div>
 		</nav>
@@ -150,11 +148,11 @@ const groups = groupsData.map(group => {
 	const switchTab = (view) => {
 		tabButtons.forEach(btn => {
 			if (btn.dataset.view === view) {
-				btn.classList.add('text-emerald-400');
-				btn.classList.remove('text-slate-500');
+				btn.classList.add('text-cream-warm');
+				btn.classList.remove('text-sage-light/60');
 			} else {
-				btn.classList.remove('text-emerald-400');
-				btn.classList.add('text-slate-500');
+				btn.classList.remove('text-cream-warm');
+				btn.classList.add('text-sage-light/60');
 			}
 		});
 
@@ -187,22 +185,22 @@ const groups = groupsData.map(group => {
 				document.body.classList.add('overflow-hidden');
 				
 				detailList.innerHTML = group.plants.map((plant) => `
-					<div class="bg-slate-900 rounded-[2rem] overflow-hidden border border-white/5 shadow-2xl transition-all">
+					<div class="bg-sage-muted rounded-[2rem] overflow-hidden border border-sage-light/30 shadow-2xl transition-all">
 						${plant.imageUrl ? `
-							<button class="w-full h-64 bg-slate-800 overflow-hidden relative cursor-zoom-in" onclick="window.openLightbox('${plant.imageUrl}')">
+							<button class="w-full h-72 bg-forest-deep overflow-hidden relative cursor-zoom-in" onclick="window.openLightbox('${plant.imageUrl}')">
 								<img src="${plant.imageUrl}" class="w-full h-full object-cover" loading="lazy" />
-								<div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent"></div>
+								<div class="absolute inset-0 bg-gradient-to-t from-forest-deep/60 to-transparent"></div>
 							</button>
 						` : ''}
 						<div class="p-8">
 							<div class="flex items-start justify-between mb-8">
 								<div class="min-w-0">
-									<div class="text-[24px] font-black text-white leading-tight tracking-tight">${plant.scientificName}</div>
-									<div class="text-[16px] font-medium text-slate-400 italic mt-1">${plant.commonName}</div>
+									<div class="text-[26px] font-black text-cream-warm leading-tight tracking-tight uppercase font-header">${plant.scientificName}</div>
+									<div class="text-[17px] font-medium text-cream-warm/70 italic mt-2">${plant.commonName}</div>
 								</div>
 								${plant.latitude ? `
 									<button 
-										class="see-on-map-btn w-12 h-12 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl flex items-center justify-center text-emerald-400 active:scale-90 transition-all shrink-0"
+										class="see-on-map-btn w-12 h-12 bg-cream-warm/10 border border-cream-warm/20 rounded-2xl flex items-center justify-center text-cream-warm active:scale-90 transition-all shrink-0"
 										data-lat="${plant.latitude}"
 										data-lng="${plant.longitude}"
 										data-id="${plant.id}"
@@ -222,9 +220,9 @@ const groups = groupsData.map(group => {
 									{ label: 'Fruit', val: plant.fruit },
 									{ label: 'Family', val: plant.family }
 								].filter(f => f.val).map(f => `
-									<div class="flex items-baseline gap-6 border-b border-white/5 pb-3">
-										<div class="w-28 shrink-0 text-[10px] font-black text-slate-500 uppercase tracking-widest">${f.label}</div>
-										<div class="text-[15px] text-slate-300 font-medium leading-snug">${f.val}</div>
+									<div class="flex items-baseline gap-6 border-b border-white/10 pb-3">
+										<div class="w-32 shrink-0 text-[10px] font-black text-earth-brown uppercase tracking-widest nav-header">${f.label}</div>
+										<div class="text-[16px] text-cream-warm font-medium leading-snug">${f.val}</div>
 									</div>
 								`).join('')}
 							</div>
@@ -236,7 +234,7 @@ const groups = groupsData.map(group => {
 
 				document.querySelectorAll('.see-on-map-btn').forEach(btn => {
 					btn.addEventListener('click', () => {
-						const { lat, lng, id } = (btn as HTMLElement).dataset;
+						const { lat, lng, id } = btn.dataset;
 						switchTab('maps');
 						groupDetail.classList.add('hidden');
 						document.body.classList.remove('overflow-hidden');
