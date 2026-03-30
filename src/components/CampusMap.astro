@@ -120,7 +120,7 @@ const groupsData = await db.select().from(Groups);
             map.removeLayer(currentClusterGroup);
         }
 
-        // Invisible clustering that spiderfies automatically
+        // Invisible clustering that spiderfies automatically (Forced rebuild)
         currentClusterGroup = L.markerClusterGroup({
             showCoverageOnHover: false,
             maxClusterRadius: 45, // Sensitivity for spidering
