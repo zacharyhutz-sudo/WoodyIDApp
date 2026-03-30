@@ -1,5 +1,5 @@
 // @ts-check
-import { defineConfig } from 'astro:config';
+import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import db from '@astrojs/db';
 import netlify from '@astrojs/netlify';
