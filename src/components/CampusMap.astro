@@ -64,6 +64,10 @@ const groupsData = await db.select().from(Groups);
       maxZoom: 19
     }).setView(ugaCenter, 17);
 
+    // Create a dedicated pane for spider lines and dots to keep them below pins
+    map.createPane('spiderPane');
+    map.getPane('spiderPane').style.zIndex = '450'; // Above tiles (200), below markers (600)
+
     L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
       attribution: 'Esri Satellite',
       maxZoom: 19
@@ -132,6 +136,13 @@ const groupsData = await db.select().from(Groups);
       return R * c;
     };
 
+    const getBearing = (lat1, lon1, lat2, lon2) => {
+      const y = Math.sin((lon2 - lon1) * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180);
+      const x = Math.cos(lat1 * Math.PI / 180) * Math.sin(lat2 * Math.PI / 180) -
+                Math.sin(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.cos((lon2 - lon1) * Math.PI / 180);
+      return (Math.atan2(y, x) * 180 / Math.PI + 360) % 360;
+    };
+
     const updateMapMarkers = (selectedGroupId) => {
         groupLayers.clearLayers();
         const plants = markersByGroup[selectedGroupId] || [];
@@ -139,7 +150,7 @@ const groupsData = await db.select().from(Groups);
 
         // Group plants by coordinates (rounding slightly to catch "close enough")
         const proximityGroups = [];
-        const threshold = 1.5; // meters
+        const threshold = 5.0; // Increased to 5 meters
 
         plants.forEach(plant => {
             let foundGroup = proximityGroups.find(g => getDistance(plant.latitude, plant.longitude, g.lat, g.lng) < threshold);
@@ -154,26 +165,77 @@ const groupsData = await db.select().from(Groups);
 
         proximityGroups.forEach(group => {
             const count = group.members.length;
+            
+            // Calculate Centroid of the group for the Trunk point
+            const centerLat = group.members.reduce((sum, p) => sum + p.latitude, 0) / count;
+            const centerLng = group.members.reduce((sum, p) => sum + p.longitude, 0) / count;
+
             if (count > 1) {
-                // Show a red "Trunk" at actual coordinates
-                L.marker([group.lat, group.lng], { icon: createTrunkIcon() }).addTo(groupLayers);
+                // Show a red "Trunk" at centroid
+                L.marker([centerLat, centerLng], { 
+                    icon: createTrunkIcon(), 
+                    pane: 'spiderPane',
+                    interactive: false 
+                }).addTo(groupLayers);
+
+                // Find nearby plants NOT in this group to avoid pointing towards them
+                const obstacles = plants.filter(p => !group.members.includes(p) && getDistance(centerLat, centerLng, p.latitude, p.longitude) < 15);
+                const obstacleBearings = obstacles.map(p => getBearing(centerLat, centerLng, p.latitude, p.longitude));
+
+                // Find a good starting angle that avoids obstacles
+                let bestStartAngle = 0;
+                let maxMinDistance = 0;
+                
+                // Try various starting angles to find the one with the clearest path
+                for (let a = 0; a < 360; a += 15) {
+                    let minDistanceToObstacle = 360;
+                    group.members.forEach((_, i) => {
+                        let angle = (a + (i / count) * 360) % 360;
+                        // Angle Guard: For 2 plants, avoid straight 180 lines (favor 45/180 or similar)
+                        if (count === 2 && i === 1) angle = (a + 135) % 360;
+                        
+                        obstacleBearings.forEach(ob => {
+                            const diff = Math.abs(angle - ob);
+                            const dist = Math.min(diff, 360 - diff);
+                            if (dist < minDistanceToObstacle) minDistanceToObstacle = dist;
+                        });
+                    });
+                    if (minDistanceToObstacle > maxMinDistance) {
+                        maxMinDistance = minDistanceToObstacle;
+                        bestStartAngle = a;
+                    }
+                }
 
                 // Spider out the pins
-                const radius = 0.00015; // Offset distance in degrees
+                const radius = 0.00018; // Slightly larger offset for better clearance
                 group.members.forEach((plant, i) => {
-                    const angle = (i / count) * (2 * Math.PI);
-                    const newLat = group.lat + (radius * Math.cos(angle));
-                    const newLng = group.lng + (radius * Math.sin(angle));
+                    let angle = (bestStartAngle + (i / count) * 360) % 360;
+                    if (count === 2 && i === 1) angle = (bestStartAngle + 135) % 360;
+                    
+                    const rad = angle * Math.PI / 180;
+                    const newLat = centerLat + (radius * Math.cos(rad));
+                    const newLng = centerLng + (radius * Math.sin(rad));
 
-                    // Add a red "Branch" line
-                    L.polyline([[group.lat, group.lng], [newLat, newLng]], {
-                        color: '#ef4444',
-                        weight: 2.5,
-                        opacity: 0.6,
-                        dashArray: '4, 4'
+                    // Add a "Haloed" red Branch line (White glow + Red dashed line)
+                    L.polyline([[centerLat, centerLng], [newLat, newLng]], {
+                        color: 'white',
+                        weight: 4.5,
+                        opacity: 0.5,
+                        pane: 'spiderPane'
                     }).addTo(groupLayers);
 
-                    const marker = L.marker([newLat, newLng], { icon: createPlantIcon(plant.number) });
+                    L.polyline([[centerLat, centerLng], [newLat, newLng]], {
+                        color: '#ef4444',
+                        weight: 2.5,
+                        opacity: 0.8,
+                        dashArray: '4, 4',
+                        pane: 'spiderPane'
+                    }).addTo(groupLayers);
+
+                    const marker = L.marker([newLat, newLng], { 
+                        icon: createPlantIcon(plant.number),
+                        zIndexOffset: 1000 // Ensure markers are always on top
+                    });
                     marker.on('click', () => showPlantDetail(plant));
                     marker.addTo(groupLayers);
                     activeMarkers.push(marker);
