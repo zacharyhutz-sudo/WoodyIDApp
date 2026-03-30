@@ -246,7 +246,7 @@ const groupsData = await db.select().from(Groups);
 
     // Modal Display Logic
     const showPlantDetail = (plant) => {
-      const optimizedUrl = plant.imageUrl ? `/_astro/image?src=${encodeURIComponent(plant.imageUrl)}&w=800&h=600&f=webp` : null;
+      const optimizedUrl = plant.imageUrl ? `/.netlify/images?url=${encodeURIComponent(plant.imageUrl)}&w=800&fm=webp` : null;
       modalContent.innerHTML = `
         <div class="w-full">
           <div class="w-full h-72 bg-forest-deep overflow-hidden relative">

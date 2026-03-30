@@ -23,6 +23,11 @@ export default defineConfig({
   },
   vite: {
     plugins: [tailwindcss()],
+    resolve: {
+      alias: {
+        'astro:config': 'astro/config'
+      }
+    },
     build: {
       cssCodeSplit: false
     }
@@ -76,7 +81,7 @@ export default defineConfig({
             }
           },
           {
-            urlPattern: ({ url }) => url.pathname.startsWith('/_astro/image'),
+            urlPattern: ({ url }) => url.pathname.startsWith('/_astro/image') || url.pathname.startsWith('/.netlify/images'),
             handler: 'StaleWhileRevalidate',
             options: {
               cacheName: 'optimized-images',
