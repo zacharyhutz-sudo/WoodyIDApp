@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import CampusMap from '../components/CampusMap.astro';
 import { db, Groups, Plants } from 'astro:db';
+import { Image } from 'astro:assets';
 
 const groupsData = await db.select().from(Groups);
 const plantsData = await db.select().from(Plants);
@@ -34,14 +35,18 @@ const groups = groupsData.map(group => {
 			<div class="space-y-6">
 				{groups.map((group, index) => (
 					<button 
-						class="group-widget w-full relative h-48 rounded-[2rem] overflow-hidden shadow-2xl active:scale-[0.98] transition-all duration-300 animate-fade-up border border-sage-light/20"
+						class="group-widget w-full relative h-48 rounded-[2rem] overflow-hidden shadow-2xl active:scale-[0.98] transition-all duration-300 animate-fade-up border border-sage-light/20 bg-forest-deep"
 						style={`animation-delay: ${index * 100}ms`}
 						data-group-id={group.id}
 					>
 						<!-- Hero Background Image -->
 						{group.heroImage ? (
-							<img 
-								src={`/.netlify/images?url=${encodeURIComponent(group.heroImage)}&w=800&fm=webp`} 
+							<Image 
+								src={group.heroImage} 
+								width={800} 
+								height={400} 
+								format="webp"
+								quality={80}
 								class="absolute inset-0 w-full h-full object-cover grayscale-[0.2]" 
 								alt={group.name} 
 								loading="lazy"

@@ -1,0 +1,7 @@
+[[remote_images]]
+  path = "/.netlify/images"
+  source = "https://*.supabase.co"
+
+[[remote_images]]
+  path = "/.netlify/images"
+  source = "https://res.cloudinary.com"
