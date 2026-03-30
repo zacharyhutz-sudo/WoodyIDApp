@@ -1,1 +1,17 @@
 @import "tailwindcss";
+
+@theme {
+  --color-forest-deep: #2A3A34;
+  --color-sage-muted: #5E6F66;
+  --color-sage-light: #AAB8B0;
+  --color-earth-brown: #7A6A55;
+  --color-cream-warm: #E7E2D6;
+}
+
+:root {
+  --forest-deep: #2A3A34;
+  --sage-muted: #5E6F66;
+  --sage-light: #AAB8B0;
+  --earth-brown: #7A6A55;
+  --cream-warm: #E7E2D6;
+}

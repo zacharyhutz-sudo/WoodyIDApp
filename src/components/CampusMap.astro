@@ -29,7 +29,7 @@ const groupsData = await db.select().from(Groups);
   </div>
 
   <!-- iOS Style Full-Screen Detail Modal -->
-  <div id="map-plant-modal" class="hidden fixed inset-0 z-[100] bg-forest-deep/60 backdrop-blur-md animate-in fade-in duration-200 p-4 flex items-end sm:items-center justify-center">
+  <div id="map-plant-modal" class="hidden fixed inset-0 z-[100] bg-forest-deep/80 backdrop-blur-md animate-in fade-in duration-200 p-4 flex items-end sm:items-center justify-center">
     <div class="bg-forest-deep w-full max-w-2xl max-h-[90vh] rounded-[2rem] shadow-2xl border border-white/10 overflow-hidden flex flex-col animate-in slide-in-from-bottom duration-500 relative">
       <!-- Close Button -->
       <button id="close-map-modal" class="absolute top-5 right-5 z-20 w-10 h-10 bg-white/10 backdrop-blur rounded-full flex items-center justify-center text-cream-warm hover:bg-white/20 active:scale-90 transition-all">
@@ -64,9 +64,8 @@ const groupsData = await db.select().from(Groups);
       maxZoom: 19
     }).setView(ugaCenter, 17);
 
-    // Create a dedicated pane for spider lines and dots to keep them below pins
     map.createPane('spiderPane');
-    map.getPane('spiderPane').style.zIndex = '450'; // Above tiles (200), below markers (600)
+    map.getPane('spiderPane').style.zIndex = '450';
 
     L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
       attribution: 'Esri Satellite',
@@ -124,7 +123,7 @@ const groupsData = await db.select().from(Groups);
     });
 
     const getDistance = (lat1, lon1, lat2, lon2) => {
-      const R = 6371e3; // meters
+      const R = 6371e3;
       const φ1 = lat1 * Math.PI/180;
       const φ2 = lat2 * Math.PI/180;
       const Δφ = (lat2-lat1) * Math.PI/180;
@@ -148,7 +147,6 @@ const groupsData = await db.select().from(Groups);
         const plants = markersByGroup[selectedGroupId] || [];
         if (plants.length === 0) return;
 
-        // Group plants by coordinates
         const proximityGroups = [];
         const threshold = 5.0; 
 
@@ -263,11 +261,11 @@ const groupsData = await db.select().from(Groups);
             <div class="absolute inset-0 bg-gradient-to-t from-forest-deep via-transparent to-transparent pointer-events-none"></div>
           </div>
           
-          <div class="px-8 -mt-12 relative z-10">
-            <div class="bg-forest-deep/80 backdrop-blur-xl p-6 rounded-3xl border border-white/10 shadow-xl mb-8">
-              <div class="text-[10px] font-black text-earth-brown uppercase tracking-[0.2em] mb-3 font-header">Species Discovery</div>
+          <div class="px-8 -mt-16 relative z-10">
+            <div class="bg-forest-deep p-8 rounded-[2rem] border border-white/10 shadow-2xl mb-8">
+              <div class="text-[10px] font-black text-earth-brown uppercase tracking-[0.2em] mb-4 font-header">Species Discovery</div>
               <h2 class="text-3xl font-extrabold text-cream-warm leading-tight font-header uppercase tracking-tight">${plant.scientificName}</h2>
-              <h3 class="text-lg font-medium text-cream-warm/70 italic mt-2">${plant.commonName}</h3>
+              <h3 class="text-lg font-medium text-cream-warm/70 italic mt-3">${plant.commonName}</h3>
             </div>
 
             <div class="space-y-6">
