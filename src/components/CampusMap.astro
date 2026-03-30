@@ -263,7 +263,7 @@ const groupsData = await db.select().from(Groups);
           
           <div class="px-8 -mt-16 relative z-10">
             <div class="bg-forest-deep p-8 rounded-[2rem] border border-white/10 shadow-2xl mb-8">
-              <div class="text-[10px] font-black text-earth-brown uppercase tracking-[0.2em] mb-4 font-header">Species Discovery</div>
+              <div class="text-[10px] font-black text-sage-light uppercase tracking-[0.2em] mb-4 font-header">Species Discovery</div>
               <h2 class="text-3xl font-extrabold text-cream-warm leading-tight font-header uppercase tracking-tight">${plant.scientificName}</h2>
               <h3 class="text-lg font-medium text-cream-warm/70 italic mt-3">${plant.commonName}</h3>
             </div>
@@ -280,7 +280,7 @@ const groupsData = await db.select().from(Groups);
                   { label: 'Family', val: plant.family }
                 ].filter(f => f.val).map(f => `
                   <div class="flex items-baseline gap-6 border-b border-white/5 pb-4">
-                    <div class="w-32 shrink-0 text-[10px] font-black text-earth-brown uppercase tracking-widest font-header">${f.label}</div>
+                    <div class="w-32 shrink-0 text-[10px] font-black text-sage-light uppercase tracking-widest font-header">${f.label}</div>
                     <div class="text-[17px] text-cream-warm font-semibold leading-snug">${f.val}</div>
                   </div>
                 `).join('')}
