@@ -1,5 +1,5 @@
 // @ts-check
-import { defineConfig } from 'astro/config';
+import { defineConfig } from 'astro:config';
 import tailwindcss from '@tailwindcss/vite';
 import db from '@astrojs/db';
 import netlify from '@astrojs/netlify';
@@ -8,6 +8,19 @@ import AstroPWA from '@vite-pwa/astro';
 // https://astro.build/config
 export default defineConfig({
   output: 'server',
+  image: {
+    domains: ['supabase.co', 'res.cloudinary.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**.supabase.co',
+      },
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+      }
+    ],
+  },
   vite: {
     plugins: [tailwindcss()],
     build: {
