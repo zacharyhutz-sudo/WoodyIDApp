@@ -44,11 +44,9 @@ const groupsData = await db.select().from(Groups);
 </div>
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
 
 <script>
   import L from 'leaflet';
-  import 'leaflet.markercluster';
 
   const mapElement = document.getElementById('map');
   const groupFilter = document.getElementById('map-group-filter');
@@ -63,7 +61,7 @@ const groupsData = await db.select().from(Groups);
       zoomControl: false, 
       tap: true, 
       preferCanvas: true,
-      maxZoom: 19 // Prevent map from going blank at high zoom levels
+      maxZoom: 19
     }).setView(ugaCenter, 17);
 
     L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
@@ -100,11 +98,10 @@ const groupsData = await db.select().from(Groups);
     });
 
     // Marker Management
-    const allMarkers = [];
     const markersByGroup = {};
-    let currentClusterGroup = null;
+    const groupLayers = L.layerGroup().addTo(map);
 
-    const createPlantIcon = (commonName, number) => L.divIcon({
+    const createPlantIcon = (number) => L.divIcon({
       className: 'plant-marker',
       html: `
         <div class="flex items-center justify-center w-8 h-8 bg-slate-900 rounded-full border-2 border-emerald-500 shadow-2xl transition-transform active:scale-95">
@@ -115,36 +112,84 @@ const groupsData = await db.select().from(Groups);
       iconAnchor: [16, 16]
     });
 
+    const createTrunkIcon = () => L.divIcon({
+      className: 'trunk-marker',
+      html: `<div class="w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white shadow-lg"></div>`,
+      iconSize: [10, 10],
+      iconAnchor: [5, 5]
+    });
+
+    const getDistance = (lat1, lon1, lat2, lon2) => {
+      const R = 6371e3; // meters
+      const φ1 = lat1 * Math.PI/180;
+      const φ2 = lat2 * Math.PI/180;
+      const Δφ = (lat2-lat1) * Math.PI/180;
+      const Δλ = (lon2-lon1) * Math.PI/180;
+      const a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
+                Math.cos(φ1) * Math.cos(φ2) *
+                Math.sin(Δλ/2) * Math.sin(Δλ/2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+      return R * c;
+    };
+
     const updateMapMarkers = (selectedGroupId) => {
-        if (currentClusterGroup) {
-            map.removeLayer(currentClusterGroup);
-        }
+        groupLayers.clearLayers();
+        const plants = markersByGroup[selectedGroupId] || [];
+        if (plants.length === 0) return;
 
-        // Invisible clustering that spiderfies automatically (Forced rebuild)
-        currentClusterGroup = L.markerClusterGroup({
-            showCoverageOnHover: false,
-            maxClusterRadius: 45, // Sensitivity for spidering
-            spiderfyOnMaxZoom: true,
-            // Make clusters invisible so they just spiderfy
-            iconCreateFunction: () => L.divIcon({ className: 'hidden' }),
-            spiderLegPolylineOptions: { weight: 2.5, color: '#ef4444', opacity: 0.6 },
-            disableClusteringAtZoom: 20, // Keep spidered at extreme zoom
-            animate: true,
-            spiderfyDistanceMultiplier: 1.5 // Give more room for labels
+        // Group plants by coordinates (rounding slightly to catch "close enough")
+        const proximityGroups = [];
+        const threshold = 1.5; // meters
+
+        plants.forEach(plant => {
+            let foundGroup = proximityGroups.find(g => getDistance(plant.latitude, plant.longitude, g.lat, g.lng) < threshold);
+            if (!foundGroup) {
+                foundGroup = { lat: plant.latitude, lng: plant.longitude, members: [] };
+                proximityGroups.push(foundGroup);
+            }
+            foundGroup.members.push(plant);
         });
 
-        // Auto-spiderfy when a cluster is "clicked" or zoomed into
-        currentClusterGroup.on('clusterclick', (a) => {
-            a.layer.spiderfy();
+        const activeMarkers = [];
+
+        proximityGroups.forEach(group => {
+            const count = group.members.length;
+            if (count > 1) {
+                // Show a red "Trunk" at actual coordinates
+                L.marker([group.lat, group.lng], { icon: createTrunkIcon() }).addTo(groupLayers);
+
+                // Spider out the pins
+                const radius = 0.00015; // Offset distance in degrees
+                group.members.forEach((plant, i) => {
+                    const angle = (i / count) * (2 * Math.PI);
+                    const newLat = group.lat + (radius * Math.cos(angle));
+                    const newLng = group.lng + (radius * Math.sin(angle));
+
+                    // Add a red "Branch" line
+                    L.polyline([[group.lat, group.lng], [newLat, newLng]], {
+                        color: '#ef4444',
+                        weight: 2.5,
+                        opacity: 0.6,
+                        dashArray: '4, 4'
+                    }).addTo(groupLayers);
+
+                    const marker = L.marker([newLat, newLng], { icon: createPlantIcon(plant.number) });
+                    marker.on('click', () => showPlantDetail(plant));
+                    marker.addTo(groupLayers);
+                    activeMarkers.push(marker);
+                });
+            } else {
+                const plant = group.members[0];
+                const marker = L.marker([plant.latitude, plant.longitude], { icon: createPlantIcon(plant.number) });
+                marker.on('click', () => showPlantDetail(plant));
+                marker.addTo(groupLayers);
+                activeMarkers.push(marker);
+            }
         });
 
-        const groupMarkers = markersByGroup[selectedGroupId] || [];
-        currentClusterGroup.addLayers(groupMarkers);
-        map.addLayer(currentClusterGroup);
-
-        if (groupMarkers.length > 0) {
-            const groupBounds = L.featureGroup(groupMarkers).getBounds();
-            map.fitBounds(groupBounds, { padding: [50, 50] });
+        if (activeMarkers.length > 0) {
+            const bounds = L.featureGroup(activeMarkers).getBounds();
+            map.fitBounds(bounds, { padding: [50, 50] });
         }
     };
 
@@ -202,7 +247,6 @@ const groupsData = await db.select().from(Groups);
       document.body.classList.remove('overflow-hidden');
     });
 
-    // Close on backdrop click
     modal.addEventListener('click', (e) => {
       if (e.target === modal) {
         modal.classList.add('hidden');
@@ -210,16 +254,13 @@ const groupsData = await db.select().from(Groups);
       }
     });
 
-    // Global Focus Function
     window.focusPlant = (lat, lng, id) => {
       map.flyTo([lat, lng], 19, { duration: 1.5 });
-      // Fetch data for the modal
       fetch('/api/plants.json')
         .then(res => res.json())
         .then(plants => {
           const plant = plants.find(p => p.id === id);
           if (plant) {
-            // Update filter bar to match the group of the plant we are focusing
             const btns = document.querySelectorAll('.group-filter-btn');
             btns.forEach(btn => {
                 const b = btn as HTMLElement;
@@ -245,30 +286,16 @@ const groupsData = await db.select().from(Groups);
           sortedByGroup[gid].sort((a, b) => a.scientificName.localeCompare(b.scientificName));
         });
 
-        // Initialize markers but don't add to map yet
         plants.forEach(plant => {
           if (plant.latitude && plant.longitude) {
             const groupList = sortedByGroup[plant.groupId] || [];
             const plantNumber = groupList.findIndex(p => p.id === plant.id) + 1;
             
-            const marker = L.marker([plant.latitude, plant.longitude], { 
-              icon: createPlantIcon(plant.commonName, plantNumber) 
-            });
-            
-            marker.plantId = plant.id;
-            marker.groupId = plant.groupId;
-            
-            marker.on('click', () => {
-              showPlantDetail(plant);
-            });
-
-            allMarkers.push(marker);
             if (!markersByGroup[plant.groupId]) markersByGroup[plant.groupId] = [];
-            markersByGroup[plant.groupId].push(marker);
+            markersByGroup[plant.groupId].push({ ...plant, number: plantNumber });
           }
         });
 
-        // Default to the first group
         const firstBtn = document.querySelector('.group-filter-btn') as HTMLElement;
         if (firstBtn) {
             updateMapMarkers(firstBtn.dataset.group);
