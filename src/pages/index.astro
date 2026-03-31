@@ -375,6 +375,7 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 </Layout>
 
 <script define:vars={{ groups }}>
+	const tabButtons = document.querySelectorAll('.tab-btn');
 	const listsView = document.getElementById('lists-view');
 	const studyView = document.getElementById('study-view');
 	const mapsView = document.getElementById('maps-view');
