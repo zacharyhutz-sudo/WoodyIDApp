@@ -416,7 +416,7 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 	const quizProgressBar = document.getElementById('quiz-progress-bar');
 	const quizCard = document.getElementById('quiz-card');
 	const quizQuestionText = document.getElementById('quiz-question-text');
-	const quizAnswerInput = document.getElementById('quiz-answer-input') as HTMLInputElement;
+	const quizAnswerInput = document.getElementById('quiz-answer-input');
 	const quizSubmitBtn = document.getElementById('quiz-submit-btn');
 	const quizCorrection = document.getElementById('quiz-correction');
 	const quizCorrectReveal = document.getElementById('quiz-correct-reveal');
@@ -430,6 +430,10 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 	const retryMissedBtn = document.getElementById('retry-missed-btn');
 	const quizRestartAll = document.getElementById('quiz-restart-all');
 	const resultsExit = document.getElementById('results-exit');
+
+	if (!listsView) {
+		console.error('Critical elements missing!');
+	}
 
 	let currentGroupPlants = [];
 	let currentFlashcards = [];
@@ -568,7 +572,7 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 	// Study Hub Handlers
 	studyGroupCards.forEach(card => {
 		card.addEventListener('click', () => {
-			const gid = (card as HTMLElement).dataset.groupId;
+			const gid = card.dataset.groupId;
 			activeStudyGroup = groups.find(g => g.id === gid);
 			modeSelectorGroupName.textContent = activeStudyGroup.name;
 			studyModeModal.classList.remove('hidden');
@@ -615,7 +619,7 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 	closeQuiz.addEventListener('click', () => quizView.classList.add('hidden'));
 
 	studyModeToggle.addEventListener('click', (e) => {
-		const btn = (e.target as HTMLElement).closest('button');
+		const btn = e.target.closest('button');
 		if (!btn) return;
 		studyMode = btn.dataset.mode;
 		[studyModeToggle, quizModeToggle].forEach(toggle => {
@@ -632,7 +636,7 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 	});
 
 	quizModeToggle.addEventListener('click', (e) => {
-		const btn = (e.target as HTMLElement).closest('button');
+		const btn = e.target.closest('button');
 		if (!btn) return;
 		studyMode = btn.dataset.mode;
 		[studyModeToggle, quizModeToggle].forEach(toggle => {
@@ -674,13 +678,12 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 
 	const switchTab = (view) => {
 		tabButtons.forEach(btn => {
-			const b = btn as any;
-			if (b.dataset.view === view) {
-				b.classList.add('text-cream-warm');
-				b.classList.remove('text-sage-light/60');
+			if (btn.dataset.view === view) {
+				btn.classList.add('text-cream-warm');
+				btn.classList.remove('text-sage-light/60');
 			} else {
-				b.classList.remove('text-cream-warm');
-				b.classList.add('text-sage-light/60');
+				btn.classList.remove('text-cream-warm');
+				btn.classList.add('text-sage-light/60');
 			}
 		});
 
