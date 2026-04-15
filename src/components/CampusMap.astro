@@ -198,6 +198,7 @@ const groupsData = await db.select().from(Groups);
                 // Collapse search and drawer
                 mapSearchInput.value = '';
                 mapSearchResults.classList.add('hidden');
+                groupList.classList.remove('hidden');
                 clearMapSearch.classList.add('hidden');
                 
                 // Switch group if needed
@@ -518,6 +519,11 @@ const groupsData = await db.select().from(Groups);
         } else {
             bottomSheet.classList.add('translate-y-[calc(100%-115px)]', 'sm:translate-y-[calc(100%-125px)]');
             bottomSheet.classList.remove('translate-y-0');
+            // Reset search when collapsing
+            mapSearchInput.value = '';
+            mapSearchResults.classList.add('hidden');
+            groupList.classList.remove('hidden');
+            clearMapSearch.classList.add('hidden');
         }
     });
   }
