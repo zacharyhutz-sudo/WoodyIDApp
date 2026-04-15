@@ -18,9 +18,9 @@ const groups = await Promise.all(groupsData.map(async (group) => {
       try {
         const optimized = await getImage({ 
           src: plant.imageUrl, 
-          width: 800, 
+          width: 1200, 
           format: 'webp',
-          quality: 80
+          quality: 85
         });
         optimizedImageUrl = optimized.src;
       } catch (e) {
@@ -49,9 +49,9 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 		</nav>
 
 		<!-- Library View -->
-		<div id="lists-view" class="mt-6 px-4">
+		<div id="lists-view" class="mt-6 px-4 max-w-7xl mx-auto">
 			<!-- Search Bar -->
-			<div class="mb-8 relative group">
+			<div class="mb-8 relative group max-w-2xl mx-auto">
 				<div class="absolute inset-y-0 left-5 flex items-center pointer-events-none text-sage-light group-focus-within:text-cream-warm transition-colors">
 					<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
 				</div>
@@ -66,10 +66,10 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 				</button>
 			</div>
 
-			<div id="groups-container" class="space-y-6">
+			<div id="groups-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 				{groups.map((group, index) => (
 					<button 
-						class="group-widget w-full relative h-48 rounded-[2rem] overflow-hidden shadow-2xl active:scale-[0.98] transition-all duration-300 animate-fade-up border border-sage-light/20 bg-forest-deep"
+						class="group-widget w-full relative h-48 md:h-64 rounded-[2rem] overflow-hidden shadow-2xl active:scale-[0.98] transition-all duration-500 animate-fade-up border border-sage-light/20 bg-forest-deep group/card"
 						style={`animation-delay: ${index * 100}ms`}
 						data-group-id={group.id}
 					>
@@ -77,11 +77,11 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 						{group.heroImage ? (
 							<Image 
 								src={group.heroImage} 
-								width={800} 
-								height={400} 
+								width={1200} 
+								height={800} 
 								format="webp"
-								quality={80}
-								class="absolute inset-0 w-full h-full object-cover grayscale-[0.2]" 
+								quality={85}
+								class="absolute inset-0 w-full h-full object-cover grayscale-[0.2] group-hover/card:scale-110 group-hover/card:grayscale-0 transition-all duration-700 ease-out" 
 								alt={group.name} 
 								loading="lazy"
 							/>
@@ -90,20 +90,20 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 						)}
 						
 						<!-- Gradient Overlay -->
-						<div class="absolute inset-0 bg-gradient-to-t from-forest-deep via-forest-deep/50 to-transparent" />
+						<div class="absolute inset-0 bg-gradient-to-t from-forest-deep via-forest-deep/40 to-transparent group-hover/card:via-forest-deep/20 transition-all duration-500" />
 						
 						<!-- Content -->
-						<div class="absolute bottom-0 left-0 right-0 p-8 text-left">
+						<div class="absolute bottom-0 left-0 right-0 p-8 text-left translate-y-2 group-hover/card:translate-y-0 transition-transform duration-500">
 							<div class="flex items-end justify-between">
 								<div>
-									<h2 class="text-3xl font-black text-cream-warm tracking-tight leading-none mb-3 font-header uppercase">{group.name}</h2>
+									<h2 class="text-2xl md:text-3xl font-black text-cream-warm tracking-tight leading-none mb-3 font-header uppercase drop-shadow-lg">{group.name}</h2>
 									<div class="flex items-center gap-2">
-										<span class="bg-forest-deep/60 text-cream-warm text-[10px] font-bold px-3 py-1.5 rounded-full border border-sage-light/30 uppercase tracking-widest nav-header">
+										<span class="bg-forest-deep/60 backdrop-blur-md text-cream-warm text-[10px] font-bold px-3 py-1.5 rounded-full border border-sage-light/30 uppercase tracking-widest nav-header">
 											{group.plants.length} Species
 										</span>
 									</div>
 								</div>
-								<div class="w-12 h-12 rounded-full bg-cream-warm/10 backdrop-blur-md border border-cream-warm/20 flex items-center justify-center text-cream-warm">
+								<div class="w-12 h-12 rounded-full bg-cream-warm/10 backdrop-blur-md border border-cream-warm/20 flex items-center justify-center text-cream-warm group-hover/card:bg-cream-warm group-hover/card:text-forest-deep transition-all duration-500 shadow-xl">
 									<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
 								</div>
 							</div>
@@ -112,9 +112,8 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 				))}
 			</div>
 			
-			<!-- Search Results -->
-			<div id="search-results" class="hidden space-y-4">
-				<div id="search-results-list" class="space-y-4"></div>
+			<div id="search-results" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+				<div id="search-results-list" class="contents"></div>
 				<div id="no-results" class="hidden py-20 text-center">
 					<div class="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-4 text-sage-light">
 						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
@@ -143,23 +142,22 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 				<div class="w-12"></div> <!-- Spacer -->
 			</header>
 			
-			<div class="px-5 mt-8 mb-8">
+			<div class="px-5 mt-8 mb-8 max-w-7xl mx-auto">
 				<h2 id="detail-title" class="large-title"></h2>
 			</div>
 
-			<div id="detail-list" class="space-y-6 px-4 pb-24">
+			<div id="detail-list" class="grid grid-cols-1 md:grid-cols-2 gap-6 px-4 pb-24 max-w-7xl mx-auto">
 				<!-- Plant cards injected here -->
 			</div>
 		</div>
 
-		<!-- Study Hub View -->
-		<div id="study-view" class="hidden mt-6 px-4 pb-32 overflow-y-auto no-scrollbar h-full">
+			<div id="study-view" class="hidden mt-6 px-4 pb-32 overflow-y-auto no-scrollbar h-full max-w-7xl mx-auto">
 			<div class="mb-8">
 				<h3 class="text-[10px] font-black text-sage-light uppercase tracking-[0.3em] mb-2 nav-header text-center">Learning Platform</h3>
 				<h2 class="large-title text-center">Study Hub</h2>
 			</div>
 
-			<div class="grid grid-cols-1 gap-4">
+			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 				{groups.map((group, index) => (
 					<button 
 						class="study-group-card group w-full bg-sage-muted/30 border border-white/5 rounded-[2rem] p-6 flex items-center justify-between active:scale-[0.98] transition-all duration-300 animate-fade-up"
