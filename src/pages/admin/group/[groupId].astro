@@ -34,6 +34,24 @@ if (Astro.request.method === 'POST') {
       fruit: formData.get('fruit') as string,
     });
   }
+
+  if (action === 'edit-plant') {
+    const id = formData.get('id') as string;
+    await db.update(Plants).set({
+      scientificName: formData.get('scientificName') as string,
+      commonName: formData.get('commonName') as string,
+      family: formData.get('family') as string,
+      imageUrl: formData.get('imageUrl') as string,
+      leafArrangement: formData.get('leafArrangement') as string,
+      leafMargin: formData.get('leafMargin') as string,
+      leafShape: formData.get('leafShape') as string,
+      leafBase: formData.get('leafBase') as string,
+      leafApex: formData.get('leafApex') as string,
+      bark: formData.get('bark') as string,
+      flower: formData.get('flower') as string,
+      fruit: formData.get('fruit') as string,
+    }).where(eq(Plants.id, id));
+  }
   
   if (action === 'delete-plant') {
     const id = formData.get('id') as string;
@@ -56,6 +74,62 @@ const plants = await db.select().from(Plants).where(eq(Plants.groupId, group.id)
     </header>
 
     <div class="space-y-12">
+      <!-- Edit Plant Modal -->
+      <div id="edit-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-5 animate-in fade-in duration-200">
+        <div class="bg-white w-full max-w-2xl rounded-[2.5rem] shadow-2xl overflow-hidden animate-in zoom-in-95 duration-300">
+            <header class="px-8 pt-8 pb-4 flex justify-between items-center">
+                <h3 class="text-xl font-black text-slate-900 font-header uppercase tracking-tight">Edit Species</h3>
+                <button type="button" onclick="document.getElementById('edit-modal').classList.add('hidden')" class="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 hover:text-slate-600 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+                </button>
+            </header>
+            <form method="POST" class="p-8 pt-0 space-y-6">
+                <input type="hidden" name="action" value="edit-plant" />
+                <input type="hidden" name="id" id="edit-id" />
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div class="space-y-1.5">
+                    <label class="text-[10px] font-black text-slate-300 uppercase px-1">Scientific Name</label>
+                    <input name="scientificName" id="edit-scientificName" required class="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-[15px] outline-none focus:ring-2 focus:ring-emerald-100 transition-all font-semibold" />
+                  </div>
+                  <div class="space-y-1.5">
+                    <label class="text-[10px] font-black text-slate-300 uppercase px-1">Common Name</label>
+                    <input name="commonName" id="edit-commonName" required class="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-[15px] outline-none focus:ring-2 focus:ring-emerald-100 transition-all font-medium" />
+                  </div>
+                  <div class="space-y-1.5">
+                    <label class="text-[10px] font-black text-slate-300 uppercase px-1">Botanical Family</label>
+                    <input name="family" id="edit-family" class="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-[15px] outline-none focus:ring-2 focus:ring-emerald-100 transition-all" />
+                  </div>
+                  <div class="space-y-1.5">
+                    <label class="text-[10px] font-black text-slate-300 uppercase px-1">Image URL</label>
+                    <input name="imageUrl" id="edit-imageUrl" class="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-[15px] outline-none focus:ring-2 focus:ring-emerald-100 transition-all" />
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-4">
+                    {[
+                      { key: 'leafArrangement', label: 'Arrangement' },
+                      { key: 'leafMargin', label: 'Margin' },
+                      { key: 'leafShape', label: 'Shape' },
+                      { key: 'bark', label: 'Bark' },
+                      { key: 'flower', label: 'Flower' },
+                      { key: 'fruit', label: 'Fruit' }
+                    ].map(feat => (
+                      <div class="space-y-1.5">
+                        <label class="text-[9px] font-black text-slate-400 uppercase tracking-tighter px-1">{feat.label}</label>
+                        <input name={feat.key} id={`edit-${feat.key}`} class="w-full px-4 py-2 bg-slate-50 border border-slate-100 rounded-lg text-[13px] outline-none focus:ring-2 focus:ring-emerald-50" />
+                      </div>
+                    ))}
+                </div>
+
+                <div class="flex gap-3 pt-2">
+                    <button type="button" onclick="document.getElementById('edit-modal').classList.add('hidden')" class="flex-grow bg-slate-100 text-slate-600 font-bold py-4 rounded-2xl active:scale-[0.98] transition-all">Cancel</button>
+                    <button type="submit" class="flex-[2] bg-slate-900 text-white font-bold py-4 rounded-2xl active:scale-[0.98] transition-all shadow-xl shadow-slate-100">Update Species</button>
+                </div>
+            </form>
+        </div>
+      </div>
+
       <!-- Add Plant Form -->
       <section class="space-y-4">
         <h2 class="text-[11px] font-black text-slate-400 uppercase tracking-widest px-1">Curate Species</h2>
@@ -128,13 +202,22 @@ const plants = await db.select().from(Plants).where(eq(Plants.groupId, group.id)
                         <span class="text-[9px] font-black uppercase tracking-tighter">Pinned</span>
                     </div>
                 )}
-                <form method="POST" onsubmit="return confirm('Permanently remove this species?')">
-                  <input type="hidden" name="action" value="delete-plant" />
-                  <input type="hidden" name="id" value={plant.id} />
-                  <button type="submit" class="w-10 h-10 flex items-center justify-center text-slate-200 hover:text-red-500 active:scale-90 transition-all">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                <div class="flex items-center gap-2 shrink-0">
+                  <button 
+                    type="button" 
+                    class="edit-btn w-10 h-10 flex items-center justify-center text-slate-200 hover:text-emerald-600 active:scale-90 transition-all"
+                    data-plant={JSON.stringify(plant)}
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
                   </button>
-                </form>
+                  <form method="POST" onsubmit="return confirm('Permanently remove this species?')">
+                    <input type="hidden" name="action" value="delete-plant" />
+                    <input type="hidden" name="id" value={plant.id} />
+                    <button type="submit" class="w-10 h-10 flex items-center justify-center text-slate-200 hover:text-red-500 active:scale-90 transition-all">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                    </button>
+                  </form>
+                </div>
               </div>
             </div>
           ))}
@@ -151,3 +234,34 @@ const plants = await db.select().from(Plants).where(eq(Plants.groupId, group.id)
     </div>
   </main>
 </Layout>
+
+<script>
+    const modal = document.getElementById('edit-modal');
+    const editButtons = document.querySelectorAll('.edit-btn');
+    
+    editButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const plant = JSON.parse(btn.dataset.plant);
+            
+            // Fill form
+            document.getElementById('edit-id').value = plant.id;
+            document.getElementById('edit-scientificName').value = plant.scientificName;
+            document.getElementById('edit-commonName').value = plant.commonName;
+            document.getElementById('edit-family').value = plant.family || '';
+            document.getElementById('edit-imageUrl').value = plant.imageUrl || '';
+            
+            // Features
+            const features = ['leafArrangement', 'leafMargin', 'leafShape', 'bark', 'flower', 'fruit'];
+            features.forEach(feat => {
+                document.getElementById(`edit-${feat}`).value = plant[feat] || '';
+            });
+            
+            modal.classList.remove('hidden');
+        });
+    });
+
+    // Close on click outside
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) modal.classList.add('hidden');
+    });
+</script>
