@@ -50,7 +50,23 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 
 		<!-- Library View -->
 		<div id="lists-view" class="mt-6 px-4">
-			<div class="space-y-6">
+			<!-- Search Bar -->
+			<div class="mb-8 relative group">
+				<div class="absolute inset-y-0 left-5 flex items-center pointer-events-none text-sage-light group-focus-within:text-cream-warm transition-colors">
+					<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+				</div>
+				<input 
+					type="text" 
+					id="plant-search" 
+					placeholder="Search common name, genus..." 
+					class="w-full bg-sage-muted/20 border border-white/5 rounded-2xl py-4 pl-14 pr-12 text-cream-warm placeholder:text-sage-light/50 focus:outline-none focus:ring-2 focus:ring-cream-warm/20 focus:bg-sage-muted/30 transition-all font-medium"
+				/>
+				<button id="clear-search" class="absolute inset-y-0 right-4 hidden items-center text-sage-light hover:text-cream-warm">
+					<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m18 6-12 12"/><path d="m6 6 12 12"/></svg>
+				</button>
+			</div>
+
+			<div id="groups-container" class="space-y-6">
 				{groups.map((group, index) => (
 					<button 
 						class="group-widget w-full relative h-48 rounded-[2rem] overflow-hidden shadow-2xl active:scale-[0.98] transition-all duration-300 animate-fade-up border border-sage-light/20 bg-forest-deep"
@@ -94,6 +110,18 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 						</div>
 					</button>
 				))}
+			</div>
+			
+			<!-- Search Results -->
+			<div id="search-results" class="hidden space-y-4">
+				<div id="search-results-list" class="space-y-4"></div>
+				<div id="no-results" class="hidden py-20 text-center">
+					<div class="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-4 text-sage-light">
+						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+					</div>
+					<h3 class="text-lg font-bold text-cream-warm uppercase tracking-tight font-header">No Plants Found</h3>
+					<p class="text-sm text-sage-light mt-1">Try a different name or genus</p>
+				</div>
 			</div>
 			
 			<!-- Branding/Footer Info -->
@@ -430,6 +458,145 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 	const retryMissedBtn = document.getElementById('retry-missed-btn');
 	const quizRestartAll = document.getElementById('quiz-restart-all');
 	const resultsExit = document.getElementById('results-exit');
+
+	// Search Elements
+	const allPlants = groups.flatMap(g => g.plants);
+	const plantSearchInput = document.getElementById('plant-search');
+	const clearSearchBtn = document.getElementById('clear-search');
+	const groupsContainer = document.getElementById('groups-container');
+	const searchResults = document.getElementById('search-results');
+	const searchResultsList = document.getElementById('search-results-list');
+	const noResults = document.getElementById('no-results');
+
+	const renderPlantDetail = (plant) => {
+		detailTitle.textContent = plant.scientificName;
+		headerDetailTitle.textContent = plant.scientificName;
+		groupDetail.classList.remove('hidden');
+		document.body.classList.add('overflow-hidden');
+		
+		detailList.innerHTML = `
+			<div class="bg-sage-muted rounded-[2rem] overflow-hidden border border-sage-light/30 shadow-2xl transition-all">
+				${plant.optimizedImageUrl ? `
+					<button class="w-full h-72 bg-forest-deep overflow-hidden relative cursor-zoom-in" onclick="window.openLightbox('${plant.imageUrl}')">
+						<img 
+							src="${plant.optimizedImageUrl}" 
+							class="w-full h-full object-cover" 
+							loading="lazy" 
+						/>
+						<div class="absolute inset-0 bg-gradient-to-t from-forest-deep/60 to-transparent"></div>
+					</button>
+				` : ''}
+				<div class="p-8">
+					<div class="flex items-start justify-between mb-8">
+						<div class="min-w-0">
+							<div class="text-[26px] font-black text-cream-warm leading-tight tracking-tight uppercase font-header">${plant.scientificName}</div>
+							<div class="text-[17px] font-medium text-cream-warm/70 italic mt-2">${plant.commonName}</div>
+						</div>
+						${plant.latitude ? `
+							<button 
+								class="see-on-map-btn w-12 h-12 bg-cream-warm/10 border border-cream-warm/20 rounded-2xl flex items-center justify-center text-cream-warm active:scale-90 transition-all shrink-0"
+								data-lat="${plant.latitude}"
+								data-lng="${plant.longitude}"
+								data-id="${plant.id}"
+							>
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+							</button>
+						` : ''}
+					</div>
+
+					<div class="space-y-4">
+						${[
+							{ label: 'Leaf Arrangement', val: plant.leafArrangement },
+							{ label: 'Leaf Shape', val: plant.leafShape },
+							{ label: 'Leaf Margin', val: plant.leafMargin },
+							{ label: 'Bark Features', val: plant.bark },
+							{ label: 'Flower', val: plant.flower },
+							{ label: 'Fruit', val: plant.fruit },
+							{ label: 'Family', val: plant.family }
+						].filter(f => f.val).map(f => `
+							<div class="flex items-baseline gap-6 border-b border-white/10 pb-3">
+								<div class="w-32 shrink-0 text-[10px] font-black text-sage-light uppercase tracking-widest nav-header">${f.label}</div>
+								<div class="text-[16px] text-cream-warm font-medium leading-snug">${f.val}</div>
+							</div>
+						`).join('')}
+					</div>
+				</div>
+			</div>
+		`;
+		
+		groupDetail.scrollTo({ top: 0, behavior: 'instant' });
+
+		const mapBtn = groupDetail.querySelector('.see-on-map-btn');
+		if (mapBtn) {
+			mapBtn.addEventListener('click', () => {
+				const { latitude, longitude, id } = plant;
+				switchTab('maps');
+				groupDetail.classList.add('hidden');
+				document.body.classList.remove('overflow-hidden');
+				if (window.focusPlant) {
+					window.focusPlant(parseFloat(latitude), parseFloat(longitude), id);
+				}
+			});
+		}
+	};
+
+	plantSearchInput?.addEventListener('input', (e) => {
+		const query = e.target.value.toLowerCase().trim();
+		
+		if (query === '') {
+			groupsContainer.classList.remove('hidden');
+			searchResults.classList.add('hidden');
+			clearSearchBtn.classList.add('hidden');
+			return;
+		}
+
+		clearSearchBtn.classList.remove('hidden');
+		clearSearchBtn.classList.add('flex');
+		groupsContainer.classList.add('hidden');
+		searchResults.classList.remove('hidden');
+
+		const filtered = allPlants.filter(p => 
+			p.commonName.toLowerCase().includes(query) || 
+			p.scientificName.toLowerCase().includes(query)
+		);
+
+		if (filtered.length === 0) {
+			searchResultsList.innerHTML = '';
+			noResults.classList.remove('hidden');
+		} else {
+			noResults.classList.add('hidden');
+			searchResultsList.innerHTML = filtered.map(plant => `
+				<button class="search-result-item w-full flex items-center gap-4 p-3 bg-sage-muted/20 border border-white/5 rounded-2xl active:scale-[0.98] transition-all text-left" data-plant-id="${plant.id}">
+					<div class="w-16 h-16 rounded-xl overflow-hidden border border-white/10 shrink-0 bg-forest-deep">
+						${plant.optimizedImageUrl ? `<img src="${plant.optimizedImageUrl}" class="w-full h-full object-cover" />` : ''}
+					</div>
+					<div class="min-w-0">
+						<h4 class="text-sm font-black text-cream-warm uppercase tracking-tight font-header truncate">${plant.scientificName}</h4>
+						<p class="text-[13px] font-medium text-sage-light italic truncate">${plant.commonName}</p>
+					</div>
+					<div class="ml-auto text-cream-warm/20 pr-2">
+						<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+					</div>
+				</button>
+			`).join('');
+
+			document.querySelectorAll('.search-result-item').forEach(btn => {
+				btn.addEventListener('click', () => {
+					const pid = btn.dataset.plantId;
+					const plant = allPlants.find(p => p.id === pid);
+					if (plant) renderPlantDetail(plant);
+				});
+			});
+		}
+	});
+
+	clearSearchBtn?.addEventListener('click', () => {
+		plantSearchInput.value = '';
+		groupsContainer.classList.remove('hidden');
+		searchResults.classList.add('hidden');
+		clearSearchBtn.classList.add('hidden');
+		plantSearchInput.focus();
+	});
 
 	if (!listsView) {
 		console.error('Critical elements missing!');
