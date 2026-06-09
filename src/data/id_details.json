@@ -1,121 +1,1472 @@
 {
+  "Abelia x grandiflora": {
+    "leafArrangement": "Opposite",
+    "leafMargin": "Serrate",
+    "leafShape": "Ovate",
+    "bark": "Exfoliating, reddish twigs",
+    "flower": "Pink-white bell"
+  },
+  "Acca sellowiana": {
+    "leafArrangement": "Opposite",
+    "leafMargin": "Entire",
+    "leafShape": "Elliptic",
+    "bark": "Grey, peeling scaly",
+    "flower": "White/Red edible"
+  },
   "Acer buergerianum": {
     "leafArrangement": "Opposite",
-    "leafMargin": "Entire to slightly serrate, 3-lobed",
-    "leafShape": "Trident-shaped (3 lobes pointing forward)",
-    "bark": "Grey-brown, exfoliating in long strips on older trees",
-    "fruit": "Samara, wings parallel to slightly divergent"
+    "leafMargin": "Entire to slightly serrate",
+    "leafShape": "3-lobed (trident)",
+    "bark": "Grey-brown, exfoliating",
+    "fruit": "Samara"
+  },
+  "Acer ginnala": {
+    "leafArrangement": "Opposite",
+    "leafMargin": "Doubly serrate",
+    "leafShape": "3-lobed, central lobe long",
+    "bark": "Grey-brown, smooth",
+    "fruit": "Samara"
   },
   "Acer griseum": {
     "leafArrangement": "Opposite",
-    "leafMargin": "Trifoliate (3 leaflets), coarsely toothed",
-    "leafShape": "Elliptic to ovate leaflets",
-    "bark": "Spectacular cinnamon-brown exfoliating papery bark",
-    "fruit": "Large, fuzzy samaras"
+    "leafMargin": "Trifoliate",
+    "leafShape": "Elliptic leaflets",
+    "bark": "Cinnamon-brown, peeling",
+    "fruit": "Samara"
   },
   "Acer negundo": {
     "leafArrangement": "Opposite",
-    "leafMargin": "Pinnately compound (3-7 leaflets), coarsely serrate",
-    "leafShape": "Ovate to lanceolate leaflets",
-    "bark": "Grey-brown, deeply furrowed with age",
-    "fruit": "Samaras in drooping clusters"
+    "leafMargin": "Pinnately compound",
+    "leafShape": "3-7 leaflets",
+    "bark": "Grey-brown, furrowed",
+    "fruit": "Samara"
+  },
+  "Acer palmatum": {
+    "leafArrangement": "Opposite",
+    "leafMargin": "Serrate",
+    "leafShape": "5-9 palmately lobed",
+    "bark": "Smooth, green/red/grey",
+    "fruit": "Samara"
   },
   "Acer rubrum": {
     "leafArrangement": "Opposite",
-    "leafMargin": "3-5 lobes, irregularly serrate, V-shaped sinuses",
-    "leafShape": "Ovate, whitish underside",
-    "bark": "Smooth grey when young, shaggy/darker with age",
-    "fruit": "Reddish samaras, ripening in spring"
+    "leafMargin": "Serrate",
+    "leafShape": "3-5 lobed, V-sinus",
+    "bark": "Smooth grey to shaggy",
+    "fruit": "Samara"
+  },
+  "Acer saccharum": {
+    "leafArrangement": "Opposite",
+    "leafMargin": "Entire lobes",
+    "leafShape": "5-lobed, U-sinus",
+    "bark": "Grey-brown, plated",
+    "fruit": "Samara"
+  },
+  "Acer x freemanii": {
+    "leafArrangement": "Opposite",
+    "leafMargin": "Serrate",
+    "leafShape": "Lobed (intermediate)",
+    "bark": "Grey, smooth to furrowed",
+    "fruit": "Samara"
+  },
+  "Aesculus parviflora": {
+    "leafArrangement": "Opposite",
+    "leafMargin": "Finely serrate",
+    "leafShape": "Palmately compound (5-7)",
+    "bark": "Grey, smooth to scaly",
+    "flower": "Long white panicles"
+  },
+  "Agarista populifolia (Leucothoe)": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Entire/serrulate",
+    "leafShape": "Lanceolate-ovate",
+    "bark": "Hollow-pith stems",
+    "flower": "Small white bells"
+  },
+  "Albizia julibrissin": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Entire (leaflets)",
+    "leafShape": "Bipinnately compound",
+    "bark": "Smooth grey",
+    "flower": "Pink powderpuff"
+  },
+  "Alnus serrulata": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Finely serrate",
+    "leafShape": "Obovate",
+    "bark": "Smooth, greyish-brown",
+    "fruit": "Cone-like (strobile)"
+  },
+  "Amelanchier arborea": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Finely serrate",
+    "leafShape": "Ovate-elliptic",
+    "bark": "Smooth grey, vertical streaks",
+    "fruit": "Small pome"
+  },
+  "Aucuba japonica": {
+    "leafArrangement": "Opposite",
+    "leafMargin": "Serrate (upper half)",
+    "leafShape": "Elliptic-ovate (spotted)",
+    "bark": "Green stems",
+    "fruit": "Red drupe"
+  },
+  "Berberis thunbergii var. atropurpurea": {
+    "leafArrangement": "Alternate/Fascicled",
+    "leafMargin": "Entire",
+    "leafShape": "Obovate-spatulate",
+    "bark": "Spiny stems",
+    "flower": "Yellow"
   },
   "Betula nigra": {
     "leafArrangement": "Alternate",
-    "leafMargin": "Doubly serrate, wedge-shaped base",
-    "leafShape": "Deltoid to ovate",
-    "bark": "Salmon-pink to reddish-brown, extremely papery and peeling",
-    "fruit": "Cone-like strobiles"
+    "leafMargin": "Doubly serrate",
+    "leafShape": "Rhombic-ovate",
+    "bark": "Salmon-pink, peeling",
+    "fruit": "Cone-like"
+  },
+  "Bignonia capreolata": {
+    "leafArrangement": "Opposite",
+    "leafMargin": "Entire",
+    "leafShape": "Compound (2 leaflets + tendril)",
+    "bark": "Vinelike",
+    "flower": "Orange-red trumpet"
+  },
+  "Broussonetia papyrifera": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Coarsely serrate/lobed",
+    "leafShape": "Cordate/mitten",
+    "bark": "Grey, shallowly fissured",
+    "fruit": "Red globose syncarp"
+  },
+  "Buddleia davidii": {
+    "leafArrangement": "Opposite",
+    "leafMargin": "Serrate",
+    "leafShape": "Lanceolate",
+    "bark": "Grey, shreddy",
+    "flower": "Purple spikes"
+  },
+  "Butia capitata": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Entire",
+    "leafShape": "Pinnately compound (palm)",
+    "bark": "Stocky trunk, leaf scars",
+    "fruit": "Yellow orange drupe"
+  },
+  "Buxus microphylla": {
+    "leafArrangement": "Opposite",
+    "leafMargin": "Entire",
+    "leafShape": "Small obovate",
+    "bark": "Grey-brown, scaly",
+    "fruit": "Capsule"
+  },
+  "Buxus sempervirens": {
+    "leafArrangement": "Opposite",
+    "leafMargin": "Entire",
+    "leafShape": "Elliptic-ovate",
+    "bark": "Grey, corky",
+    "fruit": "Capsule"
+  },
+  "Callicarpa americana": {
+    "leafArrangement": "Opposite",
+    "leafMargin": "Serrate",
+    "leafShape": "Ovate-elliptic",
+    "bark": "Grey-brown, scalyish",
+    "fruit": "Magenta berries"
+  },
+  "Callicarpa dichotoma": {
+    "leafArrangement": "Opposite",
+    "leafMargin": "Serrate",
+    "leafShape": "Elliptic-obovate",
+    "bark": "Arching branches",
+    "fruit": "Small purple berries"
+  },
+  "Calycanthus floridus": {
+    "leafArrangement": "Opposite",
+    "leafMargin": "Entire",
+    "leafShape": "Ovate-elliptic",
+    "bark": "Grey-brown, smooth to scaly",
+    "flower": "Maroon, spicy fragrance"
+  },
+  "Camellia japonica": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Serrate",
+    "leafShape": "Ovate-elliptic (large)",
+    "bark": "Smooth grey",
+    "flower": "Large various colors"
+  },
+  "Camellia sasanqua": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Serrate",
+    "leafShape": "Small elliptic",
+    "bark": "Smooth grey",
+    "flower": "Smaller various colors"
+  },
+  "Camellia sinensis": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Serrate",
+    "leafShape": "Elliptic-oblong",
+    "bark": "Evergreen shrub",
+    "flower": "White"
+  },
+  "Campsis radicans": {
+    "leafArrangement": "Opposite",
+    "leafMargin": "Serrate",
+    "leafShape": "Pinnately compound (9-11)",
+    "bark": "Light brown, shreddy (vine)",
+    "flower": "Orange trumpet"
+  },
+  "Carpinus betulus": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Doubly serrate",
+    "leafShape": "Ovate-oblong",
+    "bark": "Grey, smooth, fluted",
+    "fruit": "Nutlet with 3-lobed bract"
   },
   "Carpinus caroliniana": {
     "leafArrangement": "Alternate",
     "leafMargin": "Doubly serrate",
-    "leafShape": "Ovate-oblong",
-    "bark": "Smooth, bluish-grey, fluted (looks like muscle/sinew)",
-    "fruit": "Small nutlet at the base of a 3-lobed bract"
+    "leafShape": "Ovate",
+    "bark": "Smooth, blue-grey, 'muscle-like'",
+    "fruit": "Nutlet with 3-lobed bract"
+  },
+  "Carya aquatica": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Serrate",
+    "leafShape": "Pinnately compound (9-13)",
+    "bark": "Grey-brown, shaggy-plated",
+    "fruit": "Flattened nut"
+  },
+  "Carya illinoinensis": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Serrate",
+    "leafShape": "Pinnately compound (11-17)",
+    "bark": "Grey-brown, scaly-furrowed",
+    "fruit": "Edible pecan nut"
+  },
+  "Carya tomentosa": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Serrate",
+    "leafShape": "Pinnately compound (7-9)",
+    "bark": "Dark grey, diamond-furrowed",
+    "fruit": "Thick-shelled nut"
+  },
+  "Castanea mollissima": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Coarsely serrate",
+    "leafShape": "Elliptic-oblong",
+    "bark": "Grey-brown, furrowed",
+    "fruit": "Spiny bur"
+  },
+  "Catalpa bignonioides": {
+    "leafArrangement": "Whorled/Opposite",
+    "leafMargin": "Entire",
+    "leafShape": "Large cordate",
+    "bark": "Grey-brown, scaly",
+    "fruit": "Long 'cigar' pod"
+  },
+  "Cedrus atlantica 'Glauca'": {
+    "leafArrangement": "Alternate/Fascicled",
+    "leafMargin": "Entire",
+    "leafShape": "Needle-like (blue-grey)",
+    "bark": "Greyish",
+    "fruit": "Upright cone"
+  },
+  "Cedrus deodara": {
+    "leafArrangement": "Alternate/Fascicled",
+    "leafMargin": "Entire",
+    "leafShape": "Needle-like (1-2 in)",
+    "bark": "Grey, scaly-furrowed",
+    "fruit": "Upright cone"
+  },
+  "Celtis laevigata": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Entire/few teeth",
+    "leafShape": "Lanceolate, oblique base",
+    "bark": "Grey, corky 'warts'",
+    "fruit": "Small dark drupe"
+  },
+  "Cephalotaxus harringtonia": {
+    "leafArrangement": "Spiraled (two-ranked)",
+    "leafMargin": "Entire",
+    "leafShape": "Linear (needle-like)",
+    "bark": "Grey, scaly",
+    "fruit": "Plum-like seed"
   },
   "Cercidiphyllum japonicum": {
-    "leafArrangement": "Sub-opposite (nearly opposite)",
-    "leafMargin": "Crenate-serrate",
-    "leafShape": "Cordate (heart-shaped) or orbicular",
-    "bark": "Brownish-grey, shaggy with age; fallen leaves smell like burnt sugar",
-    "fruit": "Small pods (follicles)"
-  },
-  "Diospyros virginiana": {
-    "leafArrangement": "Alternate",
-    "leafMargin": "Entire",
-    "leafShape": "Ovate-elliptic, lustrous dark green",
-    "bark": "Very distinct 'alligator skin' (deeply blocky/square checks)",
-    "fruit": "Large orange edible berry (persimmon)"
-  },
-  "Lagerstroemia indica": {
-    "leafArrangement": "Alternate (sometimes opposite/whorled on same branch)",
-    "leafMargin": "Entire",
-    "leafShape": "Elliptic to oblong",
-    "bark": "Extremely smooth, exfoliating to reveal pinkish-inner bark",
-    "flower": "Showy terminal panicles (white, pink, red, lavender)"
-  },
-  "Liquidambar styraciflua": {
-    "leafArrangement": "Alternate",
-    "leafMargin": "Finely serrate, star-shaped (5-7 lobes)",
-    "leafShape": "Palmate",
-    "bark": "Greyish-brown, deeply furrowed, often with corky ridges on twigs",
-    "fruit": "Spiny 'gumball' (woody capsule)"
-  },
-  "Liriodendron tulipifera": {
-    "leafArrangement": "Alternate",
-    "leafMargin": "Entire, 4-lobed (tulip-shaped)",
-    "leafShape": "Broadly ovate",
-    "bark": "Grey, furrowed into long, rough, interlacing ridges",
-    "flower": "Tulip-like, yellow-green with orange center"
-  },
-  "Quercus alba": {
-    "leafArrangement": "Alternate",
-    "leafMargin": "Pinnately lobed (7-9 lobes), lobes are rounded",
-    "leafShape": "Obovate-oblong",
-    "bark": "Light grey, shaggy/peeling in vertical strips",
-    "fruit": "Acorn with warty cap"
-  },
-  "Quercus phellos": {
-    "leafArrangement": "Alternate",
-    "leafMargin": "Entire (willow-like)",
-    "leafShape": "Linear-lanceolate",
-    "bark": "Grey-black, becoming deeply furrowed and ridged",
-    "fruit": "Small acorns with shallow caps"
-  },
-  "Cornus florida": {
-    "leafArrangement": "Opposite",
-    "leafMargin": "Entire, veins curve toward leaf tip (arcuate)",
-    "leafShape": "Ovate to elliptic",
-    "bark": "Broken into small, square, 'alligator' blocks",
-    "flower": "Small green cluster surrounded by 4 large white/pink bracts"
+    "leafArrangement": "Sub-opposite",
+    "leafMargin": "Crenate",
+    "leafShape": "Heart-shaped (cordate)",
+    "bark": "Shaggy, brown-grey",
+    "fruit": "Follicle"
   },
   "Cercis canadensis": {
     "leafArrangement": "Alternate",
     "leafMargin": "Entire",
-    "leafShape": "Cordate (perfect heart shape)",
-    "bark": "Dark grey-brown, becoming scaly with age",
-    "flower": "Small magenta-pink pea-like flowers along branches"
+    "leafShape": "Cordate (heart)",
+    "bark": "Dark grey, scaly with age",
+    "flower": "Pink/purple pea-like"
+  },
+  "Chaenomeles speciosa": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Serrate",
+    "leafShape": "Ovate-oblong",
+    "bark": "Spiny branches",
+    "flower": "Red/Pink cup-like"
+  },
+  "Chamaecyparis thyoides": {
+    "leafArrangement": "Opposite (scale-like)",
+    "leafMargin": "Entire",
+    "leafShape": "Scale-like/Awl-like",
+    "bark": "Reddish-brown, shreddy",
+    "fruit": "Small woody cone"
+  },
+  "Chimonanthus praecox": {
+    "leafArrangement": "Opposite",
+    "leafMargin": "Entire",
+    "leafShape": "Elliptic-ovate",
+    "bark": "Grey-brown, smoothish",
+    "flower": "Yellow, waxy, winter-blooming"
+  },
+  "Chionanthus virginicus": {
+    "leafArrangement": "Opposite",
+    "leafMargin": "Entire",
+    "leafShape": "Narrowly elliptic",
+    "bark": "Grey, tight/scaly",
+    "flower": "White, fringe-like"
+  },
+  "Cladrastis kentukea": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Entire",
+    "leafShape": "Pinnately compound (7-11)",
+    "bark": "Smooth grey (beech-like)",
+    "flower": "White, drooping panicles"
+  },
+  "Clematis terniflora": {
+    "leafArrangement": "Opposite",
+    "leafMargin": "Entire",
+    "leafShape": "Pinnately compound (3-5)",
+    "bark": "Vinelike",
+    "flower": "Small fragrant white"
+  },
+  "Clethra alnifolia": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Serrate (upper half)",
+    "leafShape": "Obovate-oblong",
+    "bark": "Grey-brown, shreddy",
+    "flower": "Fragrant white spikes"
+  },
+  "Cornus florida": {
+    "leafArrangement": "Opposite",
+    "leafMargin": "Entire (arcuate veins)",
+    "leafShape": "Ovate-elliptic",
+    "bark": "Blocky, 'alligator' skin",
+    "flower": "4 white/pink bracts"
+  },
+  "Cornus kousa": {
+    "leafArrangement": "Opposite",
+    "leafMargin": "Entire (arcuate veins)",
+    "leafShape": "Ovate-elliptic",
+    "bark": "Exfoliating, camo-like",
+    "flower": "4 pointed bracts"
+  },
+  "Cotinus coggygria": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Entire",
+    "leafShape": "Oval-obovate",
+    "bark": "Grey, scalyish",
+    "flower": "Pink/grey smoky panicles"
+  },
+  "Cotinus obovatus": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Entire",
+    "leafShape": "Obovate",
+    "bark": "Grey-black, scaly",
+    "flower": "Smoky panicles"
+  },
+  "Cryptomeria japonica": {
+    "leafArrangement": "Spiraled",
+    "leafMargin": "Entire",
+    "leafShape": "Awl-like (curved inward)",
+    "bark": "Reddish-brown, shreddy",
+    "fruit": "Globose cone"
+  },
+  "Deutzia gracilis": {
+    "leafArrangement": "Opposite",
+    "leafMargin": "Serrate",
+    "leafShape": "Lanceolate-ovate",
+    "bark": "Grey-brown",
+    "flower": "Small white"
+  },
+  "Diospyros virginiana": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Entire",
+    "leafShape": "Ovate-elliptic",
+    "bark": "Blocky, 'alligator' skin",
+    "fruit": "Orange berry"
+  },
+  "Distylium myricoides": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Entire",
+    "leafShape": "Elliptic-lanceolate (blue-green)",
+    "bark": "Layered growth",
+    "flower": "Small maroon"
+  },
+  "Edgeworthia chrysantha": {
+    "leafArrangement": "Alternate (clustered)",
+    "leafMargin": "Entire",
+    "leafShape": "Narrowly elliptic",
+    "bark": "Pliable brown branches",
+    "flower": "Yellow, fragrant (winter)"
+  },
+  "Euonymus alatus": {
+    "leafArrangement": "Opposite",
+    "leafMargin": "Finely serrate",
+    "leafShape": "Elliptic-ovate",
+    "bark": "Corky 'wings' on twigs",
+    "fruit": "Red capsule"
+  },
+  "Euonymus fortunei var. coloratus": {
+    "leafArrangement": "Opposite",
+    "leafMargin": "Serrate",
+    "leafShape": "Elliptic-ovate",
+    "bark": "Vinelike/Groundcover",
+    "fruit": "Pink capsule"
+  },
+  "Fagus grandifolia": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Inconspicuously serrate",
+    "leafShape": "Ovate-oblong",
+    "bark": "Smooth, light grey",
+    "fruit": "Triangular nut in prickly bur"
+  },
+  "Fatsia japonica": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Lobed",
+    "leafShape": "Palmately 7-9 lobed (large)",
+    "bark": "Evergreen shrub",
+    "flower": "White umbels"
+  },
+  "Ficus pumila": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Entire",
+    "leafShape": "Small ovate (creeping)",
+    "bark": "Vinelike",
+    "fruit": "Fig"
+  },
+  "Forsythia x intermedia": {
+    "leafArrangement": "Opposite",
+    "leafMargin": "Serrate (upper half)",
+    "leafShape": "Ovate-lanceolate",
+    "bark": "Lenticelled grey",
+    "flower": "Yellow bells"
+  },
+  "Fothergilla major": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Crenate (upper half)",
+    "leafShape": "Obovate-orbicular",
+    "bark": "Grey, smoothish",
+    "flower": "White 'bottlebrush'"
+  },
+  "Fraxinus americana": {
+    "leafArrangement": "Opposite",
+    "leafMargin": "Entire/serrulate",
+    "leafShape": "Pinnately compound (5-9)",
+    "bark": "Grey, diamond-furrowed",
+    "fruit": "Winged samara"
+  },
+  "Fraxinus pennsylvanica": {
+    "leafArrangement": "Opposite",
+    "leafMargin": "Serrate",
+    "leafShape": "Pinnately compound (5-9)",
+    "bark": "Grey, furrowed",
+    "fruit": "Winged samara"
+  },
+  "Gardenia jasminoides": {
+    "leafArrangement": "Opposite/Whorled",
+    "leafMargin": "Entire",
+    "leafShape": "Elliptic-obovate",
+    "bark": "Evergreen shrub",
+    "flower": "Fragrant white"
+  },
+  "Gelsemium sempervirens": {
+    "leafArrangement": "Opposite",
+    "leafMargin": "Entire",
+    "leafShape": "Lanceolate",
+    "bark": "Twining vine",
+    "flower": "Yellow trumpet"
   },
   "Ginkgo biloba": {
-    "leafArrangement": "Alternate, often in clusters on short spurs",
-    "leafMargin": "Entire but often 2-lobed at apex",
-    "leafShape": "Fan-shaped with dichotomous venation",
-    "bark": "Grey-brown with deep longitudinal furrows",
-    "fruit": "Plum-like (naked seed) with foul-smelling fleshy coat"
+    "leafArrangement": "Alternate/Fascicled",
+    "leafMargin": "Entire/Lobed",
+    "leafShape": "Fan-shaped",
+    "bark": "Grey, deeply furrowed",
+    "fruit": "Plum-like (foul)"
+  },
+  "Gleditsia triacanthos var. inermis": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Crenate-serrate",
+    "leafShape": "Pin/Bipinnately compound",
+    "bark": "Grey-black, scaly-plated",
+    "fruit": "Long twisted pod"
+  },
+  "Gymnocladus dioica": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Entire",
+    "leafShape": "Large Bipinnately compound",
+    "bark": "Grey, scaly-furrowed",
+    "fruit": "Short woody pod"
+  },
+  "Halesia carolina": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Finely serrate",
+    "leafShape": "Ovate-elliptic",
+    "bark": "Grey-brown with white streaks",
+    "flower": "Bell-shaped, white"
+  },
+  "Hamamelis virginiana": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Crenate/Lobed",
+    "leafShape": "Obovate, oblique base",
+    "bark": "Grey, smooth to scaly",
+    "flower": "Yellow spider-like (fall)"
+  },
+  "Hedera helix": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Entire/Lobed",
+    "leafShape": "Palmately 3-5 lobed",
+    "bark": "Vinelike",
+    "fruit": "Black drupe"
+  },
+  "Hibiscus syriacus": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Coarsely toothed/Lobed",
+    "leafShape": "Rhombic-ovate",
+    "bark": "Grey, smoothish",
+    "flower": "Large bell (Pink/White/Blue)"
+  },
+  "Hydrangea macrophylla": {
+    "leafArrangement": "Opposite",
+    "leafMargin": "Serrate",
+    "leafShape": "Broadly ovate",
+    "bark": "Stout twigs",
+    "flower": "Blue/Pink mophead"
+  },
+  "Hydrangea paniculata": {
+    "leafArrangement": "Whorled/Opposite",
+    "leafMargin": "Serrate",
+    "leafShape": "Ovate-elliptic",
+    "bark": "Grey-brown",
+    "flower": "Large white cone"
+  },
+  "Hydrangea quercifolia": {
+    "leafArrangement": "Opposite",
+    "leafMargin": "Lobed",
+    "leafShape": "Oak-like (3-7 lobes)",
+    "bark": "Cinnamon-brown, peeling",
+    "flower": "White cone panicle"
+  },
+  "Ilex cassine": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Entire/Serrate (apex)",
+    "leafShape": "Obovate-oblong",
+    "bark": "Smooth grey",
+    "fruit": "Red drupe"
+  },
+  "Ilex cornuta 'Burfordii'": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Entire (one spine at apex)",
+    "leafShape": "Rectangular-ovate",
+    "bark": "Smooth grey",
+    "fruit": "Red drupe"
+  },
+  "Ilex cornuta 'Dwarf Burford'": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Entire (single spine)",
+    "leafShape": "Small rectangular-ovate",
+    "bark": "Evergreen",
+    "fruit": "Red drupe"
+  },
+  "Ilex cornuta 'Rotunda'": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Spiny (multiple)",
+    "leafShape": "Squarish-ovate",
+    "bark": "Mounded evergreen",
+    "fruit": "Red drupe"
+  },
+  "Ilex crenata": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Crenate (upper half)",
+    "leafShape": "Small elliptic (boxwood-like)",
+    "bark": "Greenish-grey",
+    "fruit": "Black drupe"
+  },
+  "Ilex glabra": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Entire/few teeth (apex)",
+    "leafShape": "Obovate-lanceolate",
+    "bark": "Stoloniferous evergreen",
+    "fruit": "Black drupe"
+  },
+  "Ilex opaca": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Spiny",
+    "leafShape": "Ovate-elliptic (dull green)",
+    "bark": "Smooth grey",
+    "fruit": "Red drupe"
+  },
+  "Ilex verticillata": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Serrate",
+    "leafShape": "Ovate-elliptic",
+    "bark": "Deciduous holly",
+    "fruit": "Bright red drupes"
+  },
+  "Ilex vomitoria": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Crenate-serrate",
+    "leafShape": "Small oval",
+    "bark": "Greyish, twiggy",
+    "fruit": "Red drupe"
+  },
+  "Ilex x 'Nellie R. Stevens'": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Spiny (1-3 per side)",
+    "leafShape": "Ovate (lustrous)",
+    "bark": "Dense evergreen",
+    "fruit": "Red drupe"
+  },
+  "Ilex x attenuata ‘Savannah’": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Spiny (upper half)",
+    "leafShape": "Lanceolate-ovate",
+    "bark": "Light grey",
+    "fruit": "Red drupe"
+  },
+  "Illicium floridanum": {
+    "leafArrangement": "Alternate (clustered)",
+    "leafMargin": "Entire",
+    "leafShape": "Lanceolate-elliptic",
+    "bark": "Anise-scented foliage",
+    "flower": "Maroon/Red"
+  },
+  "Illicium parviflorum": {
+    "leafArrangement": "Alternate (clustered)",
+    "leafMargin": "Entire",
+    "leafShape": "Elliptic-ovate",
+    "bark": "Evergreen shrub",
+    "flower": "Small yellow-green"
+  },
+  "Itea virginica": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Finely serrate",
+    "leafShape": "Elliptic-obovate",
+    "bark": "Reddish twigs",
+    "flower": "White cylindrical spikes"
+  },
+  "Jasminum nudiflorum": {
+    "leafArrangement": "Opposite",
+    "leafMargin": "Entire",
+    "leafShape": "Trifoliate",
+    "bark": "Green 4-angled stems",
+    "flower": "Yellow (winter)"
+  },
+  "Juglans nigra": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Serrate",
+    "leafShape": "Pinnately compound (15-23)",
+    "bark": "Dark brown, diamond-furrowed",
+    "fruit": "Round nut in green husk"
+  },
+  "Juniperus chinensis 'Pfitzeriana'": {
+    "leafArrangement": "Whorled/Opposite",
+    "leafMargin": "Entire",
+    "leafShape": "Scale and Awl-like",
+    "bark": "Grey, shreddy",
+    "fruit": "Fleshy berry-like cone"
+  },
+  "Juniperus conferta": {
+    "leafArrangement": "Whorled (3)",
+    "leafMargin": "Entire",
+    "leafShape": "Needle-like (spiny)",
+    "bark": "Groundcover",
+    "fruit": "Blue-black cone"
+  },
+  "Juniperus procumbens 'Nana'": {
+    "leafArrangement": "Whorled (3)",
+    "leafMargin": "Entire",
+    "leafShape": "Small needle-like",
+    "bark": "Prostrate",
+    "fruit": "Berry-like cone"
+  },
+  "Juniperus virginiana": {
+    "leafArrangement": "Opposite (scale/awl)",
+    "leafMargin": "Entire",
+    "leafShape": "Scale and Awl-like",
+    "bark": "Red-brown, shreddy",
+    "fruit": "Blue fleshy cone"
+  },
+  "Kalmia latifolia": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Entire",
+    "leafShape": "Elliptic-lanceolate",
+    "bark": "Red-brown, shreddy",
+    "flower": "Pink/White cup-shaped"
+  },
+  "Koelreuteria bipinnata": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Serrate",
+    "leafShape": "Bipinnately compound",
+    "bark": "Grey, furrowed",
+    "fruit": "Pink papery capsules"
+  },
+  "Lagerstroemia indica": {
+    "leafArrangement": "Alt/Opp",
+    "leafMargin": "Entire",
+    "leafShape": "Elliptic-oblong",
+    "bark": "Smooth, exfoliating",
+    "flower": "Showy panicles"
+  },
+  "Ligustrum lucidum": {
+    "leafArrangement": "Opposite",
+    "leafMargin": "Entire",
+    "leafShape": "Ovate-elliptic (large)",
+    "bark": "Grey, smoothish",
+    "fruit": "Blue-black drupe"
+  },
+  "Ligustrum sinense": {
+    "leafArrangement": "Opposite",
+    "leafMargin": "Entire",
+    "leafShape": "Small elliptic",
+    "bark": "Grey, lenticelled",
+    "fruit": "Blue-black drupe"
+  },
+  "Liquidambar styraciflua": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Finely serrate",
+    "leafShape": "Star-shaped (5-7 lobes)",
+    "bark": "Grey, deeply furrowed",
+    "fruit": "Spiny 'gumball'"
+  },
+  "Liriodendron tulipifera": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Entire (4-lobed)",
+    "leafShape": "Tulip-shaped",
+    "bark": "Grey, furrowed",
+    "flower": "Yellow-green tulip-like"
+  },
+  "Lonicera fragrantissima": {
+    "leafArrangement": "Opposite",
+    "leafMargin": "Entire",
+    "leafShape": "Broadly ovate",
+    "bark": "Grey, shreddy",
+    "flower": "White, fragrant"
+  },
+  "Lonicera japonica": {
+    "leafArrangement": "Opposite",
+    "leafMargin": "Entire",
+    "leafShape": "Ovate-oblong",
+    "bark": "Twining vine",
+    "flower": "White/Yellow"
+  },
+  "Lonicera maackii": {
+    "leafArrangement": "Opposite",
+    "leafMargin": "Entire",
+    "leafShape": "Ovate-lanceolate",
+    "bark": "Greyish, striped/shreddy",
+    "fruit": "Red berry"
+  },
+  "Lonicera sempervirens": {
+    "leafArrangement": "Opposite",
+    "leafMargin": "Entire",
+    "leafShape": "Oval-elliptic (connate at top)",
+    "bark": "Vinelike",
+    "flower": "Red trumpet"
+  },
+  "Loropetalum chinense": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Entire",
+    "leafShape": "Small ovate",
+    "bark": "Twiggy evergreen",
+    "flower": "White strap-like"
+  },
+  "Loropetalum chinense var. rubrum": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Entire",
+    "leafShape": "Small ovate (purple)",
+    "bark": "Twiggy evergreen",
+    "flower": "Pink strap-like"
   },
   "Magnolia grandiflora": {
     "leafArrangement": "Alternate",
-    "leafMargin": "Entire, thick and leathery",
-    "leafShape": "Elliptic-oblong, rusty-brown fuzz underneath",
-    "bark": "Grey, smooth when young, scaly when old",
-    "flower": "Large, white, fragrant (8-12 inches wide)"
+    "leafMargin": "Entire",
+    "leafShape": "Elliptic-oblong (large)",
+    "bark": "Grey, smooth to scaly",
+    "flower": "Large white fragrant"
+  },
+  "Magnolia stellata": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Entire",
+    "leafShape": "Obovate-oblong",
+    "bark": "Smooth grey",
+    "flower": "White, star-like"
+  },
+  "Magnolia virginiana": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Entire",
+    "leafShape": "Elliptic-oblong",
+    "bark": "Smooth grey",
+    "flower": "Creamy white fragrant"
+  },
+  "Magnolia x soulangeana": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Entire",
+    "leafShape": "Obovate",
+    "bark": "Smooth grey",
+    "flower": "Large pink/purple cup"
+  },
+  "Mahonia 'Soft Caress'": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Entire (non-spiny)",
+    "leafShape": "Linear-lanceolate leaflets",
+    "bark": "Evergreen",
+    "flower": "Yellow spikes"
+  },
+  "Mahonia aquifolium": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Spiny",
+    "leafShape": "Pinnately compound (5-9)",
+    "bark": "Evergreen",
+    "flower": "Yellow spikes"
+  },
+  "Mahonia bealei": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Spiny",
+    "leafShape": "Pinnately compound (9-13)",
+    "bark": "Stout stems",
+    "flower": "Yellow spikes"
+  },
+  "Malus 'Callaway'": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Serrate",
+    "leafShape": "Ovate-elliptic",
+    "bark": "Grey-brown, scaly",
+    "fruit": "Large red crabapple"
+  },
+  "Metasequoia glyptostroboides": {
+    "leafArrangement": "Opposite",
+    "leafMargin": "Entire",
+    "leafShape": "Linear (needle-like, flat)",
+    "bark": "Red-brown, shreddy",
+    "fruit": "Globose cone"
+  },
+  "Morus alba": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Coarsely serrate/lobed",
+    "leafShape": "Ovate (variable lobes)",
+    "bark": "Yellow-brown, furrowed",
+    "fruit": "White/purple mulberry"
+  },
+  "Myrica cerifera": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Serrate (apex)",
+    "leafShape": "Oblanceolate (spotted)",
+    "bark": "Grey, smooth",
+    "fruit": "Grey waxy berries"
+  },
+  "Myrica rubra": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Entire/serrulate",
+    "leafShape": "Oblanceolate-oblong",
+    "bark": "Evergreen tree",
+    "fruit": "Red bumpy drupe"
+  },
+  "Nandina domestica": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Entire",
+    "leafShape": "Tripinnately compound",
+    "bark": "Cane-like stems",
+    "fruit": "Red berry"
+  },
+  "Nyssa aquatica": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Entire/few teeth",
+    "leafShape": "Ovate-oblong",
+    "bark": "Rough, thin-scaled",
+    "fruit": "Large purple drupe"
+  },
+  "Nyssa sylvatica": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Entire",
+    "leafShape": "Ovate-obovate",
+    "bark": "Blocky, grey-black",
+    "fruit": "Blue-black drupe"
+  },
+  "Osmanthus fragrans": {
+    "leafArrangement": "Opposite",
+    "leafMargin": "Entire/serrulate",
+    "leafShape": "Elliptic-ovate",
+    "bark": "Grey, smoothish",
+    "flower": "Tiny white, very fragrant"
+  },
+  "Osmanthus heterophyllus": {
+    "leafArrangement": "Opposite",
+    "leafMargin": "Spiny (holly-like)",
+    "leafShape": "Elliptic-ovate",
+    "bark": "Dense evergreen",
+    "flower": "White, fragrant"
+  },
+  "Osmanthus x fortunei": {
+    "leafArrangement": "Opposite",
+    "leafMargin": "Finely spiny",
+    "leafShape": "Ovate (intermediate)",
+    "bark": "Dense evergreen",
+    "flower": "White, fragrant"
+  },
+  "Ostrya virginiana": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Doubly serrate",
+    "leafShape": "Ovate-oblong",
+    "bark": "Brownish, shreddy",
+    "fruit": "Hop-like clusters"
+  },
+  "Parrotia persica": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Crenate/wavy",
+    "leafShape": "Ovate-oblong",
+    "bark": "Exfoliating, mosaic",
+    "fruit": "Capsule"
+  },
+  "Parthenocissus quinquefolia": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Serrate",
+    "leafShape": "Palmately compound (5)",
+    "bark": "Vinelike, adhesive discs",
+    "fruit": "Blue-black berry"
+  },
+  "Paulownia tomentosa": {
+    "leafArrangement": "Opposite",
+    "leafMargin": "Entire",
+    "leafShape": "Large cordate",
+    "bark": "Grey-brown, smoothish",
+    "flower": "Purple, upright panicles"
+  },
+  "Photinia serratifolia": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Serrate",
+    "leafShape": "Oblong-lanceolate (large)",
+    "bark": "Grey-brown",
+    "flower": "White panicles"
+  },
+  "Pinus bungeana": {
+    "leafArrangement": "Fascicled (3)",
+    "leafMargin": "Entire",
+    "leafShape": "Needle-like (stiff)",
+    "bark": "Exfoliating camo-like",
+    "fruit": "Woody cone"
+  },
+  "Pinus echinata": {
+    "leafArrangement": "Fascicled (2-3)",
+    "leafMargin": "Entire",
+    "leafShape": "Short needle-like",
+    "bark": "Red-brown plates",
+    "fruit": "Small woody cone"
+  },
+  "Pinus palustris": {
+    "leafArrangement": "Fascicled (3)",
+    "leafMargin": "Entire",
+    "leafShape": "Very long needle-like",
+    "bark": "Thick orange-brown plates",
+    "fruit": "Large woody cone"
+  },
+  "Pinus strobus": {
+    "leafArrangement": "Fascicled (5)",
+    "leafMargin": "Entire",
+    "leafShape": "Soft needle-like",
+    "bark": "Grey, furrowed",
+    "fruit": "Long curved cone"
+  },
+  "Pinus taeda": {
+    "leafArrangement": "Fascicled (3)",
+    "leafMargin": "Entire",
+    "leafShape": "Medium needle-like",
+    "bark": "Grey-black plates",
+    "fruit": "Woody cone"
+  },
+  "Pinus thunbergii": {
+    "leafArrangement": "Fascicled (2)",
+    "leafMargin": "Entire",
+    "leafShape": "Stiff needle-like",
+    "bark": "Grey-black, scaly",
+    "fruit": "Woody cone"
+  },
+  "Pinus virginiana": {
+    "leafArrangement": "Fascicled (2)",
+    "leafMargin": "Entire",
+    "leafShape": "Short/twisted needle-like",
+    "bark": "Orange-brown, scaly",
+    "fruit": "Woody cone"
+  },
+  "Pistacia chinensis": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Entire",
+    "leafShape": "Pinnately compound (even)",
+    "bark": "Grey, scaly, orange inner",
+    "fruit": "Red/blue drupes"
+  },
+  "Platanus occidentalis": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Coarsely toothed (3-5 lobes)",
+    "leafShape": "Broadly ovate",
+    "bark": "Camo-like peeling (white/grey/green)",
+    "fruit": "Fuzzy ball (achene)"
+  },
+  "Poncirus trifoliata": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Crenate",
+    "leafShape": "Trifoliate",
+    "bark": "Green spiny stems",
+    "fruit": "Small yellow fuzzy"
+  },
+  "Populus deltoides": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Crenate-serrate",
+    "leafShape": "Deltoid (triangular)",
+    "bark": "Grey, deeply furrowed",
+    "fruit": "Capsule"
+  },
+  "Prunus 'Okame'": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Doubly serrate",
+    "leafShape": "Ovate-elliptic",
+    "bark": "Reddish-brown, lenticels",
+    "flower": "Deep pink"
+  },
+  "Prunus caroliniana": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Entire/serrulate",
+    "leafShape": "Elliptic-oblong",
+    "bark": "Smooth grey-black",
+    "flower": "White racemes"
+  },
+  "Prunus laurocerasus": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Serrate (distal)",
+    "leafShape": "Oblong-elliptic (large)",
+    "bark": "Smooth grey",
+    "flower": "White upright spikes"
+  },
+  "Prunus laurocerasus 'Otto Luyken'": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Serrate (distal)",
+    "leafShape": "Narrowly oblong",
+    "bark": "Compact evergreen",
+    "flower": "White upright spikes"
+  },
+  "Prunus persica": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Serrulate",
+    "leafShape": "Lanceolate",
+    "bark": "Grey, lenticelled",
+    "flower": "Pink/White"
+  },
+  "Prunus x yedoensis": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Doubly serrate",
+    "leafShape": "Elliptic-ovate",
+    "bark": "Grey, distinct lenticels",
+    "flower": "Pale pink/white"
+  },
+  "Pseudolarix amabilis": {
+    "leafArrangement": "Alternate/Fascicled",
+    "leafMargin": "Entire",
+    "leafShape": "Linear (needle-like, flat)",
+    "bark": "Grey-brown, furrowed",
+    "fruit": "Artichoke-like cone"
+  },
+  "Pyrus calleryana 'Bradford'": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Crenate",
+    "leafShape": "Broadly ovate",
+    "bark": "Grey-black, blocky",
+    "flower": "White, malodorous"
+  },
+  "Quercus acutissima": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Bristle-tipped teeth",
+    "leafShape": "Lanceolate-oblong",
+    "bark": "Grey, corky-furrowed",
+    "fruit": "Acorn, shaggy cup"
+  },
+  "Quercus alba": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Rounded lobes",
+    "leafShape": "Obovate-oblong",
+    "bark": "Light grey, shaggy",
+    "fruit": "Acorn, warty cup"
+  },
+  "Quercus coccinea": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Bristle-tipped lobes",
+    "leafShape": "C-shaped sinuses",
+    "bark": "Grey, dark/furrowed",
+    "fruit": "Acorn, concentric rings at tip"
+  },
+  "Quercus falcata": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Bristle-tipped (3-5 lobes)",
+    "leafShape": "Bell-shaped base",
+    "bark": "Dark grey, deeply fissured",
+    "fruit": "Acorn"
+  },
+  "Quercus glauca": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Serrate (upper half)",
+    "leafShape": "Elliptic-oblong",
+    "bark": "Smooth grey",
+    "fruit": "Acorn, ringed cup"
+  },
+  "Quercus lyrata": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Lobed (irregular)",
+    "leafShape": "Obovate",
+    "bark": "Grey-brown, scaly",
+    "fruit": "Acorn, cup almost covers nut"
+  },
+  "Quercus macrocarpa": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Lobed (waisted center)",
+    "leafShape": "Obovate",
+    "bark": "Grey, corky ridges",
+    "fruit": "Acorn, fringed cup"
+  },
+  "Quercus nigra": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Entire (usually 3-lobed apex)",
+    "leafShape": "Spatulate (spade)",
+    "bark": "Grey-black, tight/furrowed",
+    "fruit": "Small acorn"
+  },
+  "Quercus palustris": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Bristle-tipped lobes",
+    "leafShape": "Deep U-sinuses",
+    "bark": "Smooth grey, pin-like twigs",
+    "fruit": "Acorn, shallow cup"
+  },
+  "Quercus phellos": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Entire",
+    "leafShape": "Linear-lanceolate (willow-like)",
+    "bark": "Grey-black, furrowed",
+    "fruit": "Small acorn"
+  },
+  "Quercus robur": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Rounded lobes",
+    "leafShape": "Auriculate (ear-like) base",
+    "bark": "Grey-brown, deeply furrowed",
+    "fruit": "Long-stalked acorn"
+  },
+  "Quercus rubra": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Bristle-tipped lobes",
+    "leafShape": "Shallow sinuses",
+    "bark": "Grey 'ski-tracks' (flat ridges)",
+    "fruit": "Acorn, flat beret-like cup"
+  },
+  "Quercus shumardii": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Bristle-tipped lobes",
+    "leafShape": "U-shaped sinuses",
+    "bark": "Grey, smooth to furrowed",
+    "fruit": "Acorn, shallow cup"
+  },
+  "Quercus stellata": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Lobed (cross-shaped)",
+    "leafShape": "Obovate",
+    "bark": "Grey, rough-fissured",
+    "fruit": "Small acorn"
+  },
+  "Quercus virginiana": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Entire (rolled edges)",
+    "leafShape": "Elliptic-obovate",
+    "bark": "Blackish, deeply blocky",
+    "fruit": "Small acorn, dark"
+  },
+  "Rhaphiolepis umbellata": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Crenate-serrate",
+    "leafShape": "Obovate-elliptic (leathery)",
+    "bark": "Evergreen shrub",
+    "flower": "White/Pink umbels"
+  },
+  "Rhapidophyllum hystrix": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Entire",
+    "leafShape": "Palmate (palm)",
+    "bark": "Spiny needle trunk",
+    "fruit": "Fuzzy drupe"
+  },
+  "Rhododendron canescens": {
+    "leafArrangement": "Alternate (clustered)",
+    "leafMargin": "Entire (ciliate)",
+    "leafShape": "Obovate-oblong",
+    "bark": "Twiggy deciduous",
+    "flower": "Pink/White, fragrant"
+  },
+  "Rhododendron catawbiense": {
+    "leafArrangement": "Alternate (clustered)",
+    "leafMargin": "Entire",
+    "leafShape": "Elliptic-ovate (large)",
+    "bark": "Grey, scalyish",
+    "flower": "Purple/Lavender"
+  },
+  "Rhus glabra": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Serrate",
+    "leafShape": "Pinnately compound (11-31)",
+    "bark": "Smooth grey, glaucous twigs",
+    "fruit": "Red hairy drupes"
+  },
+  "Robinia pseudoacacia": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Entire",
+    "leafShape": "Pinnately compound (7-19)",
+    "bark": "Dark grey, deeply furrowed",
+    "fruit": "Flat brown pod"
+  },
+  "Rosa banksiae 'Lutea'": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Serrate",
+    "leafShape": "Pinnately compound (3-5)",
+    "bark": "Thornless vine",
+    "flower": "Small yellow double"
+  },
+  "Sabal minor": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Entire",
+    "leafShape": "Palmate (palm)",
+    "bark": "Trunkless palm",
+    "fruit": "Black drupe"
+  },
+  "Sabal palmetto": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Entire",
+    "leafShape": "Costapalmate (palm)",
+    "bark": "Cross-hatched trunk",
+    "fruit": "Black drupe"
+  },
+  "Salix alba 'Tristis'": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Serrulate",
+    "leafShape": "Linear-lanceolate",
+    "bark": "Grey-brown, furrowed",
+    "fruit": "Capsule"
+  },
+  "Sapium sebiferum": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Entire",
+    "leafShape": "Rhombic-ovate",
+    "bark": "Grey, fissured",
+    "fruit": "White waxy seeds"
+  },
+  "Sassafras albidum": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Entire",
+    "leafShape": "Oval/Mitten/3-lobed",
+    "bark": "Reddish-brown, furrowed",
+    "fruit": "Blue drupe"
+  },
+  "Sophora japonica": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Entire",
+    "leafShape": "Pinnately compound (7-17)",
+    "bark": "Grey-brown, furrowed",
+    "fruit": "Bumpy green pod"
+  },
+  "Spiraea thunbergii": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Serrate",
+    "leafShape": "Linear-lanceolate",
+    "bark": "Wiry branches",
+    "flower": "Small white clusters"
+  },
+  "Spiraea x vanhouttei": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Serrate/Lobed (apex)",
+    "leafShape": "Rhombic-obovate",
+    "bark": "Arching branches",
+    "flower": "White 'bridal wreath'"
+  },
+  "Styrax japonicus": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Finely serrate",
+    "leafShape": "Elliptic-ovate",
+    "bark": "Smooth grey-brown, orange fissured",
+    "flower": "Bell-shaped, white"
+  },
+  "Taxodium distichum": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Entire",
+    "leafShape": "Linear (needle-like, flat)",
+    "bark": "Red-brown, shreddy",
+    "fruit": "Round woody cone"
+  },
+  "Taxus baccata": {
+    "leafArrangement": "Spiraled (two-ranked)",
+    "leafMargin": "Entire",
+    "leafShape": "Linear (needle-like)",
+    "bark": "Red-brown, scaly",
+    "fruit": "Red fleshy aril"
+  },
+  "Ternstroemia gymnanthera": {
+    "leafArrangement": "Alternate (clustered)",
+    "leafMargin": "Entire",
+    "leafShape": "Obovate-elliptic",
+    "bark": "Smooth grey",
+    "flower": "Creamy white"
+  },
+  "Thuja ‘Green Giant’": {
+    "leafArrangement": "Opposite (scale-like)",
+    "leafMargin": "Entire",
+    "leafShape": "Scale-like (flattened sprays)",
+    "bark": "Brownish, shreddy",
+    "fruit": "Small cone"
+  },
+  "Thuja occidentalis": {
+    "leafArrangement": "Opposite (scale-like)",
+    "leafMargin": "Entire",
+    "leafShape": "Scale-like",
+    "bark": "Grey-brown, shreddy",
+    "fruit": "Small cone"
+  },
+  "Tilia americana": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Coarsely serrate",
+    "leafShape": "Broadly ovate, cordate base",
+    "bark": "Grey, long narrow ridges",
+    "fruit": "Nutlet with leaf-like bract"
+  },
+  "Trachelospermum asiaticum": {
+    "leafArrangement": "Opposite",
+    "leafMargin": "Entire",
+    "leafShape": "Small elliptic",
+    "bark": "Groundcover/Vine",
+    "flower": "Creamy white"
+  },
+  "Trachelospermum jasminoides": {
+    "leafArrangement": "Opposite",
+    "leafMargin": "Entire",
+    "leafShape": "Elliptic-lanceolate",
+    "bark": "Twining vine",
+    "flower": "Star-shaped white"
+  },
+  "Trachycarpus fortunei": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Entire",
+    "leafShape": "Palmate (palm)",
+    "bark": "Hairy fibrous trunk",
+    "fruit": "Blue-black drupe"
+  },
+  "Tsuga canadensis": {
+    "leafArrangement": "Spiraled (two-ranked)",
+    "leafMargin": "Entire",
+    "leafShape": "Small flat needle-like",
+    "bark": "Grey-brown, furrowed",
+    "fruit": "Small ovoid cone"
+  },
+  "Ulmus alata": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Doubly serrate",
+    "leafShape": "Ovate-oblong",
+    "bark": "Corky ridges on twigs",
+    "fruit": "Small samara"
+  },
+  "Ulmus americana": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Doubly serrate",
+    "leafShape": "Ovate-oblong, rough",
+    "bark": "Grey, spongy/furrowed",
+    "fruit": "Disc-like samara"
+  },
+  "Ulmus parvifolia": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Simply serrate",
+    "leafShape": "Small elliptic",
+    "bark": "Exfoliating, orange-mottled",
+    "fruit": "Autumn samara"
+  },
+  "Ulmus pumila": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Serrate",
+    "leafShape": "Small elliptic-ovate",
+    "bark": "Grey, rough/furrowed",
+    "fruit": "Samara"
+  },
+  "Viburnum macrocephalum": {
+    "leafArrangement": "Opposite",
+    "leafMargin": "Entire/serrulate",
+    "leafShape": "Ovate",
+    "bark": "Stout greyish",
+    "flower": "Large white 'snowball'"
+  },
+  "Viburnum plicatum var. tomentosum": {
+    "leafArrangement": "Opposite",
+    "leafMargin": "Serrate",
+    "leafShape": "Ovate-elliptic",
+    "bark": "Horizontal branches",
+    "flower": "Flat lacecap"
+  },
+  "Viburnum x pragense": {
+    "leafArrangement": "Opposite",
+    "leafMargin": "Entire",
+    "leafShape": "Elliptic-lanceolate (shiny)",
+    "bark": "Evergreen shrub",
+    "flower": "Creamy white"
+  },
+  "Vinca major": {
+    "leafArrangement": "Opposite",
+    "leafMargin": "Entire (ciliate)",
+    "leafShape": "Cordate-ovate",
+    "bark": "Groundcover",
+    "flower": "Blue-violet"
+  },
+  "Vitex agnus-castus": {
+    "leafArrangement": "Opposite",
+    "leafMargin": "Entire",
+    "leafShape": "Palmately compound (5-7)",
+    "bark": "Grey-brown, furrowed",
+    "flower": "Blue/Lavender spikes"
+  },
+  "Vitis rotundifolia": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Coarsely toothed",
+    "leafShape": "Broadly cordate",
+    "bark": "Smooth brown, unpeeling",
+    "fruit": "Large grape"
+  },
+  "Wisteria frutescens": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Entire",
+    "leafShape": "Pinnately compound (9-15)",
+    "bark": "Twining vine",
+    "flower": "Lilac panicles"
+  },
+  "Wisteria sinensis": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Entire",
+    "leafShape": "Pinnately compound (7-13)",
+    "bark": "Twining vine",
+    "flower": "Long fragrant purple"
+  },
+  "Zelkova serrata": {
+    "leafArrangement": "Alternate",
+    "leafMargin": "Coarsely serrate",
+    "leafShape": "Ovate-oblong",
+    "bark": "Grey, smooth to scaly",
+    "fruit": "Small drupe"
   }
 }

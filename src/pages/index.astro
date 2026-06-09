@@ -66,6 +66,40 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 				</button>
 			</div>
 
+			<!-- ID Trait Filters -->
+			<div class="mb-8 max-w-4xl mx-auto">
+				<button id="toggle-filters" class="w-full flex items-center justify-between gap-4 bg-sage-muted/20 border border-white/5 rounded-2xl px-5 py-4 text-left active:scale-[0.99] transition-all">
+					<div>
+						<div class="text-[10px] font-black text-sage-light uppercase tracking-[0.25em] nav-header">Field ID Filters</div>
+						<div class="text-sm text-cream-warm/80 font-medium mt-1">Narrow by family, leaf arrangement, margin, and key traits</div>
+					</div>
+					<div class="flex items-center gap-3 shrink-0">
+						<span id="active-filter-count" class="hidden bg-cream-warm text-forest-deep text-[10px] font-black px-2.5 py-1 rounded-full nav-header">0</span>
+						<svg id="filter-chevron" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="text-cream-warm/60 transition-transform"><path d="m6 9 6 6 6-6"/></svg>
+					</div>
+				</button>
+				<div id="filter-controls" class="hidden mt-4 bg-sage-muted/20 border border-white/5 rounded-[1.5rem] p-5 space-y-5">
+					<div>
+						<label for="family-filter" class="block text-[10px] font-black text-sage-light uppercase tracking-[0.25em] mb-2 nav-header">Family</label>
+						<select id="family-filter" class="w-full bg-forest-deep/60 border border-white/10 rounded-xl px-4 py-3 text-cream-warm font-semibold focus:outline-none focus:ring-2 focus:ring-cream-warm/20">
+							<option value="">All families</option>
+						</select>
+					</div>
+					<div class="space-y-3">
+						<div class="text-[10px] font-black text-sage-light uppercase tracking-[0.25em] nav-header">Quick Traits</div>
+						<div class="flex flex-wrap gap-2">
+							{['Opposite', 'Alternate', 'Simple', 'Compound', 'Entire', 'Serrate', 'Lobed'].map(trait => (
+								<button type="button" class="trait-filter-chip px-3.5 py-2 rounded-full bg-forest-deep/50 border border-white/10 text-[10px] font-black text-cream-warm/70 uppercase tracking-widest nav-header transition-all" data-trait={trait.toLowerCase()}>{trait}</button>
+							))}
+						</div>
+					</div>
+					<div class="flex items-center justify-between gap-4 pt-2 border-t border-white/10">
+						<p id="filter-results-summary" class="text-[12px] text-sage-light font-medium">Showing all species</p>
+						<button id="reset-filters" type="button" class="text-[10px] font-black text-cream-warm uppercase tracking-[0.2em] nav-header hover:opacity-70 transition-opacity">Reset</button>
+					</div>
+				</div>
+			</div>
+
 			<div id="groups-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 				{groups.map((group, index) => (
 					<button 
@@ -174,7 +208,10 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 							</div>
 							<div>
 								<h3 class="text-lg font-black text-cream-warm font-header uppercase tracking-tight">{group.name}</h3>
-								<p class="text-[10px] font-bold text-sage-light uppercase tracking-widest nav-header opacity-60">{group.plants.length} Species</p>
+								<div class="flex flex-wrap items-center gap-2 mt-1">
+									<p class="text-[10px] font-bold text-sage-light uppercase tracking-widest nav-header opacity-60">{group.plants.length} Species</p>
+									<span class="missed-count-badge hidden bg-red-400/15 border border-red-400/30 text-red-200 text-[9px] font-black uppercase tracking-widest px-2 py-1 rounded-full nav-header" data-group-id={group.id}>0 Missed</span>
+								</div>
 							</div>
 						</div>
 						<div class="w-10 h-10 rounded-full bg-cream-warm/5 flex items-center justify-center text-cream-warm border border-white/5">
@@ -199,6 +236,14 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 					<button id="select-quiz" class="w-full bg-forest-deep border border-cream-warm/30 text-cream-warm py-6 rounded-2xl flex items-center justify-center gap-4 active:scale-95 transition-all">
 						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 11 3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
 						<span class="text-[12px] font-black uppercase tracking-[0.2em] nav-header">Typing Quiz</span>
+					</button>
+					<button id="select-image-quiz" class="w-full bg-forest-deep border border-cream-warm/30 text-cream-warm py-6 rounded-2xl flex items-center justify-center gap-4 active:scale-95 transition-all">
+						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+						<span class="text-[12px] font-black uppercase tracking-[0.2em] nav-header">Image Quiz</span>
+					</button>
+					<button id="select-review-missed" class="hidden w-full bg-cream-warm/10 border border-cream-warm/20 text-cream-warm py-5 rounded-2xl flex items-center justify-center gap-3 active:scale-95 transition-all">
+						<span class="text-[12px] font-black uppercase tracking-[0.2em] nav-header">Review Missed Species</span>
+						<span id="review-missed-count" class="bg-cream-warm text-forest-deep text-[10px] font-black px-2.5 py-1 rounded-full nav-header">0</span>
 					</button>
 					<button id="cancel-study" class="w-full py-4 text-sage-light/60 text-[10px] font-bold uppercase tracking-widest nav-header">Cancel</button>
 				</div>
@@ -230,8 +275,12 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 
 				<!-- Question Card -->
 				<div id="quiz-card" class="w-full max-w-md bg-sage-muted rounded-[2.5rem] border border-white/10 p-10 text-center shadow-2xl mb-10 transition-all duration-300">
-					<h3 class="text-[10px] font-black text-sage-light uppercase tracking-[0.3em] mb-10 nav-header">What is the common name?</h3>
-					<div id="quiz-question-text" class="text-3xl font-black text-cream-warm leading-tight font-header uppercase tracking-tight mb-8">Quercus alba</div>
+					<h3 id="quiz-prompt-label" class="text-[10px] font-black text-sage-light uppercase tracking-[0.3em] mb-8 nav-header">What is the common name?</h3>
+					<div id="quiz-image-wrap" class="hidden mb-8 rounded-[2rem] overflow-hidden border border-white/10 bg-forest-deep h-64 shadow-inner">
+						<img id="quiz-image" src="" alt="Plant quiz image" class="w-full h-full object-cover" />
+					</div>
+					<div id="quiz-question-text" class="text-3xl font-black text-cream-warm leading-tight font-header uppercase tracking-tight mb-4">Quercus alba</div>
+					<p id="quiz-helper-text" class="text-[13px] text-sage-light/80 font-medium">Typos, punctuation, and genus abbreviations are accepted.</p>
 					
 					<!-- Answer Input -->
 					<div class="relative mt-8">
@@ -249,6 +298,8 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 							<!-- Icons injected -->
 						</div>
 					</div>
+
+					<p id="quiz-match-note" class="hidden mt-4 text-[12px] font-bold text-cream-warm/70"></p>
 
 					<!-- Correction Reveal -->
 					<div id="quiz-correction" class="mt-8 hidden animate-in slide-in-from-bottom duration-300">
@@ -332,6 +383,7 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 								<h3 class="text-[10px] font-black text-sage-light uppercase tracking-[0.3em] mb-8 nav-header">Correct Answer</h3>
 								<div id="card-back-text" class="text-3xl font-black text-cream-warm leading-tight font-header uppercase tracking-tight mb-4">Common Name</div>
 								<div id="card-back-family" class="text-[15px] font-medium text-sage-light italic uppercase tracking-widest nav-header opacity-70">Family Name</div>
+								<div id="card-back-cues" class="mt-6 flex flex-wrap gap-2 justify-center"></div>
 							</div>
 						</div>
 					</div>
@@ -412,7 +464,24 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 	const detailList = document.getElementById('detail-list');
 	const closeDetail = document.getElementById('close-detail');
 
-	// Flashcard Elements
+	// Search and filter elements
+	const allPlants = groups.flatMap(g => g.plants.map(p => ({ ...p, groupName: g.name })));
+	const plantSearchInput = document.getElementById('plant-search');
+	const clearSearchBtn = document.getElementById('clear-search');
+	const groupsContainer = document.getElementById('groups-container');
+	const searchResults = document.getElementById('search-results');
+	const searchResultsList = document.getElementById('search-results-list');
+	const noResults = document.getElementById('no-results');
+	const toggleFilters = document.getElementById('toggle-filters');
+	const filterControls = document.getElementById('filter-controls');
+	const filterChevron = document.getElementById('filter-chevron');
+	const familyFilter = document.getElementById('family-filter');
+	const traitFilterChips = document.querySelectorAll('.trait-filter-chip');
+	const resetFiltersBtn = document.getElementById('reset-filters');
+	const activeFilterCount = document.getElementById('active-filter-count');
+	const filterResultsSummary = document.getElementById('filter-results-summary');
+
+	// Flashcard elements
 	const flashcardView = document.getElementById('flashcard-view');
 	const closeFlashcards = document.getElementById('close-flashcards');
 	const studyModeToggle = document.getElementById('study-mode-toggle');
@@ -420,34 +489,43 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 	const cardFrontText = document.getElementById('card-front-text');
 	const cardBackText = document.getElementById('card-back-text');
 	const cardBackFamily = document.getElementById('card-back-family');
+	const cardBackCues = document.getElementById('card-back-cues');
 	const cardBackImage = document.getElementById('card-back-image');
 	const flashcardInner = document.getElementById('flashcard-inner');
 	const prevCardBtn = document.getElementById('prev-card');
 	const nextCardBtn = document.getElementById('next-card');
 	const shuffleBtn = document.getElementById('shuffle-cards');
 
-	// Study Hub Elements
+	// Study hub elements
 	const studyModeModal = document.getElementById('study-mode-modal');
 	const modeSelectorGroupName = document.getElementById('mode-selector-group-name');
 	const selectFlashcards = document.getElementById('select-flashcards');
 	const selectQuiz = document.getElementById('select-quiz');
+	const selectImageQuiz = document.getElementById('select-image-quiz');
+	const selectReviewMissed = document.getElementById('select-review-missed');
+	const reviewMissedCount = document.getElementById('review-missed-count');
 	const cancelStudy = document.getElementById('cancel-study');
 	const studyGroupCards = document.querySelectorAll('.study-group-card');
 
-	// Quiz Elements
+	// Quiz elements
 	const quizView = document.getElementById('quiz-view');
 	const closeQuiz = document.getElementById('close-quiz');
 	const quizModeToggle = document.getElementById('quiz-mode-toggle');
 	const quizProgress = document.getElementById('quiz-progress');
 	const quizProgressBar = document.getElementById('quiz-progress-bar');
 	const quizCard = document.getElementById('quiz-card');
+	const quizPromptLabel = document.getElementById('quiz-prompt-label');
+	const quizImageWrap = document.getElementById('quiz-image-wrap');
+	const quizImage = document.getElementById('quiz-image');
 	const quizQuestionText = document.getElementById('quiz-question-text');
+	const quizHelperText = document.getElementById('quiz-helper-text');
 	const quizAnswerInput = document.getElementById('quiz-answer-input');
 	const quizSubmitBtn = document.getElementById('quiz-submit-btn');
+	const quizMatchNote = document.getElementById('quiz-match-note');
 	const quizCorrection = document.getElementById('quiz-correction');
 	const quizCorrectReveal = document.getElementById('quiz-correct-reveal');
-	
-	// Results Elements
+
+	// Results elements
 	const quizResultsView = document.getElementById('quiz-results-view');
 	const resultsPercent = document.getElementById('results-percent');
 	const resultsRing = document.getElementById('results-ring');
@@ -457,161 +535,56 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 	const quizRestartAll = document.getElementById('quiz-restart-all');
 	const resultsExit = document.getElementById('results-exit');
 
-	// Search Elements
-	const allPlants = groups.flatMap(g => g.plants);
-	const plantSearchInput = document.getElementById('plant-search');
-	const clearSearchBtn = document.getElementById('clear-search');
-	const groupsContainer = document.getElementById('groups-container');
-	const searchResults = document.getElementById('search-results');
-	const searchResultsList = document.getElementById('search-results-list');
-	const noResults = document.getElementById('no-results');
-
-	const renderPlantDetail = (plant) => {
-		detailTitle.textContent = plant.scientificName;
-		headerDetailTitle.textContent = plant.scientificName;
-		groupDetail.classList.remove('hidden');
-		document.body.classList.add('overflow-hidden');
-		
-		detailList.innerHTML = `
-			<div class="bg-sage-muted rounded-[2rem] overflow-hidden border border-sage-light/30 shadow-2xl transition-all">
-				${plant.optimizedImageUrl ? `
-					<button class="w-full h-72 bg-forest-deep overflow-hidden relative cursor-zoom-in" onclick="window.openLightbox('${plant.imageUrl}')">
-						<img 
-							src="${plant.optimizedImageUrl}" 
-							class="w-full h-full object-cover" 
-							loading="lazy" 
-						/>
-						<div class="absolute inset-0 bg-gradient-to-t from-forest-deep/60 to-transparent"></div>
-					</button>
-				` : ''}
-				<div class="p-8">
-					<div class="flex items-start justify-between mb-8">
-						<div class="min-w-0">
-							<div class="text-[26px] font-black text-cream-warm leading-tight tracking-tight uppercase font-header">${plant.scientificName}</div>
-							<div class="text-[17px] font-medium text-cream-warm/70 italic mt-2">${plant.commonName}</div>
-						</div>
-						${plant.latitude ? `
-							<button 
-								class="see-on-map-btn w-12 h-12 bg-cream-warm/10 border border-cream-warm/20 rounded-2xl flex items-center justify-center text-cream-warm active:scale-90 transition-all shrink-0"
-								data-lat="${plant.latitude}"
-								data-lng="${plant.longitude}"
-								data-id="${plant.id}"
-							>
-								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
-							</button>
-						` : ''}
-					</div>
-
-					<div class="space-y-4">
-						${[
-							{ label: 'Leaf Arrangement', val: plant.leafArrangement },
-							{ label: 'Leaf Shape', val: plant.leafShape },
-							{ label: 'Leaf Margin', val: plant.leafMargin },
-							{ label: 'Bark Features', val: plant.bark },
-							{ label: 'Flower', val: plant.flower },
-							{ label: 'Fruit', val: plant.fruit },
-							{ label: 'Family', val: plant.family }
-						].filter(f => f.val).map(f => `
-							<div class="flex items-baseline gap-6 border-b border-white/10 pb-3">
-								<div class="w-32 shrink-0 text-[10px] font-black text-sage-light uppercase tracking-widest nav-header">${f.label}</div>
-								<div class="text-[16px] text-cream-warm font-medium leading-snug">${f.val}</div>
-							</div>
-						`).join('')}
-					</div>
-				</div>
-			</div>
-		`;
-		
-		groupDetail.scrollTo({ top: 0, behavior: 'instant' });
-
-		const mapBtn = groupDetail.querySelector('.see-on-map-btn');
-		if (mapBtn) {
-			mapBtn.addEventListener('click', () => {
-				const { latitude, longitude, id } = plant;
-				switchTab('maps');
-				groupDetail.classList.add('hidden');
-				document.body.classList.remove('overflow-hidden');
-				if (window.focusPlant) {
-					window.focusPlant(parseFloat(latitude), parseFloat(longitude), id);
-				}
-			});
-		}
-	};
-
-	plantSearchInput?.addEventListener('input', (e) => {
-		const query = e.target.value.toLowerCase().trim();
-		
-		if (query === '') {
-			groupsContainer.classList.remove('hidden');
-			searchResults.classList.add('hidden');
-			clearSearchBtn.classList.add('hidden');
-			return;
-		}
-
-		clearSearchBtn.classList.remove('hidden');
-		clearSearchBtn.classList.add('flex');
-		groupsContainer.classList.add('hidden');
-		searchResults.classList.remove('hidden');
-
-		const filtered = allPlants.filter(p => 
-			p.commonName.toLowerCase().includes(query) || 
-			p.scientificName.toLowerCase().includes(query)
-		);
-
-		if (filtered.length === 0) {
-			searchResultsList.innerHTML = '';
-			noResults.classList.remove('hidden');
-		} else {
-			noResults.classList.add('hidden');
-			searchResultsList.innerHTML = filtered.map(plant => `
-				<button class="search-result-item w-full flex items-center gap-4 p-3 bg-sage-muted/20 border border-white/5 rounded-2xl active:scale-[0.98] transition-all text-left" data-plant-id="${plant.id}">
-					<div class="w-16 h-16 rounded-xl overflow-hidden border border-white/10 shrink-0 bg-forest-deep">
-						${plant.optimizedImageUrl ? `<img src="${plant.optimizedImageUrl}" class="w-full h-full object-cover" />` : ''}
-					</div>
-					<div class="min-w-0">
-						<h4 class="text-sm font-black text-cream-warm uppercase tracking-tight font-header truncate">${plant.scientificName}</h4>
-						<p class="text-[13px] font-medium text-sage-light italic truncate">${plant.commonName}</p>
-					</div>
-					<div class="ml-auto text-cream-warm/20 pr-2">
-						<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-					</div>
-				</button>
-			`).join('');
-
-			document.querySelectorAll('.search-result-item').forEach(btn => {
-				btn.addEventListener('click', () => {
-					const pid = btn.dataset.plantId;
-					const plant = allPlants.find(p => p.id === pid);
-					if (plant) renderPlantDetail(plant);
-				});
-			});
-		}
-	});
-
-	clearSearchBtn?.addEventListener('click', () => {
-		plantSearchInput.value = '';
-		groupsContainer.classList.remove('hidden');
-		searchResults.classList.add('hidden');
-		clearSearchBtn.classList.add('hidden');
-		plantSearchInput.focus();
-	});
-
-	if (!listsView) {
-		console.error('Critical elements missing!');
-	}
+	const MISSED_KEY = 'woodyid.missed.v1';
+	const activeTraits = new Set();
 
 	let currentGroupPlants = [];
 	let currentFlashcards = [];
 	let currentCardIndex = 0;
 	let isFlipped = false;
-	let studyMode = 'sci-to-com'; // sci-to-com or com-to-sci
+	let studyMode = 'sci-to-com';
 	let activeStudyGroup = null;
-
-	// Quiz State
 	let quizQueue = [];
 	let missedPlants = [];
 	let quizScore = 0;
 	let isAwaitingNext = false;
+	let quizType = 'typing';
+	let quizSource = 'group';
+
+	const escapeHtml = (value) => String(value ?? '')
+		.replace(/&/g, '&amp;')
+		.replace(/</g, '&lt;')
+		.replace(/>/g, '&gt;')
+		.replace(/"/g, '&quot;')
+		.replace(/'/g, '&#039;');
+
+	const normalizeText = (value) => String(value ?? '')
+		.normalize('NFD')
+		.replace(/[\u0300-\u036f]/g, '')
+		.replace(/[’‘`´]/g, "'")
+		.replace(/×/g, ' x ')
+		.toLowerCase()
+		.replace(/[^a-z0-9]+/g, ' ')
+		.replace(/\s+/g, ' ')
+		.trim();
+
+	const normalizeAnswer = (value) => String(value ?? '')
+		.replace(/[’‘`´]/g, "'")
+		.replace(/['’]s\b/gi, 's')
+		.replace(/×/g, ' x ')
+		.normalize('NFD')
+		.replace(/[\u0300-\u036f]/g, '')
+		.toLowerCase()
+		.replace(/[^a-z0-9]+/g, ' ')
+		.replace(/\s+/g, ' ')
+		.trim();
+
+	const shorten = (value, max = 70) => {
+		const text = String(value ?? '');
+		return text.length > max ? `${text.slice(0, max - 1)}…` : text;
+	};
+
+	const getPlantById = (id) => allPlants.find(p => String(p.id) === String(id));
 
 	const shuffleArray = (array) => {
 		const newArray = [...array];
@@ -622,13 +595,348 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 		return newArray;
 	};
 
-	// Flashcard Logic
+	const getKeyCues = (plant) => {
+		const cues = [];
+		if (plant.leafArrangement) cues.push(`${plant.leafArrangement} leaves`);
+		if (plant.leafShape) cues.push(plant.leafShape);
+		if (plant.leafMargin) cues.push(`${plant.leafMargin} margin`);
+		if (plant.bark) cues.push(`Bark: ${plant.bark}`);
+		if (plant.fruit) cues.push(`Fruit: ${plant.fruit}`);
+		if (plant.flower) cues.push(`Flower: ${plant.flower}`);
+		if (plant.family) cues.push(`${plant.family} family`);
+		if (plant.commonName && cues.length < 3) cues.push(`Common name: ${plant.commonName}`);
+		if (plant.scientificName && cues.length < 3) cues.push(`Scientific name: ${plant.scientificName}`);
+		return cues.slice(0, 3);
+	};
+
+	const renderCuePills = (plant, compact = false) => {
+		const cues = getKeyCues(plant);
+		return cues.map(cue => `
+			<span class="inline-flex items-center rounded-full bg-forest-deep/45 border border-white/10 px-3 py-1.5 text-[10px] font-bold text-cream-warm/85 uppercase tracking-widest nav-header ${compact ? 'max-w-full' : ''}">
+				${escapeHtml(shorten(cue, compact ? 46 : 90))}
+			</span>
+		`).join('');
+	};
+
+	const renderPlantCard = (plant) => {
+		const hasLocation = plant.latitude !== null && plant.latitude !== undefined && plant.longitude !== null && plant.longitude !== undefined;
+		const imageUrl = plant.optimizedImageUrl || plant.imageUrl;
+		return `
+			<article class="bg-sage-muted rounded-[2rem] overflow-hidden border border-sage-light/30 shadow-2xl transition-all">
+				${imageUrl ? `
+					<button class="plant-image-button w-full h-72 bg-forest-deep overflow-hidden relative cursor-zoom-in" data-image-url="${escapeHtml(plant.imageUrl || imageUrl)}">
+						<img src="${escapeHtml(imageUrl)}" class="w-full h-full object-cover" loading="lazy" alt="${escapeHtml(plant.commonName || plant.scientificName)}" />
+						<div class="absolute inset-0 bg-gradient-to-t from-forest-deep/60 to-transparent"></div>
+					</button>
+				` : ''}
+				<div class="p-8">
+					<div class="flex items-start justify-between mb-6">
+						<div class="min-w-0">
+							<div class="text-[26px] font-black text-cream-warm leading-tight tracking-tight font-header">${escapeHtml(plant.scientificName)}</div>
+							<div class="text-[17px] font-medium text-cream-warm/70 italic mt-2">${escapeHtml(plant.commonName)}</div>
+						</div>
+						${hasLocation ? `
+							<button class="see-on-map-btn w-12 h-12 bg-cream-warm/10 border border-cream-warm/20 rounded-2xl flex items-center justify-center text-cream-warm active:scale-90 transition-all shrink-0" data-id="${escapeHtml(plant.id)}">
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+							</button>
+						` : ''}
+					</div>
+
+					<div class="mb-7 rounded-[1.5rem] bg-forest-deep/35 border border-white/10 p-5">
+						<div class="text-[10px] font-black text-sage-light uppercase tracking-[0.25em] mb-3 nav-header">3 Key ID Cues</div>
+						<div class="flex flex-wrap gap-2">${renderCuePills(plant)}</div>
+					</div>
+
+					<div class="space-y-4">
+						${[
+							{ label: 'Leaf Arrangement', val: plant.leafArrangement },
+							{ label: 'Leaf Shape', val: plant.leafShape },
+							{ label: 'Leaf Margin', val: plant.leafMargin },
+							{ label: 'Leaf Base', val: plant.leafBase },
+							{ label: 'Leaf Apex', val: plant.leafApex },
+							{ label: 'Bark Features', val: plant.bark },
+							{ label: 'Flower', val: plant.flower },
+							{ label: 'Fruit', val: plant.fruit },
+							{ label: 'Family', val: plant.family }
+						].filter(f => f.val).map(f => `
+							<div class="flex items-baseline gap-6 border-b border-white/10 pb-3">
+								<div class="w-32 shrink-0 text-[10px] font-black text-sage-light uppercase tracking-widest nav-header">${escapeHtml(f.label)}</div>
+								<div class="text-[16px] text-cream-warm font-medium leading-snug">${escapeHtml(f.val)}</div>
+							</div>
+						`).join('')}
+					</div>
+				</div>
+			</article>
+		`;
+	};
+
+	const bindPlantCardActions = (container) => {
+		container.querySelectorAll('.plant-image-button').forEach(btn => {
+			btn.addEventListener('click', () => window.openLightbox?.(btn.dataset.imageUrl));
+		});
+
+		container.querySelectorAll('.see-on-map-btn').forEach(btn => {
+			btn.addEventListener('click', () => {
+				const plant = getPlantById(btn.dataset.id);
+				if (!plant) return;
+				switchTab('maps');
+				groupDetail.classList.add('hidden');
+				document.body.classList.remove('overflow-hidden');
+				if (window.focusPlant) {
+					window.focusPlant(parseFloat(plant.latitude), parseFloat(plant.longitude), plant.id);
+				}
+			});
+		});
+	};
+
+	const renderPlantDetail = (plant) => {
+		detailTitle.textContent = plant.scientificName;
+		headerDetailTitle.textContent = plant.scientificName;
+		detailList.innerHTML = renderPlantCard(plant);
+		bindPlantCardActions(detailList);
+		groupDetail.classList.remove('hidden');
+		document.body.classList.add('overflow-hidden');
+		groupDetail.scrollTo({ top: 0, behavior: 'instant' });
+	};
+
+	const renderGroupDetail = (group) => {
+		detailTitle.textContent = group.name;
+		headerDetailTitle.textContent = group.name;
+		detailList.innerHTML = group.plants.map(renderPlantCard).join('');
+		bindPlantCardActions(detailList);
+		groupDetail.classList.remove('hidden');
+		document.body.classList.add('overflow-hidden');
+		groupDetail.scrollTo({ top: 0, behavior: 'instant' });
+	};
+
+	const getMissedBank = () => {
+		try {
+			return JSON.parse(localStorage.getItem(MISSED_KEY) || '{}');
+		} catch {
+			return {};
+		}
+	};
+
+	const saveMissedBank = (bank) => {
+		localStorage.setItem(MISSED_KEY, JSON.stringify(bank));
+		updateStudyBadges();
+	};
+
+	const addMissedPlant = (plant) => {
+		const bank = getMissedBank();
+		const existing = bank[plant.id] || { misses: 0 };
+		bank[plant.id] = {
+			id: plant.id,
+			groupId: plant.groupId,
+			scientificName: plant.scientificName,
+			commonName: plant.commonName,
+			misses: (existing.misses || 0) + 1,
+			lastMissedAt: new Date().toISOString()
+		};
+		saveMissedBank(bank);
+	};
+
+	const removeMissedPlant = (plant) => {
+		const bank = getMissedBank();
+		if (bank[plant.id]) {
+			delete bank[plant.id];
+			saveMissedBank(bank);
+		}
+	};
+
+	const getMissedPlantsForGroup = (groupId) => {
+		const bank = getMissedBank();
+		return allPlants.filter(plant => bank[plant.id] && String(plant.groupId) === String(groupId));
+	};
+
+	const updateStudyBadges = () => {
+		document.querySelectorAll('.missed-count-badge').forEach(badge => {
+			const missedCount = getMissedPlantsForGroup(badge.dataset.groupId).length;
+			badge.textContent = `${missedCount} Missed`;
+			badge.classList.toggle('hidden', missedCount === 0);
+		});
+
+		if (activeStudyGroup && selectReviewMissed && reviewMissedCount) {
+			const count = getMissedPlantsForGroup(activeStudyGroup.id).length;
+			reviewMissedCount.textContent = String(count);
+			selectReviewMissed.classList.toggle('hidden', count === 0);
+		}
+	};
+
+	const getAcceptedAnswers = (plant, mode) => {
+		const answers = new Set();
+		if (mode === 'sci-to-com') {
+			answers.add(normalizeAnswer(plant.commonName));
+			if (/[’'‘]s\b/i.test(plant.commonName || '')) {
+				answers.add(normalizeAnswer(plant.commonName.replace(/[’'‘]s\b/gi, '')));
+			}
+			if (plant.commonName?.includes('-')) answers.add(normalizeAnswer(plant.commonName.replace(/-/g, ' ')));
+		} else {
+			const scientific = normalizeAnswer(plant.scientificName);
+			answers.add(scientific);
+			answers.add(scientific.replace(/\s+x\s+/g, ' '));
+			const parts = scientific.split(' ');
+			if (parts.length >= 2) {
+				answers.add(`${parts[0][0]} ${parts.slice(1).join(' ')}`);
+				answers.add(normalizeAnswer(`${parts[0][0]}. ${parts.slice(1).join(' ')}`));
+			}
+		}
+		return [...answers].filter(Boolean);
+	};
+
+	const levenshtein = (a, b) => {
+		const dp = Array.from({ length: a.length + 1 }, () => Array(b.length + 1).fill(0));
+		for (let i = 0; i <= a.length; i++) dp[i][0] = i;
+		for (let j = 0; j <= b.length; j++) dp[0][j] = j;
+		for (let i = 1; i <= a.length; i++) {
+			for (let j = 1; j <= b.length; j++) {
+				const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+				dp[i][j] = Math.min(dp[i - 1][j] + 1, dp[i][j - 1] + 1, dp[i - 1][j - 1] + cost);
+			}
+		}
+		return dp[a.length][b.length];
+	};
+
+	const checkAnswerMatch = (userAnswer, plant) => {
+		const normalizedUser = normalizeAnswer(userAnswer);
+		if (!normalizedUser) return { correct: false, note: '' };
+		const accepted = getAcceptedAnswers(plant, studyMode);
+		if (accepted.includes(normalizedUser)) return { correct: true, note: 'Exact match accepted.' };
+
+		for (const answer of accepted) {
+			const lengthDelta = Math.abs(answer.length - normalizedUser.length);
+			if (lengthDelta > 3) continue;
+			const distance = levenshtein(normalizedUser, answer);
+			const limit = answer.length > 18 ? 3 : answer.length > 8 ? 2 : 1;
+			if (distance > 0 && distance <= limit) {
+				return { correct: true, note: 'Accepted — close spelling.' };
+			}
+		}
+
+		return { correct: false, note: '' };
+	};
+
+	const populateFamilyFilter = () => {
+		if (!familyFilter) return;
+		const families = [...new Set(allPlants.map(p => p.family).filter(Boolean))].sort((a, b) => a.localeCompare(b));
+		familyFilter.insertAdjacentHTML('beforeend', families.map(family => `<option value="${escapeHtml(family)}">${escapeHtml(family)}</option>`).join(''));
+	};
+
+	const plantMatchesFilters = (plant) => {
+		const query = normalizeText(plantSearchInput?.value || '');
+		const family = familyFilter?.value || '';
+		const searchableText = normalizeText([
+			plant.commonName,
+			plant.scientificName,
+			plant.family,
+			plant.leafArrangement,
+			plant.leafMargin,
+			plant.leafShape,
+			plant.bark,
+			plant.flower,
+			plant.fruit
+		].join(' '));
+
+		if (query && !searchableText.includes(query)) return false;
+		if (family && plant.family !== family) return false;
+
+		if (activeTraits.size > 0) {
+			const traitText = normalizeText([
+				plant.leafArrangement,
+				plant.leafMargin,
+				plant.leafShape,
+				plant.leafBase,
+				plant.leafApex,
+				plant.bark,
+				plant.flower,
+				plant.fruit
+			].join(' '));
+			for (const trait of activeTraits) {
+				if (!traitText.includes(trait)) return false;
+			}
+		}
+
+		return true;
+	};
+
+	const updateFilterUI = (resultCount = allPlants.length) => {
+		const count = activeTraits.size + (familyFilter?.value ? 1 : 0);
+		activeFilterCount.textContent = String(count);
+		activeFilterCount.classList.toggle('hidden', count === 0);
+		filterResultsSummary.textContent = count > 0 || plantSearchInput?.value.trim()
+			? `${resultCount} matching species`
+			: 'Showing all species';
+
+		traitFilterChips.forEach(chip => {
+			const active = activeTraits.has(chip.dataset.trait);
+			chip.classList.toggle('bg-cream-warm', active);
+			chip.classList.toggle('text-forest-deep', active);
+			chip.classList.toggle('border-cream-warm', active);
+			chip.classList.toggle('bg-forest-deep/50', !active);
+			chip.classList.toggle('text-cream-warm/70', !active);
+		});
+	};
+
+	const renderSearchResults = () => {
+		const query = plantSearchInput?.value.trim() || '';
+		const hasFilters = query || activeTraits.size > 0 || familyFilter?.value;
+
+		if (!hasFilters) {
+			groupsContainer.classList.remove('hidden');
+			searchResults.classList.add('hidden');
+			clearSearchBtn.classList.add('hidden');
+			updateFilterUI(allPlants.length);
+			return;
+		}
+
+		clearSearchBtn.classList.remove('hidden');
+		clearSearchBtn.classList.add('flex');
+		groupsContainer.classList.add('hidden');
+		searchResults.classList.remove('hidden');
+
+		const filtered = allPlants.filter(plantMatchesFilters);
+		updateFilterUI(filtered.length);
+
+		if (filtered.length === 0) {
+			searchResultsList.innerHTML = '';
+			noResults.classList.remove('hidden');
+			return;
+		}
+
+		noResults.classList.add('hidden');
+		searchResultsList.innerHTML = filtered.map(plant => {
+			const imageUrl = plant.optimizedImageUrl || plant.imageUrl;
+			return `
+				<button class="search-result-item w-full flex items-center gap-4 p-3 bg-sage-muted/20 border border-white/5 rounded-2xl active:scale-[0.98] transition-all text-left" data-plant-id="${escapeHtml(plant.id)}">
+					<div class="w-16 h-16 rounded-xl overflow-hidden border border-white/10 shrink-0 bg-forest-deep">
+						${imageUrl ? `<img src="${escapeHtml(imageUrl)}" class="w-full h-full object-cover" alt="${escapeHtml(plant.commonName || plant.scientificName)}" />` : ''}
+					</div>
+					<div class="min-w-0 flex-1">
+						<h4 class="text-sm font-black text-cream-warm tracking-tight font-header truncate">${escapeHtml(plant.scientificName)}</h4>
+						<p class="text-[13px] font-medium text-sage-light italic truncate">${escapeHtml(plant.commonName)}</p>
+						<div class="mt-2 flex flex-wrap gap-1.5">${renderCuePills(plant, true)}</div>
+					</div>
+					<div class="ml-auto text-cream-warm/20 pr-2">
+						<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+					</div>
+				</button>
+			`;
+		}).join('');
+
+		document.querySelectorAll('.search-result-item').forEach(btn => {
+			btn.addEventListener('click', () => {
+				const plant = getPlantById(btn.dataset.plantId);
+				if (plant) renderPlantDetail(plant);
+			});
+		});
+	};
+
 	const updateCard = () => {
 		if (currentFlashcards.length === 0) return;
 		const plant = currentFlashcards[currentCardIndex];
 		isFlipped = false;
 		flashcardInner.classList.remove('rotate-y-180');
-		
+
 		if (studyMode === 'sci-to-com') {
 			cardFrontText.textContent = plant.scientificName;
 			cardBackText.textContent = plant.commonName;
@@ -636,45 +944,87 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 			cardFrontText.textContent = plant.commonName;
 			cardBackText.textContent = plant.scientificName;
 		}
-		
+
 		cardBackFamily.textContent = plant.family || '';
-		cardBackImage.src = plant.imageUrl || '';
+		cardBackImage.src = plant.optimizedImageUrl || plant.imageUrl || '';
+		cardBackCues.innerHTML = renderCuePills(plant, true);
 		flashcardProgress.textContent = `${currentCardIndex + 1} of ${currentFlashcards.length}`;
 	};
 
-	// Quiz Logic
-	const startQuiz = (plants, isRetry = false) => {
-		quizQueue = shuffleArray(plants);
-		if (!isRetry) missedPlants = [];
+	const syncModeToggle = () => {
+		[studyModeToggle, quizModeToggle].forEach(toggle => {
+			toggle.querySelectorAll('button').forEach(b => {
+				b.classList.remove('bg-cream-warm', 'text-forest-deep');
+				b.classList.add('text-cream-warm/60');
+				if (b.dataset.mode === studyMode) {
+					b.classList.add('bg-cream-warm', 'text-forest-deep');
+					b.classList.remove('text-cream-warm/60');
+				}
+			});
+		});
+
+		if (quizType === 'image') {
+			quizModeToggle.querySelector('[data-mode="sci-to-com"]').textContent = 'Common';
+			quizModeToggle.querySelector('[data-mode="com-to-sci"]').textContent = 'Scientific';
+		} else {
+			quizModeToggle.querySelector('[data-mode="sci-to-com"]').textContent = 'Sci → Com';
+			quizModeToggle.querySelector('[data-mode="com-to-sci"]').textContent = 'Com → Sci';
+		}
+	};
+
+	const startQuiz = (plants, options = {}) => {
+		quizType = options.type || 'typing';
+		quizSource = options.source || 'group';
+		const imagePlants = plants.filter(p => p.optimizedImageUrl || p.imageUrl);
+		const usablePlants = quizType === 'image' && imagePlants.length > 0 ? imagePlants : plants;
+
+		quizQueue = shuffleArray(usablePlants);
+		missedPlants = [];
 		currentCardIndex = 0;
 		quizScore = 0;
 		isAwaitingNext = false;
+		quizResultsView.classList.add('hidden');
 		quizView.classList.remove('hidden');
 		studyModeModal.classList.add('hidden');
+		syncModeToggle();
 		updateQuizQuestion();
 	};
 
 	const updateQuizQuestion = () => {
 		const plant = quizQueue[currentCardIndex];
+		if (!plant) return;
+
 		isAwaitingNext = false;
 		quizAnswerInput.value = '';
 		quizAnswerInput.disabled = false;
 		quizAnswerInput.classList.remove('border-green-500', 'border-red-500');
 		quizCard.classList.remove('shake');
 		quizCorrection.classList.add('hidden');
+		quizMatchNote.classList.add('hidden');
+		quizMatchNote.textContent = '';
 		quizSubmitBtn.textContent = 'Submit Answer';
-		
-		if (studyMode === 'sci-to-com') {
-			quizQuestionText.textContent = plant.scientificName;
+
+		const expectedLabel = studyMode === 'sci-to-com' ? 'common name' : 'scientific name';
+		quizPromptLabel.textContent = `What is the ${expectedLabel}?`;
+		quizAnswerInput.placeholder = `Type ${expectedLabel}...`;
+
+		if (quizType === 'image') {
+			const imageUrl = plant.optimizedImageUrl || plant.imageUrl;
+			quizImage.src = imageUrl || '';
+			quizImageWrap.classList.toggle('hidden', !imageUrl);
+			quizQuestionText.textContent = 'Identify this plant';
+			quizHelperText.textContent = `Answer with the ${expectedLabel}. Typos and punctuation are accepted.`;
 		} else {
-			quizQuestionText.textContent = plant.commonName;
+			quizImageWrap.classList.add('hidden');
+			quizQuestionText.textContent = studyMode === 'sci-to-com' ? plant.scientificName : plant.commonName;
+			quizHelperText.textContent = 'Typos, punctuation, and genus abbreviations are accepted.';
 		}
 
 		const progress = ((currentCardIndex) / quizQueue.length) * 100;
 		quizProgressBar.style.width = `${progress}%`;
 		quizProgress.textContent = `Question ${currentCardIndex + 1} of ${quizQueue.length}`;
-		
-		setTimeout(() => quizAnswerInput.focus(), 300);
+
+		setTimeout(() => quizAnswerInput.focus(), 250);
 	};
 
 	const checkAnswer = () => {
@@ -689,57 +1039,127 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 		}
 
 		const plant = quizQueue[currentCardIndex];
-		const userAns = quizAnswerInput.value.trim().toLowerCase();
 		const correctAns = studyMode === 'sci-to-com' ? plant.commonName : plant.scientificName;
-		
+		const match = checkAnswerMatch(quizAnswerInput.value, plant);
+
+		if (!quizAnswerInput.value.trim()) {
+			quizCard.classList.add('shake');
+			setTimeout(() => quizCard.classList.remove('shake'), 500);
+			return;
+		}
+
 		quizAnswerInput.disabled = true;
 
-		if (userAns === correctAns.toLowerCase()) {
+		if (match.correct) {
 			quizScore++;
 			quizAnswerInput.classList.add('border-green-500');
 			quizSubmitBtn.textContent = 'Correct! Next →';
-			isAwaitingNext = true;
+			quizMatchNote.textContent = match.note;
+			quizMatchNote.classList.remove('hidden');
+			if (quizSource === 'missed-bank') removeMissedPlant(plant);
 		} else {
 			missedPlants.push(plant);
+			addMissedPlant(plant);
 			quizAnswerInput.classList.add('border-red-500');
 			quizCard.classList.add('shake');
 			quizCorrectReveal.textContent = correctAns;
 			quizCorrection.classList.remove('hidden');
 			quizSubmitBtn.textContent = 'Got it, Next →';
-			isAwaitingNext = true;
 		}
+
+		isAwaitingNext = true;
 	};
 
 	const showResults = () => {
+		quizProgressBar.style.width = '100%';
 		const percent = Math.round((quizScore / quizQueue.length) * 100);
 		resultsPercent.textContent = `${percent}%`;
-		resultsScoreText.textContent = `You got ${quizScore} of ${quizQueue.length} correct`;
-		
-		// Circle Animation
+		resultsScoreText.textContent = missedPlants.length > 0
+			? `You got ${quizScore} of ${quizQueue.length} correct · ${missedPlants.length} saved for review`
+			: `You got ${quizScore} of ${quizQueue.length} correct`;
+
 		const offset = 552.92 - (552.92 * percent / 100);
 		resultsRing.style.strokeDashoffset = offset.toString();
 
-		if (percent === 100) resultsGrade.textContent = "Mastery!";
-		else if (percent >= 80) resultsGrade.textContent = "Excellent!";
-		else if (percent >= 50) resultsGrade.textContent = "Good Start!";
-		else resultsGrade.textContent = "Keep Studying!";
+		if (percent === 100) resultsGrade.textContent = 'Mastery!';
+		else if (percent >= 80) resultsGrade.textContent = 'Excellent!';
+		else if (percent >= 50) resultsGrade.textContent = 'Good Start!';
+		else resultsGrade.textContent = 'Keep Studying!';
 
-		if (missedPlants.length > 0) {
-			retryMissedBtn.classList.remove('hidden');
-		} else {
-			retryMissedBtn.classList.add('hidden');
-		}
-
+		retryMissedBtn.classList.toggle('hidden', missedPlants.length === 0);
 		quizResultsView.classList.remove('hidden');
 		quizView.classList.add('hidden');
+		updateStudyBadges();
 	};
 
-	// Study Hub Handlers
+	const switchTab = (view) => {
+		tabButtons.forEach(btn => {
+			if (btn.dataset.view === view) {
+				btn.classList.add('text-cream-warm');
+				btn.classList.remove('text-sage-light/60');
+			} else {
+				btn.classList.remove('text-cream-warm');
+				btn.classList.add('text-sage-light/60');
+			}
+		});
+
+		[listsView, studyView, mapsView].forEach(v => v.classList.add('hidden'));
+		document.getElementById('top-nav').classList.remove('hidden');
+
+		if (view === 'lists') {
+			listsView.classList.remove('hidden');
+			document.getElementById('nav-title').textContent = 'Library';
+		} else if (view === 'study') {
+			studyView.classList.remove('hidden');
+			document.getElementById('nav-title').textContent = 'Study';
+			updateStudyBadges();
+		} else {
+			mapsView.classList.remove('hidden');
+			document.getElementById('top-nav').classList.add('hidden');
+			groupDetail.classList.add('hidden');
+			window.dispatchEvent(new Event('resize'));
+		}
+	};
+
+	// Search/filter handlers
+	populateFamilyFilter();
+	updateFilterUI();
+	plantSearchInput?.addEventListener('input', renderSearchResults);
+	familyFilter?.addEventListener('change', renderSearchResults);
+
+	toggleFilters?.addEventListener('click', () => {
+		filterControls.classList.toggle('hidden');
+		filterChevron.classList.toggle('rotate-180', !filterControls.classList.contains('hidden'));
+	});
+
+	traitFilterChips.forEach(chip => {
+		chip.addEventListener('click', () => {
+			const trait = chip.dataset.trait;
+			if (activeTraits.has(trait)) activeTraits.delete(trait);
+			else activeTraits.add(trait);
+			renderSearchResults();
+		});
+	});
+
+	resetFiltersBtn?.addEventListener('click', () => {
+		activeTraits.clear();
+		if (familyFilter) familyFilter.value = '';
+		renderSearchResults();
+	});
+
+	clearSearchBtn?.addEventListener('click', () => {
+		plantSearchInput.value = '';
+		renderSearchResults();
+		plantSearchInput.focus();
+	});
+
+	// Study hub handlers
 	studyGroupCards.forEach(card => {
 		card.addEventListener('click', () => {
 			const gid = card.dataset.groupId;
-			activeStudyGroup = groups.find(g => g.id === gid);
+			activeStudyGroup = groups.find(g => String(g.id) === String(gid));
 			modeSelectorGroupName.textContent = activeStudyGroup.name;
+			updateStudyBadges();
 			studyModeModal.classList.remove('hidden');
 		});
 	});
@@ -755,8 +1175,11 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 		updateCard();
 	});
 
-	selectQuiz.addEventListener('click', () => {
-		startQuiz(activeStudyGroup.plants);
+	selectQuiz.addEventListener('click', () => startQuiz(activeStudyGroup.plants, { type: 'typing', source: 'group' }));
+	selectImageQuiz.addEventListener('click', () => startQuiz(activeStudyGroup.plants, { type: 'image', source: 'group' }));
+	selectReviewMissed.addEventListener('click', () => {
+		const missed = getMissedPlantsForGroup(activeStudyGroup.id);
+		if (missed.length > 0) startQuiz(missed, { type: 'typing', source: 'missed-bank' });
 	});
 
 	quizSubmitBtn.addEventListener('click', checkAnswer);
@@ -767,19 +1190,19 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 	retryMissedBtn.addEventListener('click', () => {
 		const currentMissed = [...missedPlants];
 		quizResultsView.classList.add('hidden');
-		startQuiz(currentMissed, true);
+		startQuiz(currentMissed, { type: 'typing', source: 'session-missed' });
 	});
 
 	quizRestartAll.addEventListener('click', () => {
 		quizResultsView.classList.add('hidden');
-		startQuiz(activeStudyGroup.plants);
+		startQuiz(activeStudyGroup.plants, { type: quizType, source: 'group' });
 	});
 
 	resultsExit.addEventListener('click', () => {
 		quizResultsView.classList.add('hidden');
+		updateStudyBadges();
 	});
 
-	// Existing Handlers
 	closeFlashcards.addEventListener('click', () => flashcardView.classList.add('hidden'));
 	closeQuiz.addEventListener('click', () => quizView.classList.add('hidden'));
 
@@ -787,16 +1210,7 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 		const btn = e.target.closest('button');
 		if (!btn) return;
 		studyMode = btn.dataset.mode;
-		[studyModeToggle, quizModeToggle].forEach(toggle => {
-			toggle.querySelectorAll('button').forEach(b => {
-				b.classList.remove('bg-cream-warm', 'text-forest-deep');
-				b.classList.add('text-cream-warm/60');
-				if (b.dataset.mode === studyMode) {
-					b.classList.add('bg-cream-warm', 'text-forest-deep');
-					b.classList.remove('text-cream-warm/60');
-				}
-			});
-		});
+		syncModeToggle();
 		updateCard();
 	});
 
@@ -804,16 +1218,7 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 		const btn = e.target.closest('button');
 		if (!btn) return;
 		studyMode = btn.dataset.mode;
-		[studyModeToggle, quizModeToggle].forEach(toggle => {
-			toggle.querySelectorAll('button').forEach(b => {
-				b.classList.remove('bg-cream-warm', 'text-forest-deep');
-				b.classList.add('text-cream-warm/60');
-				if (b.dataset.mode === studyMode) {
-					b.classList.add('bg-cream-warm', 'text-forest-deep');
-					b.classList.remove('text-cream-warm/60');
-				}
-			});
-		});
+		syncModeToggle();
 		updateQuizQuestion();
 	});
 
@@ -841,113 +1246,12 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 		updateCard();
 	});
 
-	const switchTab = (view) => {
-		tabButtons.forEach(btn => {
-			if (btn.dataset.view === view) {
-				btn.classList.add('text-cream-warm');
-				btn.classList.remove('text-sage-light/60');
-			} else {
-				btn.classList.remove('text-cream-warm');
-				btn.classList.add('text-sage-light/60');
-			}
-		});
-
-		[listsView, studyView, mapsView].forEach(v => v.classList.add('hidden'));
-		document.getElementById('top-nav').classList.remove('hidden');
-
-		if (view === 'lists') {
-			listsView.classList.remove('hidden');
-			document.getElementById('nav-title').textContent = 'Library';
-		} else if (view === 'study') {
-			studyView.classList.remove('hidden');
-			document.getElementById('nav-title').textContent = 'Study';
-		} else {
-			mapsView.classList.remove('hidden');
-			document.getElementById('top-nav').classList.add('hidden');
-			groupDetail.classList.add('hidden');
-			window.dispatchEvent(new Event('resize'));
-		}
-	};
-
-	tabButtons.forEach(btn => {
-		btn.addEventListener('click', () => switchTab(btn.dataset.view));
-	});
+	tabButtons.forEach(btn => btn.addEventListener('click', () => switchTab(btn.dataset.view)));
 
 	groupWidgets.forEach(widget => {
 		widget.addEventListener('click', () => {
-			const groupId = widget.dataset.groupId;
-			const group = groups.find(g => g.id === groupId);
-			
-			if (group) {
-				detailTitle.textContent = group.name;
-				headerDetailTitle.textContent = group.name;
-				groupDetail.classList.remove('hidden');
-				document.body.classList.add('overflow-hidden');
-				
-				detailList.innerHTML = group.plants.map((plant) => `
-					<div class="bg-sage-muted rounded-[2rem] overflow-hidden border border-sage-light/30 shadow-2xl transition-all">
-						${plant.optimizedImageUrl ? `
-							<button class="w-full h-72 bg-forest-deep overflow-hidden relative cursor-zoom-in" onclick="window.openLightbox('${plant.imageUrl}')">
-								<img 
-									src="${plant.optimizedImageUrl}" 
-									class="w-full h-full object-cover" 
-									loading="lazy" 
-								/>
-								<div class="absolute inset-0 bg-gradient-to-t from-forest-deep/60 to-transparent"></div>
-							</button>
-						` : ''}
-						<div class="p-8">
-							<div class="flex items-start justify-between mb-8">
-								<div class="min-w-0">
-									<div class="text-[26px] font-black text-cream-warm leading-tight tracking-tight uppercase font-header">${plant.scientificName}</div>
-									<div class="text-[17px] font-medium text-cream-warm/70 italic mt-2">${plant.commonName}</div>
-								</div>
-								${plant.latitude ? `
-									<button 
-										class="see-on-map-btn w-12 h-12 bg-cream-warm/10 border border-cream-warm/20 rounded-2xl flex items-center justify-center text-cream-warm active:scale-90 transition-all shrink-0"
-										data-lat="${plant.latitude}"
-										data-lng="${plant.longitude}"
-										data-id="${plant.id}"
-									>
-										<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
-									</button>
-								` : ''}
-							</div>
-
-							<div class="space-y-4">
-								${[
-									{ label: 'Leaf Arrangement', val: plant.leafArrangement },
-									{ label: 'Leaf Shape', val: plant.leafShape },
-									{ label: 'Leaf Margin', val: plant.leafMargin },
-									{ label: 'Bark Features', val: plant.bark },
-									{ label: 'Flower', val: plant.flower },
-									{ label: 'Fruit', val: plant.fruit },
-									{ label: 'Family', val: plant.family }
-								].filter(f => f.val).map(f => `
-									<div class="flex items-baseline gap-6 border-b border-white/10 pb-3">
-										<div class="w-32 shrink-0 text-[10px] font-black text-sage-light uppercase tracking-widest nav-header">${f.label}</div>
-										<div class="text-[16px] text-cream-warm font-medium leading-snug">${f.val}</div>
-									</div>
-								`).join('')}
-							</div>
-						</div>
-					</div>
-				`).join('');
-				
-				groupDetail.scrollTo({ top: 0, behavior: 'instant' });
-
-				document.querySelectorAll('.see-on-map-btn').forEach(btn => {
-					btn.addEventListener('click', () => {
-						const { lat, lng, id } = btn.dataset;
-						switchTab('maps');
-						groupDetail.classList.add('hidden');
-						document.body.classList.remove('overflow-hidden');
-						if (window.focusPlant) {
-							window.focusPlant(parseFloat(lat), parseFloat(lng), id);
-						}
-					});
-				});
-			}
+			const group = groups.find(g => String(g.id) === String(widget.dataset.groupId));
+			if (group) renderGroupDetail(group);
 		});
 	});
 
@@ -970,4 +1274,7 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 			title.style.fontSize = '34px';
 		}
 	});
+
+	updateStudyBadges();
 </script>
+
