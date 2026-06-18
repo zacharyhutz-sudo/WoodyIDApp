@@ -1,6 +1,7 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
 import { db, Groups, Plants, eq } from 'astro:db';
+import { isActivePlant, sortPlantsByGroupOrder } from '../../../utils/plantSort';
 
 const { groupId } = Astro.params;
 
@@ -24,6 +25,7 @@ if (Astro.request.method === 'POST') {
       commonName: formData.get('commonName') as string,
       family: formData.get('family') as string,
       imageUrl: formData.get('imageUrl') as string,
+      active: true,
       leafArrangement: formData.get('leafArrangement') as string,
       leafMargin: formData.get('leafMargin') as string,
       leafShape: formData.get('leafShape') as string,
@@ -42,6 +44,7 @@ if (Astro.request.method === 'POST') {
       commonName: formData.get('commonName') as string,
       family: formData.get('family') as string,
       imageUrl: formData.get('imageUrl') as string,
+      active: true,
       leafArrangement: formData.get('leafArrangement') as string,
       leafMargin: formData.get('leafMargin') as string,
       leafShape: formData.get('leafShape') as string,
@@ -59,7 +62,7 @@ if (Astro.request.method === 'POST') {
   }
 }
 
-const plants = await db.select().from(Plants).where(eq(Plants.groupId, group.id));
+const plants = sortPlantsByGroupOrder((await db.select().from(Plants).where(eq(Plants.groupId, group.id))).filter(isActivePlant));
 ---
 
 <Layout title={`Managing ${group.name}`}>
@@ -189,7 +192,7 @@ const plants = await db.select().from(Plants).where(eq(Plants.groupId, group.id)
       <section class="space-y-4">
         <h2 class="text-[11px] font-black text-slate-400 uppercase tracking-widest px-1">Inventory</h2>
         <div class="ios-inset-list shadow-sm">
-          {plants.sort((a,b) => a.scientificName.localeCompare(b.scientificName)).map(plant => (
+          {plants.map(plant => (
             <div class="ios-row py-4 group/row">
                 <div class="min-w-0 flex-grow pr-4 text-slate-900">
                 <div class="text-[17px] text-slate-900 leading-tight font-bold truncate">{plant.scientificName}</div>

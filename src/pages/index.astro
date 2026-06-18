@@ -3,14 +3,14 @@ import Layout from '../layouts/Layout.astro';
 import CampusMap from '../components/CampusMap.astro';
 import { db, Groups, Plants } from 'astro:db';
 import { Image, getImage } from 'astro:assets';
+import { isActivePlant, sortGroupsByNumber, sortPlantsByGroupOrder } from '../utils/plantSort';
 
-const groupsData = await db.select().from(Groups);
-const plantsData = await db.select().from(Plants);
+const groupsData = sortGroupsByNumber(await db.select().from(Groups));
+const plantsData = sortPlantsByGroupOrder((await db.select().from(Plants)).filter(isActivePlant));
 
 const groups = await Promise.all(groupsData.map(async (group) => {
-  const plantsInGroup = plantsData
-    .filter(p => p.groupId === group.id)
-    .sort((a, b) => a.scientificName.localeCompare(b.scientificName));
+  const plantsInGroup = sortPlantsByGroupOrder(plantsData
+    .filter(p => p.groupId === group.id));
   
   const plantsWithOptimizedImages = await Promise.all(plantsInGroup.map(async (plant) => {
     let optimizedImageUrl = plant.imageUrl;

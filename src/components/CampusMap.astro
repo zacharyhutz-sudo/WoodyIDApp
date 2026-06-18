@@ -1,7 +1,8 @@
 ---
 import { db, Groups } from 'astro:db';
+import { sortGroupsByNumber } from '../utils/plantSort';
 
-const groupsData = await db.select().from(Groups);
+const groupsData = sortGroupsByNumber(await db.select().from(Groups));
 ---
 
 <div class="h-full flex flex-col bg-forest-deep relative overflow-hidden">
@@ -487,13 +488,17 @@ const groupsData = await db.select().from(Groups);
         });
         
         Object.keys(sortedByGroup).forEach(gid => {
-          sortedByGroup[gid].sort((a, b) => a.scientificName.localeCompare(b.scientificName));
+          sortedByGroup[gid].sort((a, b) => {
+            const orderDiff = (a.sortOrder ?? 9999) - (b.sortOrder ?? 9999);
+            if (orderDiff !== 0) return orderDiff;
+            return a.scientificName.localeCompare(b.scientificName);
+          });
         });
 
         plants.forEach(plant => {
           if (plant.latitude && plant.longitude) {
             const groupList = sortedByGroup[plant.groupId] || [];
-            const plantNumber = groupList.findIndex(p => p.id === plant.id) + 1;
+            const plantNumber = plant.sortOrder ?? (groupList.findIndex(p => p.id === plant.id) + 1);
             
             if (!markersByGroup[plant.groupId]) markersByGroup[plant.groupId] = [];
             markersByGroup[plant.groupId].push({ ...plant, number: plantNumber });

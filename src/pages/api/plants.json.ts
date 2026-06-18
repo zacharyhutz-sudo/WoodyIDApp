@@ -1,8 +1,9 @@
 import { db, Plants } from 'astro:db';
 import { getImage } from 'astro:assets';
+import { isActivePlant, sortPlantsByGroupOrder } from '../../utils/plantSort';
 
 export async function GET() {
-  const plants = await db.select().from(Plants);
+  const plants = sortPlantsByGroupOrder((await db.select().from(Plants)).filter(isActivePlant));
   
   const plantsWithOptimizedImages = await Promise.all(plants.map(async (plant) => {
     let optimizedImageUrl = plant.imageUrl;

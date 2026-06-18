@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { db, Groups, Plants, eq } from 'astro:db';
+import { db, Groups } from 'astro:db';
+import { sortGroupsByNumber } from '../utils/plantSort';
 
 // Simple "auth" check via cookie
 const cookie = Astro.request.headers.get('cookie');
@@ -30,7 +31,7 @@ if (Astro.request.method === 'POST') {
   }
 }
 
-const groups = isAuthenticated ? await db.select().from(Groups) : [];
+const groups = isAuthenticated ? sortGroupsByNumber(await db.select().from(Groups)) : [];
 ---
 
 <Layout>

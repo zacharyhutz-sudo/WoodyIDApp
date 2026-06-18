@@ -14,6 +14,8 @@ const Plants = defineTable({
     scientificName: column.text(),
     family: column.text({ optional: true }),
     commonName: column.text(),
+    sortOrder: column.number({ optional: true }),
+    active: column.boolean({ optional: true }),
     imageUrl: column.text({ optional: true }),
     
     // Location
