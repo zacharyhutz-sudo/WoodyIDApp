@@ -35,7 +35,6 @@ Recommended production sequence:
 ```bash
 npm run verify:f26-data
 npm run build
-npm run db:push
 npm run db:sync:f26
 ```
 

@@ -1,7 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { db, Plants } from 'astro:db';
-import { isActivePlant, sortPlantsByGroupOrder } from '../../utils/plantSort';
+import { applyF26Curriculum, sortPlantsByGroupOrder } from '../../utils/plantSort';
 
 // Simple "auth" check via cookie
 const cookie = Astro.request.headers.get('cookie');
@@ -9,7 +9,7 @@ const isAuthenticated = cookie?.includes('auth=ugawoodies');
 
 if (!isAuthenticated) return Astro.redirect('/admin');
 
-const plants = sortPlantsByGroupOrder((await db.select().from(Plants)).filter(isActivePlant));
+const plants = sortPlantsByGroupOrder(applyF26Curriculum(await db.select().from(Plants)));
 ---
 
 <Layout title="Map Editor">

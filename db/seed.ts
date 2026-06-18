@@ -36,15 +36,7 @@ export default async function seed() {
   console.log('Seeding Fall 2026 groups and plants without overwriting locations/images...');
 
   const existingPlants = await db.select().from(Plants);
-  const existingGroups = new Map<string, any[]>();
-  for (const plant of existingPlants) {
-    const normalized = normalizeName(plant.scientificName);
-    existingGroups.set(normalized, [...(existingGroups.get(normalized) || []), plant]);
-  }
-  const existingByName = new Map<string, any>();
-  for (const [normalizedName, plants] of existingGroups) {
-    existingByName.set(normalizedName, plants[0]);
-  }
+  const existingByName = new Map(existingPlants.map((plant) => [normalizeName(plant.scientificName), plant]));
   const activeNames = new Set<string>();
 
   for (const group of plantsData) {
@@ -72,8 +64,6 @@ export default async function seed() {
         scientificName: plant.scientificName,
         family: plant.family,
         commonName: plant.commonName,
-        sortOrder: plant.sortOrder,
-        active: true,
         leafArrangement: details.leafArrangement || undefined,
         leafMargin: details.leafMargin || undefined,
         leafShape: details.leafShape || undefined,
@@ -89,8 +79,6 @@ export default async function seed() {
           scientificName: plant.scientificName,
           commonName: plant.commonName,
           family: plant.family,
-          sortOrder: plant.sortOrder,
-          active: true,
           leafArrangement: details.leafArrangement || undefined,
           leafMargin: details.leafMargin || undefined,
           leafShape: details.leafShape || undefined,
@@ -106,14 +94,6 @@ export default async function seed() {
     }
   }
 
-  for (const plant of existingPlants) {
-    if (!activeNames.has(normalizeName(plant.scientificName))) {
-      await db.update(Plants)
-        .set({ active: false })
-        .where(eq(Plants.id, plant.id));
-      console.log(`Marked inactive, preserved data: ${plant.scientificName}`);
-    }
-  }
 
-  console.log(`Seeding complete. Active Fall 2026 plants: ${activeNames.size}.`);
+  console.log(`Seeding complete. Fall 2026 plants processed: ${activeNames.size}.`);
 }

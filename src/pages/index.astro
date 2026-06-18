@@ -3,10 +3,10 @@ import Layout from '../layouts/Layout.astro';
 import CampusMap from '../components/CampusMap.astro';
 import { db, Groups, Plants } from 'astro:db';
 import { Image, getImage } from 'astro:assets';
-import { isActivePlant, sortGroupsByNumber, sortPlantsByGroupOrder } from '../utils/plantSort';
+import { applyF26Curriculum, sortGroupsByNumber, sortPlantsByGroupOrder } from '../utils/plantSort';
 
 const groupsData = sortGroupsByNumber(await db.select().from(Groups));
-const plantsData = sortPlantsByGroupOrder((await db.select().from(Plants)).filter(isActivePlant));
+const plantsData = sortPlantsByGroupOrder(applyF26Curriculum(await db.select().from(Plants)));
 
 const groups = await Promise.all(groupsData.map(async (group) => {
   const plantsInGroup = sortPlantsByGroupOrder(plantsData
