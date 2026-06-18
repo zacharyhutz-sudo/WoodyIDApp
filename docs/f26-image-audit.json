@@ -1,0 +1,2118 @@
+{
+  "summary": {
+    "totalPlantsReviewedFromUploadedApiExport": 202,
+    "missingImageUrls": 0,
+    "duplicateImageUrlGroups": 3,
+    "plantsWithApprovedDisplayOverrides": 4,
+    "databaseImagesAreNotOverwritten": true,
+    "pinCoordinatesAreNotTouched": true
+  },
+  "duplicateImageUrls": [
+    {
+      "imageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/260516582/medium.jpg",
+      "plants": [
+        "Loropetalum chinense",
+        "Loropetalum chinense var. rubrum"
+      ]
+    },
+    {
+      "imageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/301028109/medium.jpeg",
+      "plants": [
+        "Quercus rubra",
+        "Quercus shumardii"
+      ]
+    },
+    {
+      "imageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/54255667/medium.jpg",
+      "plants": [
+        "Ilex cornuta 'Burfordii'",
+        "Ilex cornuta 'Rotunda'"
+      ]
+    }
+  ],
+  "approvedOverrides": [
+    {
+      "scientificName": "Quercus lyrata",
+      "commonName": "overcup oak",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/d/dd/Overcup_Oak_Quercus_lyrata_acorn_and_leaves_fall.jpg",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Overcup_Oak_Quercus_lyrata_acorn_and_leaves_fall.jpg",
+      "sourceName": "Wikimedia Commons",
+      "credit": "Cossey25",
+      "license": "CC BY-SA 4.0",
+      "reviewStatus": "approved_override",
+      "reason": "Replaces a generic/unclear overcup oak image with a verified image showing both overcup oak leaves and the diagnostic acorn cup."
+    },
+    {
+      "scientificName": "Quercus shumardii",
+      "commonName": "shumard oak",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/01/Shumard_oak_leaves.JPG",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Shumard_oak_leaves.JPG",
+      "sourceName": "Wikimedia Commons",
+      "credit": "Neonfreon / Wikimedia Commons",
+      "license": "Public domain",
+      "reviewStatus": "approved_override",
+      "reason": "The live data used the exact same image URL as Quercus rubra. This replacement is a public-domain Shumard oak leaf image."
+    },
+    {
+      "scientificName": "Loropetalum chinense var. rubrum",
+      "commonName": "red loropetalum",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/b/b3/Loropetalum_chinense_var._rubrum_-_Morris_Arboretum_-_DSC00257.JPG",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Loropetalum_chinense_var._rubrum_-_Morris_Arboretum_-_DSC00257.JPG",
+      "sourceName": "Wikimedia Commons",
+      "credit": "Daderot",
+      "license": "CC0 1.0",
+      "reviewStatus": "approved_override",
+      "reason": "The live data reused the same image as plain Loropetalum chinense. This replacement is specifically labeled var. rubrum and shows the pink/red flowers."
+    },
+    {
+      "scientificName": "Ilex cornuta 'Rotunda'",
+      "commonName": "Rotunda holly",
+      "imageUrl": "https://landscapeplants.oregonstate.edu/sites/plantid7/files/styles/medium/public/plantimage/ilcor52.jpg?itok=uJt2dS9g",
+      "sourcePage": "https://landscapeplants.oregonstate.edu/plants/ilex-cornuta-rotunda",
+      "sourceName": "Oregon State University Landscape Plants",
+      "credit": "Oregon State University Landscape Plants",
+      "license": "Source page copyright; educational reference image",
+      "reviewStatus": "approved_override",
+      "reason": "The live data reused the same image as Ilex cornuta 'Burfordii'. This replacement is from a cultivar-specific Rotunda holly page and shows its distinctive spiny leaves."
+    }
+  ],
+  "plants": [
+    {
+      "scientificName": "Acer buergerianum",
+      "commonName": "trident maple",
+      "groupId": "1",
+      "sortOrder": 1,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/457673435/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Acer ginnala",
+      "commonName": "Amur maple",
+      "groupId": "1",
+      "sortOrder": 2,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/10162059/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Acer griseum",
+      "commonName": "paperbark maple",
+      "groupId": "1",
+      "sortOrder": 3,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/93282513/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Acer negundo",
+      "commonName": "boxelder",
+      "groupId": "1",
+      "sortOrder": 4,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/229714369/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Acer palmatum",
+      "commonName": "Japanese maple",
+      "groupId": "1",
+      "sortOrder": 5,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/2651499/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Acer rubrum",
+      "commonName": "red maple",
+      "groupId": "1",
+      "sortOrder": 6,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/371065093/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Acer saccharum",
+      "commonName": "sugar maple",
+      "groupId": "1",
+      "sortOrder": 7,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/270771956/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Acer x freemanii",
+      "commonName": "Freeman's maple",
+      "groupId": "1",
+      "sortOrder": 8,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/161242/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Alnus serrulata",
+      "commonName": "tag alder",
+      "groupId": "1",
+      "sortOrder": 9,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/2261216/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Betula nigra",
+      "commonName": "river birch",
+      "groupId": "1",
+      "sortOrder": 10,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/816571/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Carpinus betulus",
+      "commonName": "European hornbeam",
+      "groupId": "1",
+      "sortOrder": 11,
+      "currentDatabaseImageUrl": "https://static.inaturalist.org/photos/46763976/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Carpinus caroliniana",
+      "commonName": "American hornbeam",
+      "groupId": "1",
+      "sortOrder": 12,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/43197119/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Cercidiphyllum japonicum",
+      "commonName": "katsuratree",
+      "groupId": "1",
+      "sortOrder": 13,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/37820164/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Diospyros virginiana",
+      "commonName": "persimmon",
+      "groupId": "1",
+      "sortOrder": 14,
+      "currentDatabaseImageUrl": "https://static.inaturalist.org/photos/92868365/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Halesia carolina",
+      "commonName": "Carolina silverbell",
+      "groupId": "1",
+      "sortOrder": 15,
+      "currentDatabaseImageUrl": "https://static.inaturalist.org/photos/34034090/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Ostrya virginiana",
+      "commonName": "hop hornbeam",
+      "groupId": "1",
+      "sortOrder": 16,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/15550/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Populus deltoides",
+      "commonName": "eastern cottonwood",
+      "groupId": "1",
+      "sortOrder": 17,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/4350/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Salix alba 'Tristis'",
+      "commonName": "weeping willow",
+      "groupId": "1",
+      "sortOrder": 18,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/70159039/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Styrax japonicus",
+      "commonName": "Japanese snowbell",
+      "groupId": "1",
+      "sortOrder": 19,
+      "currentDatabaseImageUrl": "https://static.inaturalist.org/photos/40635797/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Sapium sebiferum",
+      "commonName": "Chinese tallow tree (Triadica sebifera)",
+      "groupId": "1",
+      "sortOrder": 20,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/88816213/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Aesculus parviflora",
+      "commonName": "bottlebrush buckeye",
+      "groupId": "2",
+      "sortOrder": 1,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/19700508/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Castanea mollissima",
+      "commonName": "Chinese chestnut",
+      "groupId": "2",
+      "sortOrder": 2,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/11379193/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Fagus grandifolia",
+      "commonName": "American beech",
+      "groupId": "2",
+      "sortOrder": 3,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/9216901/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Nyssa sylvatica",
+      "commonName": "black tupelo",
+      "groupId": "2",
+      "sortOrder": 4,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/197904434/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Platanus occidentalis",
+      "commonName": "sycamore",
+      "groupId": "2",
+      "sortOrder": 5,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/204738082/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Quercus acutissima",
+      "commonName": "sawtooth oak",
+      "groupId": "2",
+      "sortOrder": 6,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/139952358/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Quercus alba",
+      "commonName": "white oak",
+      "groupId": "2",
+      "sortOrder": 7,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/23571211/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Quercus coccinea",
+      "commonName": "scarlet oak",
+      "groupId": "2",
+      "sortOrder": 8,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/45942614/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Quercus falcata",
+      "commonName": "Southern red oak",
+      "groupId": "2",
+      "sortOrder": 9,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/127910779/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Quercus glauca",
+      "commonName": "ring-cupped oak (Cyclobalanopsis glauca)",
+      "groupId": "2",
+      "sortOrder": 10,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/26152644/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Quercus lyrata",
+      "commonName": "overcup oak",
+      "groupId": "2",
+      "sortOrder": 11,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/327638308/medium.jpg",
+      "status": "approved_override_applied",
+      "recommendedDisplayImageUrl": "https://upload.wikimedia.org/wikipedia/commons/d/dd/Overcup_Oak_Quercus_lyrata_acorn_and_leaves_fall.jpg",
+      "notes": [
+        "Replaces a generic/unclear overcup oak image with a verified image showing both overcup oak leaves and the diagnostic acorn cup."
+      ]
+    },
+    {
+      "scientificName": "Quercus macrocarpa",
+      "commonName": "bur oak",
+      "groupId": "2",
+      "sortOrder": 12,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/56307945/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Quercus nigra",
+      "commonName": "water oak",
+      "groupId": "2",
+      "sortOrder": 13,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/5502529/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Quercus palustris",
+      "commonName": "pin oak",
+      "groupId": "2",
+      "sortOrder": 14,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/19499393/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Quercus phellos",
+      "commonName": "willow oak",
+      "groupId": "2",
+      "sortOrder": 15,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/70148212/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Quercus robur",
+      "commonName": "English oak",
+      "groupId": "2",
+      "sortOrder": 16,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/342725494/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Quercus rubra",
+      "commonName": "red oak",
+      "groupId": "2",
+      "sortOrder": 17,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/301028109/medium.jpeg",
+      "status": "duplicate_current_url_reviewed",
+      "recommendedDisplayImageUrl": null,
+      "notes": [
+        "Current URL is shared by: Quercus rubra, Quercus shumardii"
+      ]
+    },
+    {
+      "scientificName": "Quercus shumardii",
+      "commonName": "shumard oak",
+      "groupId": "2",
+      "sortOrder": 18,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/301028109/medium.jpeg",
+      "status": "approved_override_applied",
+      "recommendedDisplayImageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/01/Shumard_oak_leaves.JPG",
+      "notes": [
+        "Current URL is shared by: Quercus rubra, Quercus shumardii",
+        "The live data used the exact same image URL as Quercus rubra. This replacement is a public-domain Shumard oak leaf image."
+      ]
+    },
+    {
+      "scientificName": "Quercus stellata",
+      "commonName": "post oak",
+      "groupId": "2",
+      "sortOrder": 19,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/49138496/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Quercus virginiana",
+      "commonName": "live oak",
+      "groupId": "2",
+      "sortOrder": 20,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/26900290/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Albizia julibrissin",
+      "commonName": "albizia",
+      "groupId": "3",
+      "sortOrder": 1,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/146757188/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Carya aquatica",
+      "commonName": "water hickory",
+      "groupId": "3",
+      "sortOrder": 2,
+      "currentDatabaseImageUrl": "https://static.inaturalist.org/photos/60213964/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Carya illinoinensis",
+      "commonName": "pecan",
+      "groupId": "3",
+      "sortOrder": 3,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/22049/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Carya tomentosa",
+      "commonName": "mockernut hickory",
+      "groupId": "3",
+      "sortOrder": 4,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/54840338/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Cercis canadensis",
+      "commonName": "redbud",
+      "groupId": "3",
+      "sortOrder": 5,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/146752176/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Cladrastis kentukea",
+      "commonName": "American yellowwood",
+      "groupId": "3",
+      "sortOrder": 6,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/129061871/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Gleditsia triacanthos var. inermis",
+      "commonName": "thornless honeylocust",
+      "groupId": "3",
+      "sortOrder": 7,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/193347238/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Gymnocladus dioica",
+      "commonName": "Kentucky coffeetree",
+      "groupId": "3",
+      "sortOrder": 8,
+      "currentDatabaseImageUrl": "https://static.inaturalist.org/photos/734639/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Juglans nigra",
+      "commonName": "black walnut",
+      "groupId": "3",
+      "sortOrder": 9,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/38351837/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Lagerstroemia indica",
+      "commonName": "crepe myrtle",
+      "groupId": "3",
+      "sortOrder": 10,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/203337469/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Liriodendron tulipifera",
+      "commonName": "tuliptree",
+      "groupId": "3",
+      "sortOrder": 11,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/867903/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Magnolia grandiflora",
+      "commonName": "southern magnolia",
+      "groupId": "3",
+      "sortOrder": 12,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/82254330/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Magnolia stellata",
+      "commonName": "star magnolia",
+      "groupId": "3",
+      "sortOrder": 13,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/66470463/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Magnolia x soulangeana",
+      "commonName": "saucer magnolia",
+      "groupId": "3",
+      "sortOrder": 14,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/246162/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Magnolia virginiana",
+      "commonName": "sweetbay magnolia",
+      "groupId": "3",
+      "sortOrder": 15,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/50032286/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Paulownia tomentosa",
+      "commonName": "paulownia",
+      "groupId": "3",
+      "sortOrder": 16,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/377389352/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Robinia pseudoacacia",
+      "commonName": "black locust",
+      "groupId": "3",
+      "sortOrder": 17,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/37431398/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Sophora japonica",
+      "commonName": "Chinese scholar tree (Styphnolobium japonicum)",
+      "groupId": "3",
+      "sortOrder": 18,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/21952068/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Wisteria frutescens",
+      "commonName": "American wisteria",
+      "groupId": "3",
+      "sortOrder": 19,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/74020299/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Wisteria sinensis",
+      "commonName": "Chinese wisteria",
+      "groupId": "3",
+      "sortOrder": 20,
+      "currentDatabaseImageUrl": "https://static.inaturalist.org/photos/481476468/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Calycanthus floridus",
+      "commonName": "sweetshrub",
+      "groupId": "4",
+      "sortOrder": 1,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/93751/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Celtis laevigata",
+      "commonName": "sugar hackberry",
+      "groupId": "4",
+      "sortOrder": 2,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/75312504/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Chimonanthus praecox",
+      "commonName": "wintersweet",
+      "groupId": "4",
+      "sortOrder": 3,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/449711/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Chionanthus virginicus",
+      "commonName": "white fringetree",
+      "groupId": "4",
+      "sortOrder": 4,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/76602996/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Forsythia x intermedia",
+      "commonName": "forsythia",
+      "groupId": "4",
+      "sortOrder": 5,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/3369427/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Fraxinus americana",
+      "commonName": "white ash",
+      "groupId": "4",
+      "sortOrder": 6,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/169588695/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Fraxinus pennsylvanica",
+      "commonName": "green ash",
+      "groupId": "4",
+      "sortOrder": 7,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/17093750/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Jasminum nudiflorum",
+      "commonName": "winter jasmine",
+      "groupId": "4",
+      "sortOrder": 8,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/361222488/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Koelreuteria bipinnata",
+      "commonName": "Chinese flame tree",
+      "groupId": "4",
+      "sortOrder": 9,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/236143455/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Ligustrum lucidum",
+      "commonName": "waxleaf privet",
+      "groupId": "4",
+      "sortOrder": 10,
+      "currentDatabaseImageUrl": "https://static.inaturalist.org/photos/42868241/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Ligustrum sinense",
+      "commonName": "Chinese privet",
+      "groupId": "4",
+      "sortOrder": 11,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/570026/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Osmanthus fragrans",
+      "commonName": "fragrant tea-olive",
+      "groupId": "4",
+      "sortOrder": 12,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/58688981/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Osmanthus x fortunei",
+      "commonName": "Fortune's tea-olive",
+      "groupId": "4",
+      "sortOrder": 13,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/65426818/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Sassafras albidum",
+      "commonName": "sassafras",
+      "groupId": "4",
+      "sortOrder": 14,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/89683054/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Tilia americana",
+      "commonName": "basswood",
+      "groupId": "4",
+      "sortOrder": 15,
+      "currentDatabaseImageUrl": "https://static.inaturalist.org/photos/404975522/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Ulmus alata",
+      "commonName": "winged elm",
+      "groupId": "4",
+      "sortOrder": 16,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/135400022/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Ulmus americana",
+      "commonName": "American elm",
+      "groupId": "4",
+      "sortOrder": 17,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/8798295/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Ulmus parvifolia",
+      "commonName": "lacebark elm",
+      "groupId": "4",
+      "sortOrder": 18,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/231455411/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Ulmus pumila",
+      "commonName": "Siberian elm",
+      "groupId": "4",
+      "sortOrder": 19,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/164092406/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Zelkova serrata",
+      "commonName": "Japanese zelkova",
+      "groupId": "4",
+      "sortOrder": 20,
+      "currentDatabaseImageUrl": "https://static.inaturalist.org/photos/70866075/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Aucuba japonica",
+      "commonName": "aucuba",
+      "groupId": "5",
+      "sortOrder": 1,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/14055046/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Bignonia capreolata",
+      "commonName": "crossvine",
+      "groupId": "5",
+      "sortOrder": 2,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/255699/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Broussonetia papyrifera",
+      "commonName": "paper mulberry",
+      "groupId": "5",
+      "sortOrder": 3,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/142337328/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Campsis radicans",
+      "commonName": "trumpet vine",
+      "groupId": "5",
+      "sortOrder": 4,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/7300976/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Catalpa bignonioides",
+      "commonName": "catalpa",
+      "groupId": "5",
+      "sortOrder": 5,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/415075/medium.JPG",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Cornus florida",
+      "commonName": "flowering dogwood",
+      "groupId": "5",
+      "sortOrder": 6,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/15371883/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Cornus kousa",
+      "commonName": "kousa dogwood",
+      "groupId": "5",
+      "sortOrder": 7,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/69066485/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Cotinus coggygria",
+      "commonName": "smoketree",
+      "groupId": "5",
+      "sortOrder": 8,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/431519967/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Euonymus alatus",
+      "commonName": "burning bush",
+      "groupId": "5",
+      "sortOrder": 9,
+      "currentDatabaseImageUrl": "https://static.inaturalist.org/photos/244596971/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Euonymus fortunei var. coloratus",
+      "commonName": "wintercreeper",
+      "groupId": "5",
+      "sortOrder": 10,
+      "currentDatabaseImageUrl": "https://static.inaturalist.org/photos/28139660/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Ficus pumila",
+      "commonName": "climbing fig",
+      "groupId": "5",
+      "sortOrder": 11,
+      "currentDatabaseImageUrl": "https://static.inaturalist.org/photos/59250812/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Gelsemium sempervirens",
+      "commonName": "Carolina jessamine",
+      "groupId": "5",
+      "sortOrder": 12,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/60591012/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Hedera helix",
+      "commonName": "English ivy",
+      "groupId": "5",
+      "sortOrder": 13,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/38428455/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Morus alba",
+      "commonName": "white mulberry",
+      "groupId": "5",
+      "sortOrder": 14,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/56582166/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Parthenocissus quinquefolia",
+      "commonName": "Virginia creeper",
+      "groupId": "5",
+      "sortOrder": 15,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/1688748/medium.JPG",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Pistacia chinensis",
+      "commonName": "pistachio",
+      "groupId": "5",
+      "sortOrder": 16,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/171142/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Rhus glabra",
+      "commonName": "smooth sumac",
+      "groupId": "5",
+      "sortOrder": 17,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/8818018/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Trachelospermum asiaticum",
+      "commonName": "Asiatic jasmine",
+      "groupId": "5",
+      "sortOrder": 18,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/19457595/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Vinca major",
+      "commonName": "large vinca",
+      "groupId": "5",
+      "sortOrder": 19,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/187076568/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Vitis rotundifolia",
+      "commonName": "muscadine",
+      "groupId": "5",
+      "sortOrder": 20,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/76764131/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Amelanchier arborea",
+      "commonName": "shadblow (serviceberry)",
+      "groupId": "6",
+      "sortOrder": 1,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/18357952/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Callicarpa americana",
+      "commonName": "beautyberry",
+      "groupId": "6",
+      "sortOrder": 2,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/225612223/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Chaenomeles speciosa",
+      "commonName": "flowering quince",
+      "groupId": "6",
+      "sortOrder": 3,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/1089240/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Hydrangea macrophylla",
+      "commonName": "bigleaf hydrangea",
+      "groupId": "6",
+      "sortOrder": 4,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/45518546/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Hydrangea paniculata",
+      "commonName": "panicled hydrangea",
+      "groupId": "6",
+      "sortOrder": 5,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/56235268/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Hydrangea quercifolia",
+      "commonName": "oakleaf hydrangea",
+      "groupId": "6",
+      "sortOrder": 6,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/870031/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Itea virginica",
+      "commonName": "Virginia sweetspire",
+      "groupId": "6",
+      "sortOrder": 7,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/143782553/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Malus 'Callaway'",
+      "commonName": "Callaway crabapple",
+      "groupId": "6",
+      "sortOrder": 8,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/14004/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Photinia serratifolia",
+      "commonName": "Chinese photinia",
+      "groupId": "6",
+      "sortOrder": 9,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/263176329/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Prunus 'Okame'",
+      "commonName": "Okame cherry",
+      "groupId": "6",
+      "sortOrder": 10,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/93584919/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Prunus caroliniana",
+      "commonName": "Carolina cherrylaurel",
+      "groupId": "6",
+      "sortOrder": 11,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/195635137/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Prunus laurocerasus",
+      "commonName": "cherrylaurel",
+      "groupId": "6",
+      "sortOrder": 12,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/146285013/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Prunus persica",
+      "commonName": "peach",
+      "groupId": "6",
+      "sortOrder": 13,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/188900677/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Prunus x yedoensis",
+      "commonName": "yoshino cherry",
+      "groupId": "6",
+      "sortOrder": 14,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/45000543/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Pyrus calleryana 'Bradford'",
+      "commonName": "Bradford pear",
+      "groupId": "6",
+      "sortOrder": 15,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/269351075/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Rhaphiolepis umbellata",
+      "commonName": "Indian hawthorn",
+      "groupId": "6",
+      "sortOrder": 16,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/122632691/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Rosa banksiae 'Lutea'",
+      "commonName": "Lady Banks' Rose",
+      "groupId": "6",
+      "sortOrder": 17,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/122545712/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Spiraea thunbergii",
+      "commonName": "Thunberg spirea",
+      "groupId": "6",
+      "sortOrder": 18,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/1635994/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Spiraea x vanhouttei",
+      "commonName": "Vanhoutte spirea",
+      "groupId": "6",
+      "sortOrder": 19,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/131392897/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Vitex agnus-castus",
+      "commonName": "chaste tree",
+      "groupId": "6",
+      "sortOrder": 20,
+      "currentDatabaseImageUrl": "https://static.inaturalist.org/photos/47915463/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Abelia x grandiflora",
+      "commonName": "glossy abelia",
+      "groupId": "7",
+      "sortOrder": 1,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/119229249/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Buddleia davidii",
+      "commonName": "butterfly-bush",
+      "groupId": "7",
+      "sortOrder": 2,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/148425265/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Clematis terniflora",
+      "commonName": "sweetautumn clematis",
+      "groupId": "7",
+      "sortOrder": 3,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/147839568/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Clethra alnifolia",
+      "commonName": "clethra",
+      "groupId": "7",
+      "sortOrder": 4,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/152955653/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Deutzia gracilis",
+      "commonName": "slender deutzia",
+      "groupId": "7",
+      "sortOrder": 5,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/8319772/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Distylium myricoides",
+      "commonName": "blue isu tree",
+      "groupId": "7",
+      "sortOrder": 6,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/74381862/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Edgeworthia chrysantha",
+      "commonName": "paperbush",
+      "groupId": "7",
+      "sortOrder": 7,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/63720866/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Fothergilla major",
+      "commonName": "fothergilla",
+      "groupId": "7",
+      "sortOrder": 8,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/85588348/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Hamamelis virginiana",
+      "commonName": "witchhazel",
+      "groupId": "7",
+      "sortOrder": 9,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/102104076/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Hibiscus syriacus",
+      "commonName": "rose of sharon",
+      "groupId": "7",
+      "sortOrder": 10,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/94974/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Liquidambar styraciflua",
+      "commonName": "sweetgum",
+      "groupId": "7",
+      "sortOrder": 11,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/151075271/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Lonicera fragrantissima",
+      "commonName": "winter honeysuckle",
+      "groupId": "7",
+      "sortOrder": 12,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/68979491/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Lonicera japonica",
+      "commonName": "Japanese honeysuckle",
+      "groupId": "7",
+      "sortOrder": 13,
+      "currentDatabaseImageUrl": "https://static.inaturalist.org/photos/13558833/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Lonicera maackii",
+      "commonName": "Amur honeysuckle",
+      "groupId": "7",
+      "sortOrder": 14,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/277949422/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Lonicera sempervirens",
+      "commonName": "trumpet honeysuckle",
+      "groupId": "7",
+      "sortOrder": 15,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/70049480/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Loropetalum chinense",
+      "commonName": "loropetalum",
+      "groupId": "7",
+      "sortOrder": 16,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/260516582/medium.jpg",
+      "status": "duplicate_current_url_reviewed",
+      "recommendedDisplayImageUrl": null,
+      "notes": [
+        "Current URL is shared by: Loropetalum chinense, Loropetalum chinense var. rubrum"
+      ]
+    },
+    {
+      "scientificName": "Loropetalum chinense var. rubrum",
+      "commonName": "red loropetalum",
+      "groupId": "7",
+      "sortOrder": 17,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/260516582/medium.jpg",
+      "status": "approved_override_applied",
+      "recommendedDisplayImageUrl": "https://upload.wikimedia.org/wikipedia/commons/b/b3/Loropetalum_chinense_var._rubrum_-_Morris_Arboretum_-_DSC00257.JPG",
+      "notes": [
+        "Current URL is shared by: Loropetalum chinense, Loropetalum chinense var. rubrum",
+        "The live data reused the same image as plain Loropetalum chinense. This replacement is specifically labeled var. rubrum and shows the pink/red flowers."
+      ]
+    },
+    {
+      "scientificName": "Parrotia persica",
+      "commonName": "Persian parrotia",
+      "groupId": "7",
+      "sortOrder": 18,
+      "currentDatabaseImageUrl": "https://static.inaturalist.org/photos/17780910/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Viburnum macrocephalum",
+      "commonName": "Chinese snowball viburnum",
+      "groupId": "7",
+      "sortOrder": 19,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/123000782/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Viburnum plicatum var. tomentosum",
+      "commonName": "doublefile viburnum",
+      "groupId": "7",
+      "sortOrder": 20,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/449392/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Viburnum x pragense",
+      "commonName": "Prague viburnum",
+      "groupId": "7",
+      "sortOrder": 21,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/177331638/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Cedrus deodara",
+      "commonName": "deodar cedar",
+      "groupId": "8",
+      "sortOrder": 1,
+      "currentDatabaseImageUrl": "https://static.inaturalist.org/photos/202875833/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Cedrus atlantica 'Glauca'",
+      "commonName": "atlas cedar",
+      "groupId": "8",
+      "sortOrder": 2,
+      "currentDatabaseImageUrl": "https://static.inaturalist.org/photos/13985521/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Chamaecyparis thyoides",
+      "commonName": "Atlantic white cedar",
+      "groupId": "8",
+      "sortOrder": 3,
+      "currentDatabaseImageUrl": "https://static.inaturalist.org/photos/526545/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Cryptomeria japonica",
+      "commonName": "cryptomeria",
+      "groupId": "8",
+      "sortOrder": 4,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/98528458/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Juniperus chinensis 'Pfitzeriana'",
+      "commonName": "Pfitzer juniper",
+      "groupId": "8",
+      "sortOrder": 5,
+      "currentDatabaseImageUrl": "https://static.inaturalist.org/photos/100132984/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Juniperus conferta",
+      "commonName": "shore juniper",
+      "groupId": "8",
+      "sortOrder": 6,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/65073708/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Juniperus procumbens 'Nana'",
+      "commonName": "dwarf Japanese garden juniper",
+      "groupId": "8",
+      "sortOrder": 7,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/329463976/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Juniperus virginiana",
+      "commonName": "eastern red cedar",
+      "groupId": "8",
+      "sortOrder": 8,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/165898544/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Metasequoia glyptostroboides",
+      "commonName": "dawn redwood",
+      "groupId": "8",
+      "sortOrder": 9,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/285729025/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Pinus bungeana",
+      "commonName": "lacebark pine",
+      "groupId": "8",
+      "sortOrder": 10,
+      "currentDatabaseImageUrl": "https://static.inaturalist.org/photos/161213814/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Pinus echinata",
+      "commonName": "shortleaf pine",
+      "groupId": "8",
+      "sortOrder": 11,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/54642309/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Pinus palustris",
+      "commonName": "longleaf pine",
+      "groupId": "8",
+      "sortOrder": 12,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/14863929/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Pinus strobus",
+      "commonName": "eastern white pine",
+      "groupId": "8",
+      "sortOrder": 13,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/390760300/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Pinus taeda",
+      "commonName": "loblolly pine",
+      "groupId": "8",
+      "sortOrder": 14,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/68048532/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Pinus thunbergii",
+      "commonName": "Japanese black pine",
+      "groupId": "8",
+      "sortOrder": 15,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/7609527/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Pinus virginiana",
+      "commonName": "scrub pine",
+      "groupId": "8",
+      "sortOrder": 16,
+      "currentDatabaseImageUrl": "https://static.inaturalist.org/photos/8864221/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Pseudolarix amabilis",
+      "commonName": "golden larch",
+      "groupId": "8",
+      "sortOrder": 17,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/10837877/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Taxodium distichum",
+      "commonName": "bald cypress",
+      "groupId": "8",
+      "sortOrder": 18,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/295596830/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Thuja 'Green Giant'",
+      "commonName": "green giant arborvitae",
+      "groupId": "8",
+      "sortOrder": 19,
+      "currentDatabaseImageUrl": "https://static.inaturalist.org/photos/9129461/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Thuja occidentalis",
+      "commonName": "eastern arborvitae",
+      "groupId": "8",
+      "sortOrder": 20,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/4684247/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Tsuga canadensis",
+      "commonName": "Canada hemlock",
+      "groupId": "8",
+      "sortOrder": 21,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/400071107/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Agarista populifolia (Leucothoe)",
+      "commonName": "Florida leucothoe",
+      "groupId": "9",
+      "sortOrder": 1,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/20349070/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Berberis thunbergii var. atropurpurea",
+      "commonName": "purple-leaved barberry",
+      "groupId": "9",
+      "sortOrder": 2,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/37811889/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Ginkgo biloba",
+      "commonName": "ginkgo",
+      "groupId": "9",
+      "sortOrder": 3,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/397250612/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Ilex cassine",
+      "commonName": "Dahoon",
+      "groupId": "9",
+      "sortOrder": 4,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/25093260/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Ilex cornuta 'Burfordii'",
+      "commonName": "Burford holly",
+      "groupId": "9",
+      "sortOrder": 5,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/54255667/medium.jpg",
+      "status": "duplicate_current_url_reviewed",
+      "recommendedDisplayImageUrl": null,
+      "notes": [
+        "Current URL is shared by: Ilex cornuta 'Burfordii', Ilex cornuta 'Rotunda'"
+      ]
+    },
+    {
+      "scientificName": "Ilex cornuta 'Rotunda'",
+      "commonName": "Rotunda holly",
+      "groupId": "9",
+      "sortOrder": 6,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/54255667/medium.jpg",
+      "status": "approved_override_applied",
+      "recommendedDisplayImageUrl": "https://landscapeplants.oregonstate.edu/sites/plantid7/files/styles/medium/public/plantimage/ilcor52.jpg?itok=uJt2dS9g",
+      "notes": [
+        "Current URL is shared by: Ilex cornuta 'Burfordii', Ilex cornuta 'Rotunda'",
+        "The live data reused the same image as Ilex cornuta 'Burfordii'. This replacement is from a cultivar-specific Rotunda holly page and shows its distinctive spiny leaves."
+      ]
+    },
+    {
+      "scientificName": "Ilex crenata",
+      "commonName": "Japanese holly",
+      "groupId": "9",
+      "sortOrder": 7,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/242778664/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Ilex glabra",
+      "commonName": "inkberry",
+      "groupId": "9",
+      "sortOrder": 8,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/126467/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Ilex opaca",
+      "commonName": "American holly",
+      "groupId": "9",
+      "sortOrder": 9,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/149554033/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Ilex verticillata",
+      "commonName": "winterberry",
+      "groupId": "9",
+      "sortOrder": 10,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/53818150/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Ilex vomitoria",
+      "commonName": "yaupon",
+      "groupId": "9",
+      "sortOrder": 11,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/1280560/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Ilex x attenuata 'Savannah'",
+      "commonName": "Savannah holly",
+      "groupId": "9",
+      "sortOrder": 12,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/442689800/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Ilex x 'Nellie R. Stevens'",
+      "commonName": "Nellie R. Stevens holly",
+      "groupId": "9",
+      "sortOrder": 13,
+      "currentDatabaseImageUrl": "https://static.inaturalist.org/photos/15413229/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Kalmia latifolia",
+      "commonName": "mountain laurel",
+      "groupId": "9",
+      "sortOrder": 14,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/395501030/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Mahonia aquifolium",
+      "commonName": "Oregon grapeholly",
+      "groupId": "9",
+      "sortOrder": 15,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/65130109/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Mahonia bealei",
+      "commonName": "leatherleaf mahonia",
+      "groupId": "9",
+      "sortOrder": 16,
+      "currentDatabaseImageUrl": "https://static.inaturalist.org/photos/62450545/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Mahonia 'Soft Caress'",
+      "commonName": "soft caress mahonia",
+      "groupId": "9",
+      "sortOrder": 17,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/48462428/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Nandina domestica",
+      "commonName": "heavenly bamboo",
+      "groupId": "9",
+      "sortOrder": 18,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/71351881/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Rhododendron canescens",
+      "commonName": "Piedmont azalea",
+      "groupId": "9",
+      "sortOrder": 19,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/1650298/medium.JPG",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Rhododendron catawbiense",
+      "commonName": "Catawba rhododendron",
+      "groupId": "9",
+      "sortOrder": 20,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/86538698/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Acca sellowiana",
+      "commonName": "pineapple guava",
+      "groupId": "10",
+      "sortOrder": 1,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/148368813/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Butia capitata",
+      "commonName": "jelly palm",
+      "groupId": "10",
+      "sortOrder": 2,
+      "currentDatabaseImageUrl": "https://static.inaturalist.org/photos/354302969/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Buxus microphylla",
+      "commonName": "Korean boxwood",
+      "groupId": "10",
+      "sortOrder": 3,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/436143681/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Buxus sempervirens",
+      "commonName": "boxwood",
+      "groupId": "10",
+      "sortOrder": 4,
+      "currentDatabaseImageUrl": "https://static.inaturalist.org/photos/43384449/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Camellia japonica",
+      "commonName": "Japanese camellia",
+      "groupId": "10",
+      "sortOrder": 5,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/114800079/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Camellia sasanqua",
+      "commonName": "sasanqua",
+      "groupId": "10",
+      "sortOrder": 6,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/103517792/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Camellia sinensis",
+      "commonName": "tea",
+      "groupId": "10",
+      "sortOrder": 7,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/75816/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Cephalotaxus harringtonia",
+      "commonName": "plum yew",
+      "groupId": "10",
+      "sortOrder": 8,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/22125621/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Fatsia japonica",
+      "commonName": "fatsia",
+      "groupId": "10",
+      "sortOrder": 9,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/110993233/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Gardenia jasminoides",
+      "commonName": "gardenia",
+      "groupId": "10",
+      "sortOrder": 10,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/430635084/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Illicium floridanum",
+      "commonName": "Florida anise-tree",
+      "groupId": "10",
+      "sortOrder": 11,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/64234933/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Illicium parviflorum",
+      "commonName": "small anise-tree",
+      "groupId": "10",
+      "sortOrder": 12,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/275438803/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Myrica cerifera",
+      "commonName": "southern waxmyrtle",
+      "groupId": "10",
+      "sortOrder": 13,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/347780/medium.gif",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Poncirus trifoliata",
+      "commonName": "hardy orange",
+      "groupId": "10",
+      "sortOrder": 14,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/351412/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Rhapidophyllum hystrix",
+      "commonName": "needle palm",
+      "groupId": "10",
+      "sortOrder": 15,
+      "currentDatabaseImageUrl": "https://static.inaturalist.org/photos/4658008/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Sabal minor",
+      "commonName": "dwarf palmetto",
+      "groupId": "10",
+      "sortOrder": 16,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/407909479/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Sabal palmetto",
+      "commonName": "cabbage palm OR palmetto tree",
+      "groupId": "10",
+      "sortOrder": 17,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/217939258/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Taxus baccata",
+      "commonName": "English yew",
+      "groupId": "10",
+      "sortOrder": 18,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/8502/medium.jpg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Ternstroemia gymnanthera",
+      "commonName": "ternstroemia (cleyera)",
+      "groupId": "10",
+      "sortOrder": 19,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/120198538/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    },
+    {
+      "scientificName": "Trachycarpus fortunei",
+      "commonName": "windmill palm",
+      "groupId": "10",
+      "sortOrder": 20,
+      "currentDatabaseImageUrl": "https://inaturalist-open-data.s3.amazonaws.com/photos/418335608/medium.jpeg",
+      "status": "current_database_image_retained",
+      "recommendedDisplayImageUrl": null,
+      "notes": []
+    }
+  ]
+}

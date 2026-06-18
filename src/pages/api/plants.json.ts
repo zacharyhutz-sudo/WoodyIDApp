@@ -1,16 +1,18 @@
 import { db, Plants } from 'astro:db';
 import { getImage } from 'astro:assets';
 import { applyF26Curriculum, sortPlantsByGroupOrder } from '../../utils/plantSort';
+import { resolvePlantImages } from '../../utils/plantImages';
 
 export async function GET() {
-  const plants = sortPlantsByGroupOrder(applyF26Curriculum(await db.select().from(Plants)));
+  const plants = resolvePlantImages(sortPlantsByGroupOrder(applyF26Curriculum(await db.select().from(Plants))));
   
   const plantsWithOptimizedImages = await Promise.all(plants.map(async (plant) => {
-    let optimizedImageUrl = plant.imageUrl;
-    if (plant.imageUrl) {
+    const sourceImageUrl = plant.displayImageUrl || plant.imageUrl;
+    let optimizedImageUrl = sourceImageUrl;
+    if (sourceImageUrl) {
       try {
         const optimized = await getImage({ 
-          src: plant.imageUrl, 
+          src: sourceImageUrl, 
           width: 800, 
           format: 'webp',
           quality: 80

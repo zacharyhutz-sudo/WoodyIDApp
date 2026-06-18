@@ -12,7 +12,7 @@ export default defineConfig({
     service: {
       entrypoint: 'astro/assets/services/sharp'
     },
-    domains: ['supabase.co', 'res.cloudinary.com', 'hwtpsvukkyhuvhghulue.supabase.co'],
+    domains: ['supabase.co', 'res.cloudinary.com', 'hwtpsvukkyhuvhghulue.supabase.co', 'inaturalist-open-data.s3.amazonaws.com', 'static.inaturalist.org', 'upload.wikimedia.org', 'landscapeplants.oregonstate.edu'],
     remotePatterns: [
       {
         protocol: 'https',
@@ -21,6 +21,22 @@ export default defineConfig({
       {
         protocol: 'https',
         hostname: 'res.cloudinary.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'inaturalist-open-data.s3.amazonaws.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'static.inaturalist.org',
+      },
+      {
+        protocol: 'https',
+        hostname: 'upload.wikimedia.org',
+      },
+      {
+        protocol: 'https',
+        hostname: 'landscapeplants.oregonstate.edu',
       }
     ],
   },

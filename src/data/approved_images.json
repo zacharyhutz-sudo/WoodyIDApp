@@ -1,0 +1,46 @@
+[
+  {
+    "scientificName": "Quercus lyrata",
+    "commonName": "overcup oak",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/d/dd/Overcup_Oak_Quercus_lyrata_acorn_and_leaves_fall.jpg",
+    "sourcePage": "https://commons.wikimedia.org/wiki/File:Overcup_Oak_Quercus_lyrata_acorn_and_leaves_fall.jpg",
+    "sourceName": "Wikimedia Commons",
+    "credit": "Cossey25",
+    "license": "CC BY-SA 4.0",
+    "reviewStatus": "approved_override",
+    "reason": "Replaces a generic/unclear overcup oak image with a verified image showing both overcup oak leaves and the diagnostic acorn cup."
+  },
+  {
+    "scientificName": "Quercus shumardii",
+    "commonName": "shumard oak",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/01/Shumard_oak_leaves.JPG",
+    "sourcePage": "https://commons.wikimedia.org/wiki/File:Shumard_oak_leaves.JPG",
+    "sourceName": "Wikimedia Commons",
+    "credit": "Neonfreon / Wikimedia Commons",
+    "license": "Public domain",
+    "reviewStatus": "approved_override",
+    "reason": "The live data used the exact same image URL as Quercus rubra. This replacement is a public-domain Shumard oak leaf image."
+  },
+  {
+    "scientificName": "Loropetalum chinense var. rubrum",
+    "commonName": "red loropetalum",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/b/b3/Loropetalum_chinense_var._rubrum_-_Morris_Arboretum_-_DSC00257.JPG",
+    "sourcePage": "https://commons.wikimedia.org/wiki/File:Loropetalum_chinense_var._rubrum_-_Morris_Arboretum_-_DSC00257.JPG",
+    "sourceName": "Wikimedia Commons",
+    "credit": "Daderot",
+    "license": "CC0 1.0",
+    "reviewStatus": "approved_override",
+    "reason": "The live data reused the same image as plain Loropetalum chinense. This replacement is specifically labeled var. rubrum and shows the pink/red flowers."
+  },
+  {
+    "scientificName": "Ilex cornuta 'Rotunda'",
+    "commonName": "Rotunda holly",
+    "imageUrl": "https://landscapeplants.oregonstate.edu/sites/plantid7/files/styles/medium/public/plantimage/ilcor52.jpg?itok=uJt2dS9g",
+    "sourcePage": "https://landscapeplants.oregonstate.edu/plants/ilex-cornuta-rotunda",
+    "sourceName": "Oregon State University Landscape Plants",
+    "credit": "Oregon State University Landscape Plants",
+    "license": "Source page copyright; educational reference image",
+    "reviewStatus": "approved_override",
+    "reason": "The live data reused the same image as Ilex cornuta 'Burfordii'. This replacement is from a cultivar-specific Rotunda holly page and shows its distinctive spiny leaves."
+  }
+]

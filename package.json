@@ -11,7 +11,8 @@
     "preview": "astro preview",
     "astro": "astro",
     "verify:f26-data": "node scripts/verify-f26-data.mjs",
-    "db:sync:f26": "astro db execute db/sync_f26_groups.ts --remote"
+    "db:sync:f26": "astro db execute db/sync_f26_groups.ts --remote",
+    "verify:images": "node scripts/verify-image-overrides.mjs"
   },
   "dependencies": {
     "@astrojs/db": "^0.20.0",

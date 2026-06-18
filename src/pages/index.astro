@@ -4,20 +4,22 @@ import CampusMap from '../components/CampusMap.astro';
 import { db, Groups, Plants } from 'astro:db';
 import { Image, getImage } from 'astro:assets';
 import { applyF26Curriculum, sortGroupsByNumber, sortPlantsByGroupOrder } from '../utils/plantSort';
+import { resolvePlantImages } from '../utils/plantImages';
 
 const groupsData = sortGroupsByNumber(await db.select().from(Groups));
-const plantsData = sortPlantsByGroupOrder(applyF26Curriculum(await db.select().from(Plants)));
+const plantsData = resolvePlantImages(sortPlantsByGroupOrder(applyF26Curriculum(await db.select().from(Plants))));
 
 const groups = await Promise.all(groupsData.map(async (group) => {
   const plantsInGroup = sortPlantsByGroupOrder(plantsData
     .filter(p => p.groupId === group.id));
   
   const plantsWithOptimizedImages = await Promise.all(plantsInGroup.map(async (plant) => {
-    let optimizedImageUrl = plant.imageUrl;
-    if (plant.imageUrl) {
+    const sourceImageUrl = plant.displayImageUrl || plant.imageUrl;
+    let optimizedImageUrl = sourceImageUrl;
+    if (sourceImageUrl) {
       try {
         const optimized = await getImage({ 
-          src: plant.imageUrl, 
+          src: sourceImageUrl, 
           width: 1200, 
           format: 'webp',
           quality: 85
@@ -30,8 +32,8 @@ const groups = await Promise.all(groupsData.map(async (group) => {
     return { ...plant, optimizedImageUrl };
   }));
 
-  const heroPlant = plantsInGroup.find(p => p.imageUrl);
-  const heroImage = heroPlant ? heroPlant.imageUrl : null;
+  const heroPlant = plantsInGroup.find(p => p.displayImageUrl || p.imageUrl);
+  const heroImage = heroPlant ? (heroPlant.displayImageUrl || heroPlant.imageUrl) : null;
     
   return { ...group, plants: plantsWithOptimizedImages, heroImage };
 }));
@@ -620,13 +622,15 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 
 	const renderPlantCard = (plant) => {
 		const hasLocation = plant.latitude !== null && plant.latitude !== undefined && plant.longitude !== null && plant.longitude !== undefined;
-		const imageUrl = plant.optimizedImageUrl || plant.imageUrl;
+		const imageUrl = plant.optimizedImageUrl || plant.displayImageUrl || plant.imageUrl;
+		const imageCredit = plant.imageCredit ? `Image: ${plant.imageCredit}${plant.imageLicense ? ` · ${plant.imageLicense}` : ''}` : '';
 		return `
 			<article class="bg-sage-muted rounded-[2rem] overflow-hidden border border-sage-light/30 shadow-2xl transition-all">
 				${imageUrl ? `
-					<button class="plant-image-button w-full h-72 bg-forest-deep overflow-hidden relative cursor-zoom-in" data-image-url="${escapeHtml(plant.imageUrl || imageUrl)}">
+					<button class="plant-image-button w-full h-72 bg-forest-deep overflow-hidden relative cursor-zoom-in" data-image-url="${escapeHtml(plant.displayImageUrl || plant.imageUrl || imageUrl)}">
 						<img src="${escapeHtml(imageUrl)}" class="w-full h-full object-cover" loading="lazy" alt="${escapeHtml(plant.commonName || plant.scientificName)}" />
 						<div class="absolute inset-0 bg-gradient-to-t from-forest-deep/60 to-transparent"></div>
+						${imageCredit ? `<span class="absolute bottom-3 right-3 max-w-[85%] rounded-full bg-forest-deep/75 border border-white/10 px-3 py-1 text-[9px] font-bold text-cream-warm/75 uppercase tracking-wide">${escapeHtml(imageCredit)}</span>` : ''}
 					</button>
 				` : ''}
 				<div class="p-8">
@@ -905,7 +909,7 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 
 		noResults.classList.add('hidden');
 		searchResultsList.innerHTML = filtered.map(plant => {
-			const imageUrl = plant.optimizedImageUrl || plant.imageUrl;
+			const imageUrl = plant.optimizedImageUrl || plant.displayImageUrl || plant.imageUrl;
 			return `
 				<button class="search-result-item w-full flex items-center gap-4 p-3 bg-sage-muted/20 border border-white/5 rounded-2xl active:scale-[0.98] transition-all text-left" data-plant-id="${escapeHtml(plant.id)}">
 					<div class="w-16 h-16 rounded-xl overflow-hidden border border-white/10 shrink-0 bg-forest-deep">
@@ -946,7 +950,7 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 		}
 
 		cardBackFamily.textContent = plant.family || '';
-		cardBackImage.src = plant.optimizedImageUrl || plant.imageUrl || '';
+		cardBackImage.src = plant.optimizedImageUrl || plant.displayImageUrl || plant.imageUrl || '';
 		cardBackCues.innerHTML = renderCuePills(plant, true);
 		flashcardProgress.textContent = `${currentCardIndex + 1} of ${currentFlashcards.length}`;
 	};
@@ -975,7 +979,7 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 	const startQuiz = (plants, options = {}) => {
 		quizType = options.type || 'typing';
 		quizSource = options.source || 'group';
-		const imagePlants = plants.filter(p => p.optimizedImageUrl || p.imageUrl);
+		const imagePlants = plants.filter(p => p.optimizedImageUrl || p.displayImageUrl || p.imageUrl);
 		const usablePlants = quizType === 'image' && imagePlants.length > 0 ? imagePlants : plants;
 
 		quizQueue = shuffleArray(usablePlants);
@@ -1009,7 +1013,7 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 		quizAnswerInput.placeholder = `Type ${expectedLabel}...`;
 
 		if (quizType === 'image') {
-			const imageUrl = plant.optimizedImageUrl || plant.imageUrl;
+			const imageUrl = plant.optimizedImageUrl || plant.displayImageUrl || plant.imageUrl;
 			quizImage.src = imageUrl || '';
 			quizImageWrap.classList.toggle('hidden', !imageUrl);
 			quizQuestionText.textContent = 'Identify this plant';

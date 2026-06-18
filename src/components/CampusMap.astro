@@ -203,7 +203,7 @@ const groupsData = sortGroupsByNumber(await db.select().from(Groups));
           mapResultsList.innerHTML = filtered.map(plant => `
             <button class="map-search-item w-full flex items-center gap-3 p-2 hover:bg-white/5 rounded-xl transition-all text-left" data-id="${plant.id}">
               <div class="w-10 h-10 rounded-lg overflow-hidden shrink-0 bg-forest-deep border border-white/10">
-                ${plant.optimizedImageUrl ? `<img src="${plant.optimizedImageUrl}" class="w-full h-full object-cover" />` : ''}
+                ${(plant.optimizedImageUrl || plant.displayImageUrl || plant.imageUrl) ? `<img src="${plant.optimizedImageUrl || plant.displayImageUrl || plant.imageUrl}" class="w-full h-full object-cover" />` : ''}
               </div>
               <div class="min-w-0">
                 <div class="text-[12px] font-bold text-cream-warm uppercase tracking-tight font-header truncate">${plant.scientificName}</div>
@@ -396,13 +396,15 @@ const groupsData = sortGroupsByNumber(await db.select().from(Groups));
 
     // Modal Display Logic
     const showPlantDetail = (plant) => {
-      const displayUrl = plant.optimizedImageUrl || plant.imageUrl;
+      const displayUrl = plant.optimizedImageUrl || plant.displayImageUrl || plant.imageUrl;
+      const imageCredit = plant.imageCredit ? `Image: ${plant.imageCredit}${plant.imageLicense ? ` · ${plant.imageLicense}` : ''}` : '';
       modalContent.innerHTML = `
         <div class="w-full">
           <div class="w-full h-72 bg-forest-deep overflow-hidden relative">
             ${displayUrl ? `
-              <button class="w-full h-full cursor-zoom-in" onclick="window.openLightbox('${plant.imageUrl}')">
+              <button class="w-full h-full cursor-zoom-in" onclick="window.openLightbox('${plant.displayImageUrl || plant.imageUrl}')">
                 <img src="${displayUrl}" class="w-full h-full object-cover grayscale-[0.2]" />
+                ${imageCredit ? `<span class="absolute bottom-3 right-3 max-w-[85%] rounded-full bg-forest-deep/75 border border-white/10 px-3 py-1 text-[9px] font-bold text-cream-warm/75 uppercase tracking-wide">${imageCredit}</span>` : ''}
               </button>
             ` : `
               <div class="w-full h-full flex items-center justify-center text-sage-light/20">
