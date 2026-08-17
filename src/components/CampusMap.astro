@@ -16,54 +16,55 @@ const groupsData = sortGroupsByNumber(await db.select().from(Groups));
   </div>
 
   <!-- Apple Maps Style Bottom Drawer -->
-  <div id="bottom-sheet" class="fixed bottom-0 left-0 right-0 z-40 bg-forest-deep/90 backdrop-blur-xl border-t-[0.5px] border-white/10 rounded-t-[2.5rem] shadow-[0_-10px_40px_rgba(0,0,0,0.5)] transition-all duration-500 ease-out translate-y-[calc(100%-115px)] sm:translate-y-[calc(100%-125px)] pb-20">
+  <div id="bottom-sheet" class="fixed bottom-0 left-0 right-0 z-40 bg-forest-deep/94 backdrop-blur-xl border-t-[0.5px] border-white/10 rounded-t-[28px] shadow-[0_-10px_34px_rgba(0,0,0,0.32)] transition-all duration-300 ease-out translate-y-[calc(100%-112px)] sm:translate-y-[calc(100%-120px)] pb-20">
     <!-- Drag Handle -->
-    <div id="sheet-handle" class="w-full py-4 cursor-pointer flex justify-center items-center group">
-      <div class="w-12 h-1.5 bg-white/20 rounded-full group-active:bg-white/40 transition-colors"></div>
+    <div id="sheet-handle" class="w-full py-3.5 cursor-pointer flex justify-center items-center group">
+      <div class="w-9 h-1.5 bg-white/20 rounded-full group-active:bg-white/40 transition-colors"></div>
     </div>
 
     <!-- Sheet Header -->
-    <div class="px-8 mb-4 text-center">
-      <h3 class="text-[11px] font-black text-sage-light uppercase tracking-[0.2em] font-header">Select Group</h3>
+    <div class="px-6 mb-4 text-center">
+      <h3 class="text-[15px] font-semibold text-cream-warm font-header">Plant Groups</h3>
+      <p class="text-[11px] text-sage-light/65 mt-0.5">Choose a group or search the campus collection</p>
     </div>
 
     <!-- Integrated Search (Visible only when expanded) -->
-    <div class="px-6 mb-6">
+    <div class="px-5 mb-5">
         <div class="relative group">
-            <div class="absolute inset-y-0 left-4 flex items-center pointer-events-none text-sage-light group-focus-within:text-cream-warm transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            <div class="absolute inset-y-0 left-4 flex items-center pointer-events-none text-sage-light/70 group-focus-within:text-cream-warm transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
             </div>
             <input 
-                type="text" 
+                type="search" 
                 id="map-search-input" 
-                placeholder="Search plants..." 
-                class="w-full bg-white/5 border border-white/10 rounded-2xl py-3.5 pl-12 pr-10 text-cream-warm text-sm placeholder:text-sage-light/30 focus:outline-none focus:ring-2 focus:ring-cream-warm/20 transition-all"
+                placeholder="Search plants" 
+                class="w-full bg-white/5 border border-white/10 rounded-[14px] py-3.5 pl-12 pr-10 text-cream-warm text-sm placeholder:text-sage-light/40 focus:outline-none focus:ring-2 focus:ring-cream-warm/15 transition-all"
             />
-            <button id="clear-map-search" class="absolute inset-y-0 right-3 hidden items-center text-sage-light hover:text-cream-warm">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m18 6-12 12"/><path d="m6 6 12 12"/></svg>
+            <button id="clear-map-search" aria-label="Clear map search" class="absolute inset-y-0 right-3 hidden items-center text-sage-light hover:text-cream-warm">
+                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
             </button>
         </div>
     </div>
 
     <!-- Search Results (Overlay) -->
     <div id="map-search-results" class="hidden px-4 mb-4">
-        <div id="map-results-list" class="space-y-2 max-h-[40vh] overflow-y-auto no-scrollbar"></div>
+        <div id="map-results-list" class="space-y-1 max-h-[40vh] overflow-y-auto no-scrollbar"></div>
     </div>
 
     <!-- Group List -->
     <div class="px-4 overflow-y-auto max-h-[50vh] no-scrollbar pb-10" id="map-group-list">
-      <div class="grid grid-cols-1 gap-2">
+      <div class="grid grid-cols-1 gap-1.5">
         {groupsData.map((group, index) => (
           <button 
-            class={`group-filter-btn w-full px-6 py-5 rounded-2xl flex items-center justify-between transition-all font-header group border ${index === 0 ? 'bg-cream-warm/10 border-cream-warm/30 text-cream-warm' : 'bg-white/5 border-transparent text-cream-warm/60 hover:bg-white/10'}`}
+            class={`group-filter-btn w-full px-5 py-4 rounded-[16px] flex items-center justify-between transition-all font-header group border ${index === 0 ? 'bg-cream-warm/10 border-cream-warm/25 text-cream-warm' : 'bg-white/[0.035] border-transparent text-cream-warm/70 hover:bg-white/[0.06]'}`}
             data-group={group.id}
           >
             <div class="flex flex-col items-start">
-              <span class="text-[14px] font-bold uppercase tracking-widest">{group.name}</span>
-              <span class="text-[10px] opacity-50 font-medium">UGA Campus Collection</span>
+              <span class="text-[15px] font-semibold tracking-tight">{group.name}</span>
+              <span class="text-[11px] text-sage-light/55 font-medium mt-0.5">UGA campus collection</span>
             </div>
-            <div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center opacity-0 group-active:opacity-100 transition-opacity">
-               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+            <div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-sage-light/55 group-active:text-cream-warm transition-colors">
+               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
             </div>
           </button>
         ))}
@@ -71,15 +72,19 @@ const groupsData = sortGroupsByNumber(await db.select().from(Groups));
     </div>
   </div>
 
-  <!-- iOS Style Full-Screen Detail Modal -->
-  <div id="map-plant-modal" class="hidden fixed inset-0 z-[100] bg-forest-deep/80 backdrop-blur-md animate-in fade-in duration-200 p-4 flex items-end sm:items-center justify-center">
-    <div class="bg-forest-deep w-full max-w-2xl max-h-[90vh] rounded-[2rem] shadow-2xl border border-white/10 overflow-hidden flex flex-col animate-in slide-in-from-bottom duration-500 relative">
-      <!-- Close Button -->
-      <button id="close-map-modal" class="absolute top-5 right-5 z-20 w-10 h-10 bg-white/10 backdrop-blur rounded-full flex items-center justify-center text-cream-warm hover:bg-white/20 active:scale-90 transition-all">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
-      </button>
+  <!-- Native plant detail within the Map tab -->
+  <div id="map-plant-modal" class="hidden fixed inset-0 z-[100] bg-forest-deep overflow-hidden detail-screen">
+    <div class="h-full w-full flex flex-col bg-forest-deep">
+      <header class="shrink-0 glass native-detail-header border-b border-white/8 px-3 flex items-center justify-between">
+        <button id="close-map-modal" aria-label="Back to map" class="min-w-0 text-cream-warm flex items-center gap-0.5 font-medium nav-header py-2 pr-3 active:opacity-60 transition-opacity">
+          <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+          <span>Map</span>
+        </button>
+        <h2 id="map-modal-title" class="text-[15px] font-semibold text-cream-warm/90 truncate px-2 font-header">Plant</h2>
+        <div class="w-16"></div>
+      </header>
 
-      <div class="overflow-y-auto no-scrollbar pb-10" id="map-modal-content">
+      <div class="flex-1 overflow-y-auto no-scrollbar pb-28" id="map-modal-content">
         <!-- Content will be dynamically injected here -->
       </div>
     </div>
@@ -97,6 +102,7 @@ const groupsData = sortGroupsByNumber(await db.select().from(Groups));
   const modal = document.getElementById('map-plant-modal');
   const modalContent = document.getElementById('map-modal-content');
   const closeModal = document.getElementById('close-map-modal');
+  const modalTitle = document.getElementById('map-modal-title');
   const bottomSheet = document.getElementById('bottom-sheet');
   const sheetHandle = document.getElementById('sheet-handle');
 
@@ -107,6 +113,13 @@ const groupsData = sortGroupsByNumber(await db.select().from(Groups));
   const mapSearchResults = document.getElementById('map-search-results');
   
   if (mapElement) {
+    const escapeHtml = (value) => String(value ?? '')
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll('"', '&quot;')
+      .replaceAll("'", '&#039;');
+
     const ugaCenter = [33.948, -83.375];
     const map = L.map('map', { 
       zoomControl: false, 
@@ -193,24 +206,28 @@ const groupsData = sortGroupsByNumber(await db.select().from(Groups));
         groupList.classList.add('hidden');
 
         const filtered = allPlants.filter(p => 
-          p.commonName.toLowerCase().includes(query) || 
-          p.scientificName.toLowerCase().includes(query)
+          String(p.commonName || '').toLowerCase().includes(query) || 
+          String(p.scientificName || '').toLowerCase().includes(query)
         ).slice(0, 10);
 
         if (filtered.length === 0) {
           mapResultsList.innerHTML = `<div class="px-4 py-3 text-xs text-sage-light text-center">No matches found</div>`;
         } else {
-          mapResultsList.innerHTML = filtered.map(plant => `
-            <button class="map-search-item w-full flex items-center gap-3 p-2 hover:bg-white/5 rounded-xl transition-all text-left" data-id="${plant.id}">
-              <div class="w-10 h-10 rounded-lg overflow-hidden shrink-0 bg-forest-deep border border-white/10">
-                ${(plant.optimizedImageUrl || plant.displayImageUrl || plant.imageUrl) ? `<img src="${plant.optimizedImageUrl || plant.displayImageUrl || plant.imageUrl}" class="w-full h-full object-cover" />` : ''}
-              </div>
-              <div class="min-w-0">
-                <div class="text-[12px] font-bold text-cream-warm uppercase tracking-tight font-header truncate">${plant.scientificName}</div>
-                <div class="text-[10px] text-sage-light italic truncate">${plant.commonName}</div>
-              </div>
-            </button>
-          `).join('');
+          mapResultsList.innerHTML = filtered.map(plant => {
+            const imageUrl = plant.optimizedImageUrl || plant.displayImageUrl || plant.imageUrl;
+            return `
+              <button class="map-search-item w-full flex items-center gap-3 px-2.5 py-2.5 hover:bg-white/5 rounded-xl transition-all text-left" data-id="${escapeHtml(plant.id)}">
+                <div class="w-11 h-11 rounded-[11px] overflow-hidden shrink-0 bg-forest-deep border border-white/8">
+                  ${imageUrl ? `<img src="${escapeHtml(imageUrl)}" class="w-full h-full object-cover" alt="" />` : ''}
+                </div>
+                <div class="min-w-0 flex-1">
+                  <div class="text-[13px] font-semibold text-cream-warm tracking-tight font-header truncate">${escapeHtml(plant.commonName || plant.scientificName)}</div>
+                  <div class="botanical-name text-[13px] leading-tight text-sage-light/75 truncate">${escapeHtml(plant.scientificName)}</div>
+                </div>
+                <svg class="text-sage-light/40 shrink-0" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+              </button>
+            `;
+          }).join('');
 
           document.querySelectorAll('.map-search-item').forEach(btn => {
             btn.addEventListener('click', () => {
@@ -394,69 +411,93 @@ const groupsData = sortGroupsByNumber(await db.select().from(Groups));
         }
     };
 
-    // Modal Display Logic
+    // Map plant detail
+    const closePlantDetail = () => {
+      modal?.classList.add('hidden');
+      document.body.classList.remove('overflow-hidden');
+    };
+
     const showPlantDetail = (plant) => {
       const displayUrl = plant.optimizedImageUrl || plant.displayImageUrl || plant.imageUrl;
+      const lightboxUrl = plant.displayImageUrl || plant.imageUrl || displayUrl;
       const imageCredit = plant.imageCredit ? `Image: ${plant.imageCredit}${plant.imageLicense ? ` · ${plant.imageLicense}` : ''}` : '';
+      const cues = [
+        plant.leafArrangement ? `${plant.leafArrangement} leaves` : '',
+        plant.leafShape || '',
+        plant.leafMargin ? `${plant.leafMargin} margin` : ''
+      ].filter(Boolean);
+      const leafRows = [
+        { label: 'Arrangement', val: plant.leafArrangement },
+        { label: 'Shape', val: plant.leafShape },
+        { label: 'Margin', val: plant.leafMargin },
+        { label: 'Base', val: plant.leafBase },
+        { label: 'Apex', val: plant.leafApex }
+      ].filter(row => row.val);
+      const section = (title, value) => value ? `
+        <section class="plant-info-section">
+          <h3>${escapeHtml(title)}</h3>
+          <p>${escapeHtml(value)}</p>
+        </section>
+      ` : '';
+
+      if (modalTitle) modalTitle.textContent = plant.commonName || plant.scientificName || 'Plant';
+
       modalContent.innerHTML = `
-        <div class="w-full">
-          <div class="w-full h-72 bg-forest-deep overflow-hidden relative">
-            ${displayUrl ? `
-              <button class="w-full h-full cursor-zoom-in" onclick="window.openLightbox('${plant.displayImageUrl || plant.imageUrl}')">
-                <img src="${displayUrl}" class="w-full h-full object-cover grayscale-[0.2]" />
-                ${imageCredit ? `<span class="absolute bottom-3 right-3 max-w-[85%] rounded-full bg-forest-deep/75 border border-white/10 px-3 py-1 text-[9px] font-bold text-cream-warm/75 uppercase tracking-wide">${imageCredit}</span>` : ''}
-              </button>
-            ` : `
-              <div class="w-full h-full flex items-center justify-center text-sage-light/20">
-                <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
-              </div>
-            `}
-            <div class="absolute inset-0 bg-gradient-to-t from-forest-deep via-transparent to-transparent pointer-events-none"></div>
-          </div>
-          
-          <div class="px-8 -mt-16 relative z-10">
-            <div class="bg-forest-deep p-8 rounded-[2rem] border border-white/10 shadow-2xl mb-8">
-              <div class="text-[10px] font-black text-sage-light uppercase tracking-[0.2em] mb-4 font-header">Species Discovery</div>
-              <h2 class="text-3xl font-extrabold text-cream-warm leading-tight font-header uppercase tracking-tight">${plant.scientificName}</h2>
-              <h3 class="text-lg font-medium text-cream-warm/70 italic mt-3">${plant.commonName}</h3>
+        <article class="plant-detail-card overflow-hidden">
+          ${displayUrl ? `
+            <button id="map-detail-image" class="w-full aspect-[4/3] max-h-[430px] bg-black/15 overflow-hidden relative cursor-zoom-in" data-image-url="${escapeHtml(lightboxUrl)}" aria-label="Open larger plant image">
+              <img src="${escapeHtml(displayUrl)}" class="absolute inset-0 w-full h-full object-cover scale-110 blur-2xl opacity-25" aria-hidden="true" alt="" />
+              <div class="absolute inset-0 bg-forest-deep/25"></div>
+              <img src="${escapeHtml(displayUrl)}" class="relative z-10 w-full h-full object-contain" loading="eager" alt="${escapeHtml(plant.commonName || plant.scientificName)}" />
+              ${imageCredit ? `<span class="absolute z-20 bottom-3 right-3 max-w-[85%] rounded-lg bg-forest-deep/80 backdrop-blur-md px-2.5 py-1 text-[9px] font-medium text-cream-warm/70">${escapeHtml(imageCredit)}</span>` : ''}
+            </button>
+          ` : `
+            <div class="w-full aspect-[4/3] max-h-[430px] flex items-center justify-center bg-white/[0.025] text-sage-light/20">
+              <svg xmlns="http://www.w3.org/2000/svg" width="68" height="68" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+            </div>
+          `}
+
+          <div class="px-5 pt-6 pb-8">
+            <div class="min-w-0">
+              <h2 class="text-[30px] font-bold text-cream-warm leading-[1.02] tracking-tight">${escapeHtml(plant.commonName || plant.scientificName)}</h2>
+              <div class="botanical-name text-[22px] text-sage-light mt-2 leading-tight">${escapeHtml(plant.scientificName)}</div>
+              ${plant.family ? `<div class="text-[12px] font-medium text-sage-light/65 mt-2">${escapeHtml(plant.family)}</div>` : ''}
             </div>
 
-            <div class="space-y-6">
-              <div class="grid grid-cols-1 gap-y-4">
-                ${[
-                  { label: 'Leaf Arrangement', val: plant.leafArrangement },
-                  { label: 'Leaf Shape', val: plant.leafShape },
-                  { label: 'Leaf Margin', val: plant.leafMargin },
-                  { label: 'Bark Features', val: plant.bark },
-                  { label: 'Flower', val: plant.flower },
-                  { label: 'Fruit', val: plant.fruit },
-                  { label: 'Family', val: plant.family }
-                ].filter(f => f.val).map(f => `
-                  <div class="flex items-baseline gap-6 border-b border-white/5 pb-4">
-                    <div class="w-32 shrink-0 text-[10px] font-black text-sage-light uppercase tracking-widest font-header">${f.label}</div>
-                    <div class="text-[17px] text-cream-warm font-semibold leading-snug">${f.val}</div>
-                  </div>
-                `).join('')}
+            ${cues.length ? `
+              <div class="mt-5 flex flex-wrap gap-2">
+                ${cues.map(cue => `<span class="inline-flex items-center rounded-full bg-forest-deep/40 border border-white/8 px-3 py-1.5 text-[11px] font-medium text-cream-warm/80 nav-header">${escapeHtml(cue)}</span>`).join('')}
               </div>
-            </div>
+            ` : ''}
+
+            ${leafRows.length ? `
+              <section class="plant-info-section mt-7">
+                <h3>Leaf</h3>
+                <div class="native-data-list">
+                  ${leafRows.map(row => `<div><span>${escapeHtml(row.label)}</span><strong>${escapeHtml(row.val)}</strong></div>`).join('')}
+                </div>
+              </section>
+            ` : ''}
+
+            ${section('Bark', plant.bark)}
+            ${section('Flower', plant.flower)}
+            ${section('Fruit', plant.fruit)}
           </div>
-        </div>
+        </article>
       `;
-      modal.classList.remove('hidden');
+
+      modalContent.querySelector('#map-detail-image')?.addEventListener('click', (event) => {
+        const imageUrl = (event.currentTarget as HTMLElement).dataset.imageUrl;
+        if (imageUrl) window.openLightbox?.(imageUrl);
+      });
+
+      modalContent.scrollTo({ top: 0, behavior: 'instant' });
+      modal?.classList.remove('hidden');
       document.body.classList.add('overflow-hidden');
     };
 
-    closeModal.addEventListener('click', () => {
-      modal.classList.add('hidden');
-      document.body.classList.remove('overflow-hidden');
-    });
-
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) {
-        modal.classList.add('hidden');
-        document.body.classList.remove('overflow-hidden');
-      }
-    });
+    closeModal?.addEventListener('click', closePlantDetail);
+    window.closeMapPlantDetail = closePlantDetail;
 
     window.focusPlant = (lat, lng, id) => {
       fetch('/api/plants.json')
@@ -520,11 +561,11 @@ const groupsData = sortGroupsByNumber(await db.select().from(Groups));
       const selectedGroup = btn.dataset.group;
 
       document.querySelectorAll('.group-filter-btn').forEach(b => {
-        b.classList.remove('bg-cream-warm/10', 'border-cream-warm/30', 'text-cream-warm');
-        b.classList.add('bg-white/5', 'border-transparent', 'text-cream-warm/60');
+        b.classList.remove('bg-cream-warm/10', 'border-cream-warm/25', 'text-cream-warm');
+        b.classList.add('bg-white/[0.035]', 'border-transparent', 'text-cream-warm/70');
       });
-      btn.classList.add('bg-cream-warm/10', 'border-cream-warm/30', 'text-cream-warm');
-      btn.classList.remove('bg-white/5', 'border-transparent', 'text-cream-warm/60');
+      btn.classList.add('bg-cream-warm/10', 'border-cream-warm/25', 'text-cream-warm');
+      btn.classList.remove('bg-white/[0.035]', 'border-transparent', 'text-cream-warm/70');
 
       if (selectedGroup) {
           updateMapMarkers(selectedGroup);
@@ -532,7 +573,7 @@ const groupsData = sortGroupsByNumber(await db.select().from(Groups));
           if (window.innerWidth < 640) {
               isExpanded = false;
               bottomSheet.classList.remove('translate-y-0');
-              bottomSheet.classList.add('translate-y-[calc(100%-115px)]');
+              bottomSheet.classList.add('translate-y-[calc(100%-112px)]');
           }
       }
     });
@@ -542,10 +583,10 @@ const groupsData = sortGroupsByNumber(await db.select().from(Groups));
     sheetHandle.addEventListener('click', () => {
         isExpanded = !isExpanded;
         if (isExpanded) {
-            bottomSheet.classList.remove('translate-y-[calc(100%-115px)]', 'sm:translate-y-[calc(100%-125px)]');
+            bottomSheet.classList.remove('translate-y-[calc(100%-112px)]', 'sm:translate-y-[calc(100%-120px)]');
             bottomSheet.classList.add('translate-y-0');
         } else {
-            bottomSheet.classList.add('translate-y-[calc(100%-115px)]', 'sm:translate-y-[calc(100%-125px)]');
+            bottomSheet.classList.add('translate-y-[calc(100%-112px)]', 'sm:translate-y-[calc(100%-120px)]');
             bottomSheet.classList.remove('translate-y-0');
             // Reset search when collapsing
             mapSearchInput.value = '';

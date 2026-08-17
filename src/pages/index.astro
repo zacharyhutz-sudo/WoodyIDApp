@@ -140,7 +140,7 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 									<h2 class="text-xl md:text-2xl font-bold text-cream-warm tracking-tight leading-tight mb-2 font-header drop-shadow-lg">{group.name}</h2>
 									<div class="flex items-center gap-2">
 										<span class="text-cream-warm/75 text-[11px] font-medium nav-header">
-											{group.plants.length} Species
+											{group.plants.length} species
 										</span>
 									</div>
 								</div>
@@ -213,7 +213,7 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 							<div>
 								<h3 class="text-[17px] font-semibold text-cream-warm font-header tracking-tight">{group.name}</h3>
 								<div class="flex flex-wrap items-center gap-2 mt-1">
-									<p class="text-[12px] font-medium text-sage-light/65 nav-header">{group.plants.length} Species</p>
+									<p class="text-[12px] font-medium text-sage-light/65 nav-header">{group.plants.length} species</p>
 									<span class="missed-count-badge hidden bg-red-400/15 border border-red-400/30 text-red-200 text-[9px] font-black uppercase tracking-widest px-2 py-1 rounded-full nav-header" data-group-id={group.id}>0 Missed</span>
 								</div>
 							</div>
@@ -413,7 +413,7 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 		<div id="maps-view" class="hidden fixed inset-0 z-30 bg-forest-deep">
 			<div class="h-full flex flex-col pt-safe">
 				<div class="px-5 py-3 border-b-[0.5px] border-white/5 glass shrink-0">
-					<h2 class="text-[17px] font-bold text-center text-cream-warm uppercase tracking-widest font-header">Campus Discovery</h2>
+					<h2 class="text-[17px] font-semibold text-center text-cream-warm tracking-tight font-header">Campus Discovery</h2>
 				</div>
 				<div class="flex-grow">
 					<CampusMap />
@@ -434,7 +434,7 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 					<span class="text-[11px] font-semibold nav-header">Library</span>
 				</button>
 				<button 
-					class="tab-btn flex-1 flex flex-col items-center justify-center gap-1 transition-colors text-sage-light/60" 
+					class="tab-btn flex-1 flex flex-col items-center justify-center gap-1 transition-colors text-sage-light/70" 
 					data-view="study"
 				>
 					<div class="p-1.5 rounded-xl transition-colors">
@@ -443,7 +443,7 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 					<span class="text-[11px] font-semibold nav-header">Study</span>
 				</button>
 				<button 
-					class="tab-btn flex-1 flex flex-col items-center justify-center gap-1 transition-colors text-sage-light/60" 
+					class="tab-btn flex-1 flex flex-col items-center justify-center gap-1 transition-colors text-sage-light/70" 
 					data-view="maps"
 				>
 					<div class="p-1.5 rounded-xl transition-colors">
@@ -638,9 +638,9 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 				<div class="min-w-0 flex-1 py-0.5">
 					<h3 class="text-[17px] leading-tight font-semibold text-cream-warm truncate">${escapeHtml(plant.commonName || plant.scientificName)}</h3>
 					<p class="botanical-name text-[16px] leading-tight text-sage-light mt-1 truncate">${escapeHtml(plant.scientificName)}</p>
-					${plant.family ? `<p class="text-[11px] text-sage-light/55 mt-1.5 truncate">${escapeHtml(plant.family)}</p>` : ''}
+					${plant.family ? `<p class="text-[11px] text-sage-light/65 mt-1.5 truncate">${escapeHtml(plant.family)}</p>` : ''}
 				</div>
-				<svg class="text-sage-light/35 shrink-0" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+				<svg class="text-sage-light/45 shrink-0" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
 			</button>`;
 	};
 
@@ -673,7 +673,7 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 						<div class="min-w-0">
 							<h2 class="text-[30px] font-bold text-cream-warm leading-[1.02] tracking-tight">${escapeHtml(plant.commonName || plant.scientificName)}</h2>
 							<div class="botanical-name text-[22px] text-sage-light mt-2 leading-tight">${escapeHtml(plant.scientificName)}</div>
-							${plant.family ? `<div class="text-[12px] font-medium text-sage-light/55 mt-2">${escapeHtml(plant.family)}</div>` : ''}
+							${plant.family ? `<div class="text-[12px] font-medium text-sage-light/65 mt-2">${escapeHtml(plant.family)}</div>` : ''}
 						</div>
 						${hasLocation ? `<button class="see-on-map-btn native-icon-button w-11 h-11 flex items-center justify-center text-cream-warm shrink-0" aria-label="View on map" data-id="${escapeHtml(plant.id)}"><svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg></button>` : ''}
 					</div>
@@ -696,8 +696,6 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 				const plant = getPlantById(btn.dataset.id);
 				if (!plant) return;
 				switchTab('maps');
-				groupDetail.classList.add('hidden');
-				document.body.classList.remove('overflow-hidden');
 				if (window.focusPlant) window.focusPlant(parseFloat(plant.latitude), parseFloat(plant.longitude), plant.id);
 			});
 		});
@@ -1125,13 +1123,21 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 	};
 
 	const switchTab = (view) => {
+		// Root tabs always return to the root of that section.
+		// This prevents a Library or Map plant detail from floating above another tab.
+		groupDetail.classList.add('hidden');
+		activeDetailGroup = null;
+		detailMode = 'group';
+		window.closeMapPlantDetail?.();
+		document.body.classList.remove('overflow-hidden');
+
 		tabButtons.forEach(btn => {
 			if (btn.dataset.view === view) {
 				btn.classList.add('text-cream-warm', 'is-active');
-				btn.classList.remove('text-sage-light/60');
+				btn.classList.remove('text-sage-light/70');
 			} else {
 				btn.classList.remove('text-cream-warm', 'is-active');
-				btn.classList.add('text-sage-light/60');
+				btn.classList.add('text-sage-light/70');
 			}
 		});
 

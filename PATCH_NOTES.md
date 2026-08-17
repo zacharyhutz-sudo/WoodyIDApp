@@ -24,7 +24,6 @@
 - Swipe gestures for flashcards.
 - A persistent Continue Studying / progress card on Study home.
 - Multi-image plant galleries (leaf, bark, fruit, habit).
-- Map pin selection redesigned into the same plant-detail bottom-sheet language.
 - Fine-tuned installed-iPhone testing and animation polishing on real hardware.
 
 ## Validation
@@ -32,3 +31,25 @@
 - Embedded browser JavaScript passed `node --check`.
 - PWA icon files were generated and validated as 192x192 and 512x512 PNGs.
 - A full fresh Astro build was not completed in the packaging environment because dependency installation stalled before node_modules could be installed. No package/dependency versions were changed by this patch.
+
+## Follow-up UX fix pass
+
+Based on real iPhone Safari screenshots, this pass also adds:
+
+- Map plant detail is now a true native-style detail screen with a visible **Map** back button instead of an `X` floating over photography.
+- The map detail header is separated from the image, so Safari browser chrome can no longer make the close control visually disappear into the photo.
+- Map plant photography now uses a contained foreground image over a subtle blurred fill. This keeps the complete identification photo visible instead of aggressively cropping it to a fixed `object-cover` frame.
+- Map plant detail now matches Library detail hierarchy: common name first, italic scientific name, family, quick ID cues, then Leaf/Bark/Flower/Fruit sections.
+- Map search results now use the same common-name-first hierarchy as Library.
+- Root tab behavior was corrected: tapping **Library**, **Study**, or **Map** closes any open Library plant/group detail and any open Map plant detail before switching sections.
+- Inactive tab labels/icons, plant family labels, and species-row chevrons received a small contrast increase for better iPhone readability.
+- Map chrome was softened: title-case navigation, a calmer drawer radius/shadow, faster drawer motion, and less all-caps tracking.
+- Species counts now use sentence case (`20 species`) for a more native tone.
+
+### Follow-up validation
+
+- Fall 2026 curriculum/data verification passed: 10 groups and 202 visible plants.
+- Approved image override verification passed.
+- Both modified client scripts passed TypeScript transpile parsing with no syntax/transpile errors.
+- A fresh production Astro build was not run because this packaging environment does not have the project's `node_modules` installed.
+
