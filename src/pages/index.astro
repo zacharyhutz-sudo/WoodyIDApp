@@ -41,72 +41,77 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 
 <Layout>
 	<main class="pb-32 bg-forest-deep min-h-screen">
-		<!-- Dynamic Top Navigation (Sticky) -->
-		<nav class="sticky top-0 z-40 glass border-b-[0.5px] border-white/5 px-5 pt-12 pb-3 transition-all duration-300" id="top-nav">
-			<div class="flex justify-between items-center mb-1">
-				<span class="text-[13px] font-bold text-sage-light uppercase tracking-widest nav-header">Woody ID Discovery</span>
-				<a href="/admin" class="text-sage-light text-sm font-semibold hover:opacity-70 transition-opacity nav-header">Admin</a>
+		<!-- Native-style top navigation -->
+		<nav class="sticky top-0 z-40 glass native-topbar border-b border-white/5 px-5 transition-all" id="top-nav">
+			<div class="flex justify-between items-center gap-4 mb-1">
+				<span class="text-[12px] font-semibold text-sage-light/75 nav-header">UGA Woody ID</span>
+				<a href="/admin" aria-label="Open admin" class="w-9 h-9 rounded-full flex items-center justify-center text-sage-light/70 hover:text-cream-warm hover:bg-white/5 active:scale-95 transition-all nav-header">
+					<svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+				</a>
 			</div>
-			<h1 class="large-title transition-all duration-300" id="nav-title">Library</h1>
+			<h1 class="large-title transition-all duration-200" id="nav-title">Library</h1>
 		</nav>
 
 		<!-- Library View -->
 		<div id="lists-view" class="mt-6 px-4 max-w-7xl mx-auto">
-			<!-- Search Bar -->
-			<div class="mb-8 relative group max-w-2xl mx-auto">
-				<div class="absolute inset-y-0 left-5 flex items-center pointer-events-none text-sage-light group-focus-within:text-cream-warm transition-colors">
-					<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+			<!-- Search + field ID tools -->
+			<div class="mb-7 max-w-3xl mx-auto">
+				<div class="flex items-center gap-3">
+					<div class="relative group flex-1 min-w-0">
+						<div class="absolute inset-y-0 left-4 flex items-center pointer-events-none text-sage-light/70 group-focus-within:text-cream-warm transition-colors">
+							<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+						</div>
+						<input type="search" id="plant-search" placeholder={`Search ${plantsData.length} species`} class="native-search w-full py-3.5 pl-12 pr-11 text-cream-warm placeholder:text-sage-light/45 focus:outline-none font-medium" />
+						<button id="clear-search" aria-label="Clear search" class="absolute inset-y-0 right-3 hidden items-center text-sage-light hover:text-cream-warm">
+							<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+						</button>
+					</div>
+					<button id="toggle-filters" aria-label="Filter species" class="relative native-icon-button w-12 h-12 shrink-0 flex items-center justify-center text-cream-warm active:scale-95 transition-all">
+						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16"/><path d="M7 12h10"/><path d="M10 18h4"/></svg>
+						<span id="active-filter-count" class="hidden absolute -top-1 -right-1 min-w-5 h-5 px-1 rounded-full bg-cream-warm text-forest-deep text-[10px] font-bold items-center justify-center nav-header">0</span>
+					</button>
 				</div>
-				<input 
-					type="text" 
-					id="plant-search" 
-					placeholder="Search common name, genus..." 
-					class="w-full bg-sage-muted/20 border border-white/5 rounded-2xl py-4 pl-14 pr-12 text-cream-warm placeholder:text-sage-light/50 focus:outline-none focus:ring-2 focus:ring-cream-warm/20 focus:bg-sage-muted/30 transition-all font-medium"
-				/>
-				<button id="clear-search" class="absolute inset-y-0 right-4 hidden items-center text-sage-light hover:text-cream-warm">
-					<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m18 6-12 12"/><path d="m6 6 12 12"/></svg>
-				</button>
+				<p id="filter-results-summary" class="mt-2 px-1 text-[12px] text-sage-light/70 font-medium">Showing all species</p>
 			</div>
 
-			<!-- ID Trait Filters -->
-			<div class="mb-8 max-w-4xl mx-auto">
-				<button id="toggle-filters" class="w-full flex items-center justify-between gap-4 bg-sage-muted/20 border border-white/5 rounded-2xl px-5 py-4 text-left active:scale-[0.99] transition-all">
+			<!-- Native bottom-sheet filters -->
+			<div id="filter-backdrop" class="hidden fixed inset-0 z-[84] bg-black/50 backdrop-blur-[2px]"></div>
+			<div id="filter-controls" class="hidden fixed inset-x-0 bottom-0 z-[85] filter-sheet mx-auto max-w-xl px-5 pt-3 pb-safe">
+				<div class="w-10 h-1 rounded-full bg-white/20 mx-auto mb-4"></div>
+				<div class="flex items-center justify-between mb-6">
 					<div>
-						<div class="text-[10px] font-black text-sage-light uppercase tracking-[0.25em] nav-header">Field ID Filters</div>
-						<div class="text-sm text-cream-warm/80 font-medium mt-1">Narrow by family, leaf arrangement, margin, and key traits</div>
+						<p class="text-[12px] font-semibold text-sage-light/75 nav-header">Identify by traits</p>
+						<h2 class="text-2xl font-bold text-cream-warm tracking-tight">Filters</h2>
 					</div>
-					<div class="flex items-center gap-3 shrink-0">
-						<span id="active-filter-count" class="hidden bg-cream-warm text-forest-deep text-[10px] font-black px-2.5 py-1 rounded-full nav-header">0</span>
-						<svg id="filter-chevron" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="text-cream-warm/60 transition-transform"><path d="m6 9 6 6 6-6"/></svg>
-					</div>
-				</button>
-				<div id="filter-controls" class="hidden mt-4 bg-sage-muted/20 border border-white/5 rounded-[1.5rem] p-5 space-y-5">
+					<button id="close-filters" type="button" class="text-sm font-semibold text-cream-warm px-3 py-2 rounded-xl bg-white/5 active:scale-95 transition-all">Done</button>
+				</div>
+				<div class="space-y-6 pb-5">
 					<div>
-						<label for="family-filter" class="block text-[10px] font-black text-sage-light uppercase tracking-[0.25em] mb-2 nav-header">Family</label>
-						<select id="family-filter" class="w-full bg-forest-deep/60 border border-white/10 rounded-xl px-4 py-3 text-cream-warm font-semibold focus:outline-none focus:ring-2 focus:ring-cream-warm/20">
+						<label for="family-filter" class="block text-[12px] font-semibold text-sage-light/80 mb-2 nav-header">Family</label>
+						<select id="family-filter" class="w-full native-control px-4 py-3.5 text-cream-warm font-medium focus:outline-none">
 							<option value="">All families</option>
 						</select>
 					</div>
-					<div class="space-y-3">
-						<div class="text-[10px] font-black text-sage-light uppercase tracking-[0.25em] nav-header">Quick Traits</div>
+					<div>
+						<div class="text-[12px] font-semibold text-sage-light/80 mb-3 nav-header">Quick traits</div>
 						<div class="flex flex-wrap gap-2">
 							{['Opposite', 'Alternate', 'Simple', 'Compound', 'Entire', 'Serrate', 'Lobed'].map(trait => (
-								<button type="button" class="trait-filter-chip px-3.5 py-2 rounded-full bg-forest-deep/50 border border-white/10 text-[10px] font-black text-cream-warm/70 uppercase tracking-widest nav-header transition-all" data-trait={trait.toLowerCase()}>{trait}</button>
+								<button type="button" class="trait-filter-chip native-chip px-3.5 py-2 text-[12px] font-semibold text-cream-warm/80 nav-header transition-all" data-trait={trait.toLowerCase()}>{trait}</button>
 							))}
 						</div>
 					</div>
-					<div class="flex items-center justify-between gap-4 pt-2 border-t border-white/10">
-						<p id="filter-results-summary" class="text-[12px] text-sage-light font-medium">Showing all species</p>
-						<button id="reset-filters" type="button" class="text-[10px] font-black text-cream-warm uppercase tracking-[0.2em] nav-header hover:opacity-70 transition-opacity">Reset</button>
+					<div class="flex items-center justify-between pt-4 border-t border-white/8">
+						<button id="reset-filters" type="button" class="text-sm font-semibold text-sage-light hover:text-cream-warm transition-colors">Clear filters</button>
+						<button id="apply-filters" type="button" class="bg-cream-warm text-forest-deep px-5 py-3 rounded-xl text-sm font-bold active:scale-95 transition-all">Show results</button>
 					</div>
 				</div>
 			</div>
 
-			<div id="groups-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+			<div id="groups-container" class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5">
 				{groups.map((group, index) => (
 					<button 
-						class="group-widget w-full relative h-48 md:h-64 rounded-[2rem] overflow-hidden shadow-2xl active:scale-[0.98] transition-all duration-500 animate-fade-up border border-sage-light/20 bg-forest-deep group/card"
-						style={`animation-delay: ${index * 100}ms`}
+						class="group-widget w-full relative h-44 md:h-60 rounded-[1.25rem] overflow-hidden active:scale-[0.985] transition-transform duration-150 border border-white/10 bg-forest-deep group/card"
+						data-group-index={index}
 						data-group-id={group.id}
 					>
 						<!-- Hero Background Image -->
@@ -117,7 +122,7 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 								height={800} 
 								format="webp"
 								quality={85}
-								class="absolute inset-0 w-full h-full object-cover grayscale-[0.2] group-hover/card:scale-110 group-hover/card:grayscale-0 transition-all duration-700 ease-out" 
+								class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 ease-out group-hover/card:scale-[1.03]" 
 								alt={group.name} 
 								loading="lazy"
 							/>
@@ -126,20 +131,20 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 						)}
 						
 						<!-- Gradient Overlay -->
-						<div class="absolute inset-0 bg-gradient-to-t from-forest-deep via-forest-deep/40 to-transparent group-hover/card:via-forest-deep/20 transition-all duration-500" />
+						<div class="absolute inset-0 bg-gradient-to-t from-forest-deep/95 via-forest-deep/25 to-transparent" />
 						
 						<!-- Content -->
-						<div class="absolute bottom-0 left-0 right-0 p-8 text-left translate-y-2 group-hover/card:translate-y-0 transition-transform duration-500">
+						<div class="absolute bottom-0 left-0 right-0 p-4 md:p-6 text-left">
 							<div class="flex items-end justify-between">
 								<div>
-									<h2 class="text-2xl md:text-3xl font-black text-cream-warm tracking-tight leading-none mb-3 font-header uppercase drop-shadow-lg">{group.name}</h2>
+									<h2 class="text-xl md:text-2xl font-bold text-cream-warm tracking-tight leading-tight mb-2 font-header drop-shadow-lg">{group.name}</h2>
 									<div class="flex items-center gap-2">
-										<span class="bg-forest-deep/60 backdrop-blur-md text-cream-warm text-[10px] font-bold px-3 py-1.5 rounded-full border border-sage-light/30 uppercase tracking-widest nav-header">
+										<span class="text-cream-warm/75 text-[11px] font-medium nav-header">
 											{group.plants.length} Species
 										</span>
 									</div>
 								</div>
-								<div class="w-12 h-12 rounded-full bg-cream-warm/10 backdrop-blur-md border border-cream-warm/20 flex items-center justify-center text-cream-warm group-hover/card:bg-cream-warm group-hover/card:text-forest-deep transition-all duration-500 shadow-xl">
+								<div class="w-8 h-8 rounded-full bg-black/20 backdrop-blur-md flex items-center justify-center text-cream-warm/80 transition-colors duration-150">
 									<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
 								</div>
 							</div>
@@ -161,43 +166,40 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 			
 			<!-- Branding/Footer Info -->
 			<div class="mt-12 px-2 text-center pb-10">
-				<p class="text-[12px] text-sage-light font-medium leading-relaxed uppercase tracking-[0.2em] nav-header">
+				<p class="text-[12px] text-sage-light/60 font-medium leading-relaxed nav-header">
 					University of Georgia<br/>Woody Ornamentals Lab
 				</p>
 			</div>
 		</div>
 
 		<!-- Detail View -->
-		<div id="group-detail" class="hidden fixed inset-0 z-50 bg-forest-deep overflow-y-auto no-scrollbar animate-in slide-in-from-right duration-300">
-			<header class="sticky top-0 z-10 glass border-b-[0.5px] border-white/10 px-4 py-4 flex items-center justify-between">
-				<button id="close-detail" class="text-cream-warm flex items-center gap-1 font-semibold nav-header">
-					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-					<span>Library</span>
+		<div id="group-detail" class="hidden fixed inset-0 z-50 bg-forest-deep overflow-y-auto no-scrollbar detail-screen">
+			<header class="sticky top-0 z-10 glass native-detail-header border-b border-white/8 px-3 flex items-center justify-between">
+				<button id="close-detail" class="min-w-0 text-cream-warm flex items-center gap-0.5 font-medium nav-header py-2 pr-3 active:opacity-60 transition-opacity">
+					<svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+					<span id="detail-back-label" class="truncate max-w-24">Library</span>
 				</button>
-				<h2 id="header-detail-title" class="text-[17px] font-bold text-cream-warm truncate px-4 font-header uppercase"></h2>
-				<div class="w-12"></div> <!-- Spacer -->
+				<h2 id="header-detail-title" class="text-[15px] font-semibold text-cream-warm/90 truncate px-2 font-header"></h2>
+				<div class="w-20"></div>
 			</header>
-			
-			<div class="px-5 mt-8 mb-8 max-w-7xl mx-auto">
+			<div id="detail-heading" class="px-5 mt-6 mb-5 max-w-3xl mx-auto">
 				<h2 id="detail-title" class="large-title"></h2>
+				<p id="detail-subtitle" class="text-sm text-sage-light/70 mt-1"></p>
 			</div>
-
-			<div id="detail-list" class="grid grid-cols-1 md:grid-cols-2 gap-6 px-4 pb-24 max-w-7xl mx-auto">
-				<!-- Plant cards injected here -->
-			</div>
+			<div id="detail-list" class="px-4 pb-28 max-w-3xl mx-auto"></div>
 		</div>
 
-			<div id="study-view" class="hidden mt-6 px-4 pb-32 overflow-y-auto no-scrollbar h-full max-w-7xl mx-auto">
+			<div id="study-view" class="hidden mt-5 px-4 pb-32 overflow-y-auto no-scrollbar h-full max-w-5xl mx-auto">
 			<div class="mb-8">
-				<h3 class="text-[10px] font-black text-sage-light uppercase tracking-[0.3em] mb-2 nav-header text-center">Learning Platform</h3>
+				<h3 class="text-[12px] font-semibold text-sage-light/70 mb-1 nav-header text-center">Learning Platform</h3>
 				<h2 class="large-title text-center">Study Hub</h2>
 			</div>
 
 			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 				{groups.map((group, index) => (
 					<button 
-						class="study-group-card group w-full bg-sage-muted/30 border border-white/5 rounded-[2rem] p-6 flex items-center justify-between active:scale-[0.98] transition-all duration-300 animate-fade-up"
-						style={`animation-delay: ${index * 100}ms`}
+						class="study-group-card group w-full native-list-card p-4 flex items-center justify-between active:scale-[0.99] transition-transform duration-150"
+						data-group-index={index}
 						data-group-id={group.id}
 					>
 						<div class="flex items-center gap-5 text-left">
@@ -209,9 +211,9 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 								)}
 							</div>
 							<div>
-								<h3 class="text-lg font-black text-cream-warm font-header uppercase tracking-tight">{group.name}</h3>
+								<h3 class="text-[17px] font-semibold text-cream-warm font-header tracking-tight">{group.name}</h3>
 								<div class="flex flex-wrap items-center gap-2 mt-1">
-									<p class="text-[10px] font-bold text-sage-light uppercase tracking-widest nav-header opacity-60">{group.plants.length} Species</p>
+									<p class="text-[12px] font-medium text-sage-light/65 nav-header">{group.plants.length} Species</p>
 									<span class="missed-count-badge hidden bg-red-400/15 border border-red-400/30 text-red-200 text-[9px] font-black uppercase tracking-widest px-2 py-1 rounded-full nav-header" data-group-id={group.id}>0 Missed</span>
 								</div>
 							</div>
@@ -225,10 +227,10 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 		</div>
 
 		<!-- Study Mode Selector -->
-		<div id="study-mode-modal" class="hidden fixed inset-0 z-[80] bg-forest-deep/80 backdrop-blur-xl animate-in fade-in duration-300 flex items-center justify-center p-6">
-			<div class="w-full max-w-md bg-forest-deep border border-white/10 rounded-[3rem] p-8 shadow-2xl animate-in slide-in-from-bottom duration-500">
+		<div id="study-mode-modal" class="hidden fixed inset-0 z-[80] bg-black/55 backdrop-blur-[2px] flex items-end sm:items-center justify-center sm:p-6">
+			<div class="w-full max-w-md filter-sheet sm:rounded-[1.75rem] px-5 pt-4 pb-6 pb-safe">
 				<h3 id="mode-selector-group-name" class="text-[10px] font-black text-sage-light uppercase tracking-[0.3em] mb-4 text-center nav-header">Collection Name</h3>
-				<h2 class="text-3xl font-black text-cream-warm text-center mb-8 font-header uppercase">Choose Mode</h2>
+				<h2 class="text-2xl font-bold text-cream-warm text-center mb-6 font-header">Choose Mode</h2>
 				
 				<div class="space-y-4">
 					<button id="select-flashcards" class="w-full bg-cream-warm text-forest-deep py-6 rounded-2xl flex items-center justify-center gap-4 active:scale-95 transition-all">
@@ -420,34 +422,34 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 		</div>
 
 		<!-- Mature iOS Tab Bar -->
-		<nav class="fixed bottom-0 left-0 right-0 z-[60] glass border-t-[0.5px] border-white/5 pb-safe">
+		<nav class="fixed bottom-0 left-0 right-0 z-[60] native-tabbar border-t border-white/5 pb-safe">
 			<div class="flex h-16 max-w-lg mx-auto">
 				<button 
-					class="tab-btn flex-1 flex flex-col items-center justify-center gap-1.5 transition-colors text-cream-warm" 
+					class="tab-btn is-active flex-1 flex flex-col items-center justify-center gap-1 transition-colors text-cream-warm" 
 					data-view="lists"
 				>
 					<div class="p-1.5 rounded-xl transition-colors">
 						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M8 7h6"/><path d="M8 11h8"/></svg>
 					</div>
-					<span class="text-[10px] font-bold uppercase tracking-widest nav-header">Library</span>
+					<span class="text-[11px] font-semibold nav-header">Library</span>
 				</button>
 				<button 
-					class="tab-btn flex-1 flex flex-col items-center justify-center gap-1.5 transition-colors text-sage-light/60" 
+					class="tab-btn flex-1 flex flex-col items-center justify-center gap-1 transition-colors text-sage-light/60" 
 					data-view="study"
 				>
 					<div class="p-1.5 rounded-xl transition-colors">
 						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 11 3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
 					</div>
-					<span class="text-[10px] font-bold uppercase tracking-widest nav-header">Study</span>
+					<span class="text-[11px] font-semibold nav-header">Study</span>
 				</button>
 				<button 
-					class="tab-btn flex-1 flex flex-col items-center justify-center gap-1.5 transition-colors text-sage-light/60" 
+					class="tab-btn flex-1 flex flex-col items-center justify-center gap-1 transition-colors text-sage-light/60" 
 					data-view="maps"
 				>
 					<div class="p-1.5 rounded-xl transition-colors">
 						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
 					</div>
-					<span class="text-[10px] font-bold uppercase tracking-widest nav-header">Map</span>
+					<span class="text-[11px] font-semibold nav-header">Map</span>
 				</button>
 			</div>
 		</nav>
@@ -464,6 +466,8 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 	const detailTitle = document.getElementById('detail-title');
 	const headerDetailTitle = document.getElementById('header-detail-title');
 	const detailList = document.getElementById('detail-list');
+	const detailSubtitle = document.getElementById('detail-subtitle');
+	const detailBackLabel = document.getElementById('detail-back-label');
 	const closeDetail = document.getElementById('close-detail');
 
 	// Search and filter elements
@@ -476,7 +480,9 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 	const noResults = document.getElementById('no-results');
 	const toggleFilters = document.getElementById('toggle-filters');
 	const filterControls = document.getElementById('filter-controls');
-	const filterChevron = document.getElementById('filter-chevron');
+	const filterBackdrop = document.getElementById('filter-backdrop');
+	const closeFilters = document.getElementById('close-filters');
+	const applyFilters = document.getElementById('apply-filters');
 	const familyFilter = document.getElementById('family-filter');
 	const traitFilterChips = document.querySelectorAll('.trait-filter-chip');
 	const resetFiltersBtn = document.getElementById('reset-filters');
@@ -552,6 +558,8 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 	let isAwaitingNext = false;
 	let quizType = 'typing';
 	let quizSource = 'group';
+	let activeDetailGroup = null;
+	let detailMode = 'group';
 
 	const escapeHtml = (value) => String(value ?? '')
 		.replace(/&/g, '&amp;')
@@ -614,71 +622,75 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 	const renderCuePills = (plant, compact = false) => {
 		const cues = getKeyCues(plant);
 		return cues.map(cue => `
-			<span class="inline-flex items-center rounded-full bg-forest-deep/45 border border-white/10 px-3 py-1.5 text-[10px] font-bold text-cream-warm/85 uppercase tracking-widest nav-header ${compact ? 'max-w-full' : ''}">
+			<span class="inline-flex items-center rounded-full bg-forest-deep/40 border border-white/8 px-3 py-1.5 text-[11px] font-medium text-cream-warm/80 nav-header ${compact ? 'max-w-full' : ''}">
 				${escapeHtml(shorten(cue, compact ? 46 : 90))}
 			</span>
 		`).join('');
+	};
+
+	const renderPlantListItem = (plant) => {
+		const imageUrl = plant.optimizedImageUrl || plant.displayImageUrl || plant.imageUrl;
+		return `
+			<button class="plant-list-item native-species-row w-full text-left" data-plant-id="${escapeHtml(plant.id)}">
+				<div class="w-[72px] h-[72px] rounded-[14px] overflow-hidden shrink-0 bg-sage-muted/25">
+					${imageUrl ? `<img src="${escapeHtml(imageUrl)}" class="w-full h-full object-cover" loading="lazy" alt="${escapeHtml(plant.commonName || plant.scientificName)}" />` : ''}
+				</div>
+				<div class="min-w-0 flex-1 py-0.5">
+					<h3 class="text-[17px] leading-tight font-semibold text-cream-warm truncate">${escapeHtml(plant.commonName || plant.scientificName)}</h3>
+					<p class="botanical-name text-[16px] leading-tight text-sage-light mt-1 truncate">${escapeHtml(plant.scientificName)}</p>
+					${plant.family ? `<p class="text-[11px] text-sage-light/55 mt-1.5 truncate">${escapeHtml(plant.family)}</p>` : ''}
+				</div>
+				<svg class="text-sage-light/35 shrink-0" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+			</button>`;
 	};
 
 	const renderPlantCard = (plant) => {
 		const hasLocation = plant.latitude !== null && plant.latitude !== undefined && plant.longitude !== null && plant.longitude !== undefined;
 		const imageUrl = plant.optimizedImageUrl || plant.displayImageUrl || plant.imageUrl;
 		const imageCredit = plant.imageCredit ? `Image: ${plant.imageCredit}${plant.imageLicense ? ` · ${plant.imageLicense}` : ''}` : '';
+		const leafRows = [
+			{ label: 'Arrangement', val: plant.leafArrangement },
+			{ label: 'Shape', val: plant.leafShape },
+			{ label: 'Margin', val: plant.leafMargin },
+			{ label: 'Base', val: plant.leafBase },
+			{ label: 'Apex', val: plant.leafApex }
+		].filter(f => f.val);
+		const section = (title, value) => value ? `
+			<section class="plant-info-section">
+				<h3>${escapeHtml(title)}</h3>
+				<p>${escapeHtml(value)}</p>
+			</section>` : '';
 		return `
-			<article class="bg-sage-muted rounded-[2rem] overflow-hidden border border-sage-light/30 shadow-2xl transition-all">
+			<article class="plant-detail-card overflow-hidden">
 				${imageUrl ? `
-					<button class="plant-image-button w-full h-72 bg-forest-deep overflow-hidden relative cursor-zoom-in" data-image-url="${escapeHtml(plant.displayImageUrl || plant.imageUrl || imageUrl)}">
-						<img src="${escapeHtml(imageUrl)}" class="w-full h-full object-cover" loading="lazy" alt="${escapeHtml(plant.commonName || plant.scientificName)}" />
-						<div class="absolute inset-0 bg-gradient-to-t from-forest-deep/60 to-transparent"></div>
-						${imageCredit ? `<span class="absolute bottom-3 right-3 max-w-[85%] rounded-full bg-forest-deep/75 border border-white/10 px-3 py-1 text-[9px] font-bold text-cream-warm/75 uppercase tracking-wide">${escapeHtml(imageCredit)}</span>` : ''}
-					</button>
-				` : ''}
-				<div class="p-8">
-					<div class="flex items-start justify-between mb-6">
+					<button class="plant-image-button w-full aspect-[4/3] max-h-[430px] bg-forest-deep overflow-hidden relative cursor-zoom-in" data-image-url="${escapeHtml(plant.displayImageUrl || plant.imageUrl || imageUrl)}">
+						<img src="${escapeHtml(imageUrl)}" class="w-full h-full object-cover" loading="eager" alt="${escapeHtml(plant.commonName || plant.scientificName)}" />
+						<div class="absolute inset-0 bg-gradient-to-t from-forest-deep/35 via-transparent to-transparent"></div>
+						${imageCredit ? `<span class="absolute bottom-3 right-3 max-w-[85%] rounded-lg bg-forest-deep/75 backdrop-blur-md px-2.5 py-1 text-[9px] font-medium text-cream-warm/70">${escapeHtml(imageCredit)}</span>` : ''}
+					</button>` : ''}
+				<div class="px-5 pt-6 pb-8">
+					<div class="flex items-start justify-between gap-4">
 						<div class="min-w-0">
-							<div class="text-[26px] font-black text-cream-warm leading-tight tracking-tight font-header">${escapeHtml(plant.scientificName)}</div>
-							<div class="text-[17px] font-medium text-cream-warm/70 italic mt-2">${escapeHtml(plant.commonName)}</div>
+							<h2 class="text-[30px] font-bold text-cream-warm leading-[1.02] tracking-tight">${escapeHtml(plant.commonName || plant.scientificName)}</h2>
+							<div class="botanical-name text-[22px] text-sage-light mt-2 leading-tight">${escapeHtml(plant.scientificName)}</div>
+							${plant.family ? `<div class="text-[12px] font-medium text-sage-light/55 mt-2">${escapeHtml(plant.family)}</div>` : ''}
 						</div>
-						${hasLocation ? `
-							<button class="see-on-map-btn w-12 h-12 bg-cream-warm/10 border border-cream-warm/20 rounded-2xl flex items-center justify-center text-cream-warm active:scale-90 transition-all shrink-0" data-id="${escapeHtml(plant.id)}">
-								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
-							</button>
-						` : ''}
+						${hasLocation ? `<button class="see-on-map-btn native-icon-button w-11 h-11 flex items-center justify-center text-cream-warm shrink-0" aria-label="View on map" data-id="${escapeHtml(plant.id)}"><svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg></button>` : ''}
 					</div>
-
-					<div class="mb-7 rounded-[1.5rem] bg-forest-deep/35 border border-white/10 p-5">
-						<div class="text-[10px] font-black text-sage-light uppercase tracking-[0.25em] mb-3 nav-header">3 Key ID Cues</div>
-						<div class="flex flex-wrap gap-2">${renderCuePills(plant)}</div>
-					</div>
-
-					<div class="space-y-4">
-						${[
-							{ label: 'Leaf Arrangement', val: plant.leafArrangement },
-							{ label: 'Leaf Shape', val: plant.leafShape },
-							{ label: 'Leaf Margin', val: plant.leafMargin },
-							{ label: 'Leaf Base', val: plant.leafBase },
-							{ label: 'Leaf Apex', val: plant.leafApex },
-							{ label: 'Bark Features', val: plant.bark },
-							{ label: 'Flower', val: plant.flower },
-							{ label: 'Fruit', val: plant.fruit },
-							{ label: 'Family', val: plant.family }
-						].filter(f => f.val).map(f => `
-							<div class="flex items-baseline gap-6 border-b border-white/10 pb-3">
-								<div class="w-32 shrink-0 text-[10px] font-black text-sage-light uppercase tracking-widest nav-header">${escapeHtml(f.label)}</div>
-								<div class="text-[16px] text-cream-warm font-medium leading-snug">${escapeHtml(f.val)}</div>
-							</div>
-						`).join('')}
-					</div>
+					<div class="mt-5 flex flex-wrap gap-2">${renderCuePills(plant)}</div>
+					${leafRows.length ? `<section class="plant-info-section mt-7"><h3>Leaf</h3><div class="native-data-list">${leafRows.map(row => `<div><span>${escapeHtml(row.label)}</span><strong>${escapeHtml(row.val)}</strong></div>`).join('')}</div></section>` : ''}
+					${section('Bark', plant.bark)}
+					${section('Flower', plant.flower)}
+					${section('Fruit', plant.fruit)}
+					${hasLocation ? `<button class="see-on-map-btn mt-7 w-full bg-cream-warm text-forest-deep py-3.5 rounded-[14px] font-bold text-[15px] active:scale-[0.99] transition-transform" data-id="${escapeHtml(plant.id)}">View on Map</button>` : ''}
 				</div>
-			</article>
-		`;
+			</article>`;
 	};
 
 	const bindPlantCardActions = (container) => {
 		container.querySelectorAll('.plant-image-button').forEach(btn => {
 			btn.addEventListener('click', () => window.openLightbox?.(btn.dataset.imageUrl));
 		});
-
 		container.querySelectorAll('.see-on-map-btn').forEach(btn => {
 			btn.addEventListener('click', () => {
 				const plant = getPlantById(btn.dataset.id);
@@ -686,16 +698,20 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 				switchTab('maps');
 				groupDetail.classList.add('hidden');
 				document.body.classList.remove('overflow-hidden');
-				if (window.focusPlant) {
-					window.focusPlant(parseFloat(plant.latitude), parseFloat(plant.longitude), plant.id);
-				}
+				if (window.focusPlant) window.focusPlant(parseFloat(plant.latitude), parseFloat(plant.longitude), plant.id);
 			});
 		});
 	};
 
-	const renderPlantDetail = (plant) => {
-		detailTitle.textContent = plant.scientificName;
-		headerDetailTitle.textContent = plant.scientificName;
+	const renderPlantDetail = (plant, sourceGroup = null) => {
+		detailMode = 'plant';
+		activeDetailGroup = sourceGroup;
+		detailTitle.textContent = '';
+		detailSubtitle.textContent = '';
+		document.getElementById('detail-heading').classList.add('hidden');
+		headerDetailTitle.textContent = plant.commonName || plant.scientificName;
+		detailBackLabel.textContent = sourceGroup?.name || 'Library';
+		detailList.className = 'px-0 pb-28 max-w-3xl mx-auto';
 		detailList.innerHTML = renderPlantCard(plant);
 		bindPlantCardActions(detailList);
 		groupDetail.classList.remove('hidden');
@@ -704,10 +720,21 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 	};
 
 	const renderGroupDetail = (group) => {
+		detailMode = 'group';
+		activeDetailGroup = group;
+		document.getElementById('detail-heading').classList.remove('hidden');
 		detailTitle.textContent = group.name;
+		detailSubtitle.textContent = `${group.plants.length} species`;
 		headerDetailTitle.textContent = group.name;
-		detailList.innerHTML = group.plants.map(renderPlantCard).join('');
-		bindPlantCardActions(detailList);
+		detailBackLabel.textContent = 'Library';
+		detailList.className = 'px-4 pb-28 max-w-3xl mx-auto native-species-list';
+		detailList.innerHTML = group.plants.map(renderPlantListItem).join('');
+		detailList.querySelectorAll('.plant-list-item').forEach(btn => {
+			btn.addEventListener('click', () => {
+				const plant = getPlantById(btn.dataset.plantId);
+				if (plant) renderPlantDetail(plant, group);
+			});
+		});
 		groupDetail.classList.remove('hidden');
 		document.body.classList.add('overflow-hidden');
 		groupDetail.scrollTo({ top: 0, behavior: 'instant' });
@@ -867,6 +894,7 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 		const count = activeTraits.size + (familyFilter?.value ? 1 : 0);
 		activeFilterCount.textContent = String(count);
 		activeFilterCount.classList.toggle('hidden', count === 0);
+		activeFilterCount.classList.toggle('flex', count > 0);
 		filterResultsSummary.textContent = count > 0 || plantSearchInput?.value.trim()
 			? `${resultCount} matching species`
 			: 'Showing all species';
@@ -911,13 +939,13 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 		searchResultsList.innerHTML = filtered.map(plant => {
 			const imageUrl = plant.optimizedImageUrl || plant.displayImageUrl || plant.imageUrl;
 			return `
-				<button class="search-result-item w-full flex items-center gap-4 p-3 bg-sage-muted/20 border border-white/5 rounded-2xl active:scale-[0.98] transition-all text-left" data-plant-id="${escapeHtml(plant.id)}">
+				<button class="search-result-item w-full flex items-center gap-4 p-3 native-list-card active:scale-[0.99] transition-transform text-left" data-plant-id="${escapeHtml(plant.id)}">
 					<div class="w-16 h-16 rounded-xl overflow-hidden border border-white/10 shrink-0 bg-forest-deep">
 						${imageUrl ? `<img src="${escapeHtml(imageUrl)}" class="w-full h-full object-cover" alt="${escapeHtml(plant.commonName || plant.scientificName)}" />` : ''}
 					</div>
 					<div class="min-w-0 flex-1">
-						<h4 class="text-sm font-black text-cream-warm tracking-tight font-header truncate">${escapeHtml(plant.scientificName)}</h4>
-						<p class="text-[13px] font-medium text-sage-light italic truncate">${escapeHtml(plant.commonName)}</p>
+						<h4 class="text-[16px] font-semibold text-cream-warm tracking-tight truncate">${escapeHtml(plant.commonName || plant.scientificName)}</h4>
+						<p class="botanical-name text-[15px] text-sage-light truncate mt-0.5">${escapeHtml(plant.scientificName)}</p>
 						<div class="mt-2 flex flex-wrap gap-1.5">${renderCuePills(plant, true)}</div>
 					</div>
 					<div class="ml-auto text-cream-warm/20 pr-2">
@@ -1099,10 +1127,10 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 	const switchTab = (view) => {
 		tabButtons.forEach(btn => {
 			if (btn.dataset.view === view) {
-				btn.classList.add('text-cream-warm');
+				btn.classList.add('text-cream-warm', 'is-active');
 				btn.classList.remove('text-sage-light/60');
 			} else {
-				btn.classList.remove('text-cream-warm');
+				btn.classList.remove('text-cream-warm', 'is-active');
 				btn.classList.add('text-sage-light/60');
 			}
 		});
@@ -1131,10 +1159,15 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 	plantSearchInput?.addEventListener('input', renderSearchResults);
 	familyFilter?.addEventListener('change', renderSearchResults);
 
-	toggleFilters?.addEventListener('click', () => {
-		filterControls.classList.toggle('hidden');
-		filterChevron.classList.toggle('rotate-180', !filterControls.classList.contains('hidden'));
-	});
+	const setFilterSheet = (open) => {
+		filterControls?.classList.toggle('hidden', !open);
+		filterBackdrop?.classList.toggle('hidden', !open);
+		document.body.classList.toggle('overflow-hidden', open);
+	};
+	toggleFilters?.addEventListener('click', () => setFilterSheet(true));
+	closeFilters?.addEventListener('click', () => setFilterSheet(false));
+	applyFilters?.addEventListener('click', () => setFilterSheet(false));
+	filterBackdrop?.addEventListener('click', () => setFilterSheet(false));
 
 	traitFilterChips.forEach(chip => {
 		chip.addEventListener('click', () => {
@@ -1260,24 +1293,23 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 	});
 
 	closeDetail.addEventListener('click', () => {
+		if (detailMode === 'plant' && activeDetailGroup) {
+			renderGroupDetail(activeDetailGroup);
+			return;
+		}
 		groupDetail.classList.add('hidden');
 		document.body.classList.remove('overflow-hidden');
+		activeDetailGroup = null;
 	});
 
-	// Dynamic nav effect
+	// Compact the large title as the library scrolls.
 	window.addEventListener('scroll', () => {
 		const nav = document.getElementById('top-nav');
 		const title = document.getElementById('nav-title');
-		if (window.scrollY > 40) {
-			nav.classList.add('py-2');
-			nav.classList.remove('pt-12', 'pb-3');
-			title.style.fontSize = '20px';
-		} else {
-			nav.classList.remove('py-2');
-			nav.classList.add('pt-12', 'pb-3');
-			title.style.fontSize = '34px';
-		}
-	});
+		const compact = window.scrollY > 36;
+		nav?.classList.toggle('is-compact', compact);
+		if (title) title.style.fontSize = compact ? '21px' : '34px';
+	}, { passive: true });
 
 	updateStudyBadges();
 </script>
