@@ -1,0 +1,827 @@
+---
+import { db, Groups } from 'astro:db';
+import { sortGroupsByNumber } from '../utils/plantSort';
+
+const groupsData = sortGroupsByNumber(await db.select().from(Groups));
+---
+
+<div class="h-full flex flex-col bg-forest-deep relative overflow-hidden" id="campus-map-shell">
+  <div id="map-container" class="relative flex-grow">
+    <div id="map" class="absolute inset-0 z-10"></div>
+
+    <!-- The active group is always visible; no hidden drawer handle. -->
+    <section class="map-group-toolbar" id="map-group-toolbar" aria-label="Map group controls">
+      <div class="map-group-toolbar-main">
+        <div class="map-group-summary" role="status" aria-live="polite" aria-atomic="true">
+          <p class="map-eyebrow">Viewing on map</p>
+          <h3 id="map-current-group">{groupsData[0]?.name || 'No plant groups'}</h3>
+          <p id="map-group-summary">Loading plant locations...</p>
+        </div>
+        <button type="button" id="change-map-group" class="map-change-group"
+          aria-haspopup="dialog" aria-controls="map-group-dialog" aria-expanded="false">
+          <span>Change group</span>
+          <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+      </div>
+      <div class="map-group-toolbar-actions">
+        <button type="button" id="previous-map-group" class="map-step-group" aria-label="Previous plant group" title="Previous plant group" disabled>
+          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        </button>
+        <button type="button" id="open-map-search" class="map-open-search" aria-haspopup="dialog" aria-controls="map-group-dialog" aria-expanded="false" disabled>
+          <svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="7.5"/><path d="m16 16 5 5"/></svg>
+          <span>Search plants</span>
+        </button>
+        <button type="button" id="next-map-group" class="map-step-group" aria-label="Next plant group" title="Next plant group" disabled>
+          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
+      </div>
+      <div id="map-group-notice" class="map-group-notice" hidden>
+        <p id="map-group-notice-text"></p>
+        <button type="button" id="retry-map-data" hidden>Try again</button>
+      </div>
+    </section>
+
+    <div class="map-floating-actions">
+      <button type="button" id="fit-map-group" class="map-floating-button" aria-label="Show all plants in the selected group" title="Fit group to map" disabled>
+        <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H3v5M16 3h5v5M21 16v5h-5M8 21H3v-5"/><circle cx="12" cy="12" r="3"/></svg>
+      </button>
+      <button type="button" id="recenter-map" class="map-floating-button" aria-label="Center map on my location" title="My location">
+        <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Native modal provides keyboard focus containment and Escape dismissal. -->
+  <dialog id="map-group-dialog" class="map-group-dialog" aria-labelledby="map-group-dialog-title" aria-describedby="map-group-dialog-description">
+    <div class="map-picker-header">
+      <div>
+        <p class="map-eyebrow">Campus collection</p>
+        <h2 id="map-group-dialog-title">Plant groups</h2>
+      </div>
+      <button type="button" id="close-map-groups" class="map-picker-close" aria-label="Close plant groups">
+        <svg aria-hidden="true" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m6 6 12 12M18 6 6 18"/></svg>
+      </button>
+    </div>
+    <p id="map-group-dialog-description" class="map-picker-description">Choose a group to show its plants on the map.</p>
+    <div class="map-picker-search">
+      <label for="map-search-input" class="map-visually-hidden">Search plants across all groups</label>
+      <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="7.5"/><path d="m16 16 5 5"/></svg>
+      <input type="search" id="map-search-input" placeholder="Search plants across all groups" autocomplete="off" disabled />
+      <button type="button" id="clear-map-search" aria-label="Clear map search" hidden>
+        <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m6 6 12 12M18 6 6 18"/></svg>
+      </button>
+    </div>
+    <div class="map-picker-scroll">
+      <div id="map-search-results" hidden>
+        <p id="map-search-summary" class="map-picker-caption" role="status" aria-live="polite"></p>
+        <div id="map-results-list"></div>
+      </div>
+      <div id="map-group-list">
+        <p id="map-picker-current" class="map-picker-caption">Select a plant group</p>
+        <div class="map-group-grid">
+          {groupsData.map((group, index) => (
+            <button type="button" class="group-filter-btn" data-group={group.id} data-group-name={group.name} aria-pressed={index === 0 ? 'true' : 'false'}>
+              <span class="map-group-option-copy">
+                <span class="map-group-option-name">{group.name}</span>
+                <span class="map-group-count">Loading locations...</span>
+              </span>
+              <span class="map-group-check" aria-hidden="true">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4L19 6"/></svg>
+              </span>
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Native plant detail within the Map tab -->
+  <div id="map-plant-modal" class="hidden fixed inset-0 z-[100] bg-forest-deep overflow-hidden detail-screen">
+    <div class="h-full w-full flex flex-col bg-forest-deep">
+      <header class="shrink-0 glass native-detail-header border-b border-white/8 px-3 flex items-center justify-between">
+        <button id="close-map-modal" aria-label="Back to map" class="min-w-0 text-cream-warm flex items-center gap-0.5 font-medium nav-header py-2 pr-3 active:opacity-60 transition-opacity">
+          <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+          <span>Map</span>
+        </button>
+        <h2 id="map-modal-title" class="text-[15px] font-semibold text-cream-warm/90 truncate px-2 font-header">Plant</h2>
+        <div class="w-16"></div>
+      </header>
+
+      <div class="flex-1 overflow-y-auto no-scrollbar pb-28" id="map-modal-content">
+        <!-- Content will be dynamically injected here -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+<script>
+  import L from 'leaflet';
+
+  const mapElement = document.getElementById('map');
+  const groupList = document.getElementById('map-group-list');
+  const recenterBtn = document.getElementById('recenter-map');
+  const modal = document.getElementById('map-plant-modal');
+  const modalContent = document.getElementById('map-modal-content');
+  const closeModal = document.getElementById('close-map-modal');
+  const modalTitle = document.getElementById('map-modal-title');
+  const groupDialog = document.getElementById('map-group-dialog') as HTMLDialogElement;
+  const changeGroupBtn = document.getElementById('change-map-group') as HTMLButtonElement;
+  const openSearchBtn = document.getElementById('open-map-search') as HTMLButtonElement;
+  const previousGroupBtn = document.getElementById('previous-map-group') as HTMLButtonElement;
+  const nextGroupBtn = document.getElementById('next-map-group') as HTMLButtonElement;
+  const fitGroupBtn = document.getElementById('fit-map-group') as HTMLButtonElement;
+  const currentGroupLabel = document.getElementById('map-current-group');
+  const groupSummary = document.getElementById('map-group-summary');
+  const groupNotice = document.getElementById('map-group-notice');
+  const groupNoticeText = document.getElementById('map-group-notice-text');
+  const retryMapData = document.getElementById('retry-map-data') as HTMLButtonElement;
+  const toolbar = document.getElementById('map-group-toolbar');
+  const groupButtons = Array.from(groupList.querySelectorAll<HTMLButtonElement>('.group-filter-btn'));
+  const groupIds = groupButtons.map(btn => btn.dataset.group);
+  let selectedGroupId = groupIds[0] || '';
+  let loadState: 'loading' | 'ready' | 'error' = 'loading';
+  let allPlants: any[] = [];
+  let plantsByGroup: Record<string, any[]> = {};
+  let activePlantMarkers: L.Marker[] = [];
+  let needsGroupFit = true;
+  let detailTimer: number | undefined;
+  const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const hasCoordinates = (plant) =>
+    typeof plant.latitude === 'number' && Number.isFinite(plant.latitude) && Math.abs(plant.latitude) <= 90 &&
+    typeof plant.longitude === 'number' && Number.isFinite(plant.longitude) && Math.abs(plant.longitude) <= 180;
+  const groupName = (id) => groupButtons.find(btn => btn.dataset.group === id)?.dataset.groupName || 'Plant group';
+
+  // Search Elements
+  const mapResultsList = document.getElementById('map-results-list');
+  const mapSearchInput = document.getElementById('map-search-input') as HTMLInputElement;
+  const clearMapSearch = document.getElementById('clear-map-search');
+  const mapSearchResults = document.getElementById('map-search-results');
+  
+  if (mapElement) {
+    const escapeHtml = (value) => String(value ?? '')
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll('"', '&quot;')
+      .replaceAll("'", '&#039;');
+
+    const ugaCenter = [33.948, -83.375];
+    const map = L.map('map', { 
+      zoomControl: false, 
+      tap: true, 
+      preferCanvas: true,
+      maxZoom: 19
+    }).setView(ugaCenter, 17);
+
+    map.createPane('spiderPane');
+    map.getPane('spiderPane').style.zIndex = '450';
+
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+      attribution: 'Esri Satellite',
+      maxZoom: 19
+    }).addTo(map);
+
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}{r}.png', { 
+      subdomains: 'abcd', 
+      maxZoom: 19 
+    }).addTo(map);
+
+    // User Location
+    let userPos = null;
+    let locationMarker = null;
+    let accuracyCircle = null;
+
+    map.locate({setView: false, watch: true, enableHighAccuracy: true});
+    
+    const locationIcon = L.divIcon({
+      className: 'user-location-marker',
+      html: `<div class="w-4 h-4 bg-red-500 border-2 border-white rounded-full shadow-[0_0_15px_rgba(239,68,68,0.8)] animate-pulse"></div>`,
+      iconSize: [16, 16],
+      iconAnchor: [8, 8]
+    });
+    
+    map.on('locationfound', (e) => {
+      userPos = (e as any).latlng;
+      const accuracy = (e as any).accuracy;
+
+      if (!locationMarker) {
+        locationMarker = L.marker(userPos, { icon: locationIcon }).addTo(map);
+      } else {
+        locationMarker.setLatLng(userPos);
+      }
+
+      if (!accuracyCircle) {
+        accuracyCircle = L.circle(userPos, {
+          radius: accuracy,
+          color: '#ef4444',
+          fillColor: '#ef4444',
+          fillOpacity: 0.1,
+          weight: 1,
+          opacity: 0.3,
+          interactive: false
+        }).addTo(map);
+      } else {
+        accuracyCircle.setLatLng(userPos);
+        accuracyCircle.setRadius(accuracy);
+      }
+    });
+
+    recenterBtn.addEventListener('click', () => {
+      if (userPos) map.flyTo(userPos, 18);
+    });
+
+    const resetSearch = () => {
+      mapSearchInput.value = '';
+      mapSearchResults.hidden = true;
+      groupList.hidden = false;
+      clearMapSearch.hidden = true;
+      mapResultsList.innerHTML = '';
+      document.getElementById('map-search-summary').textContent = '';
+    };
+
+    const closeGroupPicker = () => {
+      if (groupDialog.open) groupDialog.close();
+    };
+
+    const openGroupPicker = (search = false) => {
+      resetSearch();
+      if (!groupDialog.open) groupDialog.showModal();
+      changeGroupBtn.setAttribute('aria-expanded', 'true');
+      openSearchBtn.setAttribute('aria-expanded', 'true');
+      const focusTarget = search && !mapSearchInput.disabled ? mapSearchInput :
+        groupButtons.find(btn => btn.dataset.group === selectedGroupId);
+      focusTarget?.focus({ preventScroll: true });
+      if (!search) focusTarget?.scrollIntoView({ block: 'nearest' });
+    };
+
+    changeGroupBtn.addEventListener('click', () => openGroupPicker());
+    openSearchBtn.addEventListener('click', () => openGroupPicker(true));
+    document.getElementById('close-map-groups').addEventListener('click', closeGroupPicker);
+    groupDialog.addEventListener('close', () => {
+      changeGroupBtn.setAttribute('aria-expanded', 'false');
+      openSearchBtn.setAttribute('aria-expanded', 'false');
+      resetSearch();
+    });
+    groupDialog.addEventListener('keydown', (event) => {
+      if (event.key !== 'Tab') return;
+      const focusable = Array.from(groupDialog.querySelectorAll<HTMLElement>(
+        'button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      )).filter(element => element.getClientRects().length > 0);
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last?.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first?.focus();
+      }
+    });
+    // Dismiss only a backdrop click, not a click within the dialog's padding.
+    groupDialog.addEventListener('click', (event) => {
+      if (event.target !== groupDialog) return;
+      const rect = groupDialog.getBoundingClientRect();
+      if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) {
+        closeGroupPicker();
+      }
+    });
+
+    const updateGroupContext = () => {
+      const name = groupName(selectedGroupId);
+      const mapped = markersByGroup[selectedGroupId]?.length || 0;
+      const total = plantsByGroup[selectedGroupId]?.length || 0;
+      currentGroupLabel.textContent = groupIds.length ? name : 'No plant groups';
+      groupSummary.textContent = loadState === 'ready' ? `${mapped} of ${total} plants mapped` :
+        loadState === 'error' ? 'Plant locations unavailable' : 'Loading plant locations...';
+      changeGroupBtn.setAttribute('aria-label', `Change group. Currently viewing ${name}.`);
+      changeGroupBtn.disabled = groupIds.length === 0;
+      document.getElementById('map-picker-current').textContent = `Viewing ${name}`;
+      toolbar.dataset.group = selectedGroupId;
+      const selectedIndex = groupIds.indexOf(selectedGroupId);
+      previousGroupBtn.disabled = selectedIndex <= 0;
+      nextGroupBtn.disabled = selectedIndex < 0 || selectedIndex >= groupIds.length - 1;
+      previousGroupBtn.title = selectedIndex > 0 ? `Previous: ${groupName(groupIds[selectedIndex - 1])}` : 'First plant group';
+      nextGroupBtn.title = selectedIndex < groupIds.length - 1 ? `Next: ${groupName(groupIds[selectedIndex + 1])}` : 'Last plant group';
+      previousGroupBtn.setAttribute('aria-label', previousGroupBtn.title);
+      nextGroupBtn.setAttribute('aria-label', nextGroupBtn.title);
+      fitGroupBtn.disabled = loadState !== 'ready' || mapped === 0;
+      mapSearchInput.disabled = loadState !== 'ready';
+      openSearchBtn.disabled = loadState !== 'ready';
+      retryMapData.hidden = loadState !== 'error';
+      groupNotice.hidden = !(loadState === 'error' || (loadState === 'ready' && mapped === 0));
+      groupNoticeText.textContent = loadState === 'error' ?
+        'Plant locations could not be loaded. Check your connection and try again.' :
+        'No saved locations for this group yet. You can still search its plant details.';
+      groupButtons.forEach(btn => {
+        const id = btn.dataset.group;
+        btn.setAttribute('aria-pressed', String(id === selectedGroupId));
+        const count = btn.querySelector('.map-group-count');
+        count.textContent = loadState === 'ready' ?
+          `${markersByGroup[id]?.length || 0} of ${plantsByGroup[id]?.length || 0} mapped` :
+          loadState === 'error' ? 'Locations unavailable' : 'Loading locations...';
+      });
+    };
+
+    const selectGroup = (id, closePicker = true) => {
+      if (!groupIds.includes(id)) return;
+      window.clearTimeout(detailTimer);
+      selectedGroupId = id;
+      updateGroupContext();
+      updateMapMarkers(id);
+      if (closePicker) closeGroupPicker();
+    };
+
+    groupList.addEventListener('click', (event) => {
+      const btn = (event.target as HTMLElement).closest<HTMLButtonElement>('.group-filter-btn');
+      if (btn) selectGroup(btn.dataset.group);
+    });
+    previousGroupBtn.addEventListener('click', () => selectGroup(groupIds[groupIds.indexOf(selectedGroupId) - 1]));
+    nextGroupBtn.addEventListener('click', () => selectGroup(groupIds[groupIds.indexOf(selectedGroupId) + 1]));
+
+    const focusPlantOnMap = (plant) => {
+      selectGroup(plant.groupId);
+      if (hasCoordinates(plant)) {
+        map.flyTo([plant.latitude, plant.longitude], 19, { duration: reducedMotion() ? 0 : 1, animate: !reducedMotion() });
+      }
+      // Missing coordinates must never send the map to (0, 0) or an invalid position.
+      detailTimer = window.setTimeout(() => showPlantDetail(plant), hasCoordinates(plant) && !reducedMotion() ? 1050 : 0);
+    };
+
+    mapSearchInput.addEventListener('input', () => {
+      const query = mapSearchInput.value.toLowerCase().trim();
+      if (!query) {
+        resetSearch();
+        return;
+      }
+      clearMapSearch.hidden = false;
+      mapSearchResults.hidden = false;
+      groupList.hidden = true;
+      const matches = allPlants.filter(plant =>
+        String(plant.commonName || '').toLowerCase().includes(query) ||
+        String(plant.scientificName || '').toLowerCase().includes(query));
+      const visibleMatches = matches.slice(0, 30);
+      document.getElementById('map-search-summary').textContent = matches.length === 0 ? 'No plants found. Try another name.' :
+        matches.length > 30 ? `Showing 30 of ${matches.length} plants. Keep typing to narrow your search.` :
+        `${matches.length} ${matches.length === 1 ? 'plant' : 'plants'} found across all groups`;
+      mapResultsList.innerHTML = visibleMatches.map(plant => {
+        const imageUrl = plant.optimizedImageUrl || plant.displayImageUrl || plant.imageUrl;
+        return `
+          <button type="button" class="map-search-item" data-id="${escapeHtml(plant.id)}">
+            <span class="map-result-image">${imageUrl ? `<img src="${escapeHtml(imageUrl)}" alt="" loading="lazy" />` : ''}</span>
+            <span class="map-result-copy">
+              <strong>${escapeHtml(plant.commonName || plant.scientificName)}</strong>
+              <span class="botanical-name">${escapeHtml(plant.scientificName)}</span>
+              <span class="map-result-group">${escapeHtml(groupName(plant.groupId))}${hasCoordinates(plant) ? '' : ' - No saved location'}</span>
+            </span>
+            <svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+          </button>`;
+      }).join('');
+    });
+    mapResultsList.addEventListener('click', (event) => {
+      const btn = (event.target as HTMLElement).closest<HTMLButtonElement>('.map-search-item');
+      const plant = allPlants.find(plant => plant.id === btn?.dataset.id);
+      if (plant) focusPlantOnMap(plant);
+    });
+    clearMapSearch.addEventListener('click', () => {
+      resetSearch();
+      mapSearchInput.focus();
+    });
+
+    const fitSelectedGroup = () => {
+      if (!activePlantMarkers.length || !mapElement.clientWidth || !mapElement.clientHeight) return;
+      map.invalidateSize({ pan: false });
+      const bounds = L.featureGroup(activePlantMarkers).getBounds();
+      const tabbarHeight = document.querySelector('.native-tabbar')?.getBoundingClientRect().height || 64;
+      // On wide maps, fit beside the card; on phones, fit below it.
+      const fitBesideToolbar = mapElement.clientWidth > mapElement.clientHeight &&
+        mapElement.clientWidth >= toolbar.offsetWidth + 340;
+      map.fitBounds(bounds, {
+        paddingTopLeft: fitBesideToolbar ?
+          [toolbar.offsetLeft + toolbar.offsetWidth + 36, 28] :
+          [28, toolbar.offsetTop + toolbar.offsetHeight + 36],
+        paddingBottomRight: [92, tabbarHeight + 28],
+        maxZoom: 19,
+        animate: false
+      });
+      needsGroupFit = false;
+    };
+    fitGroupBtn.addEventListener('click', fitSelectedGroup);
+    const refreshVisibleMap = () => {
+      if (!mapElement.clientWidth || !mapElement.clientHeight) return;
+      map.invalidateSize({ pan: false });
+      if (needsGroupFit) fitSelectedGroup();
+    };
+    // The Map tab starts hidden. Fit its pins once it has a real viewport.
+    const mapResizeObserver = new ResizeObserver(refreshVisibleMap);
+    mapResizeObserver.observe(mapElement);
+    window.addEventListener('resize', refreshVisibleMap);
+
+    // Marker Management
+    const markersByGroup = {};
+    const groupLayers = L.layerGroup().addTo(map);
+
+    const createPlantIcon = (number) => L.divIcon({
+      className: 'plant-marker',
+      html: `
+        <div class="flex items-center justify-center w-8 h-8 bg-[#E7E2D6] rounded-full border-2 border-[#5E6F66] shadow-2xl transition-transform active:scale-95">
+          <span class="text-[#2A3A34] font-black text-[13px] tracking-tighter font-header">${number}</span>
+        </div>
+      `,
+      iconSize: [32, 32],
+      iconAnchor: [16, 16]
+    });
+
+    const createTrunkIcon = () => L.divIcon({
+      className: 'trunk-marker',
+      html: `<div class="w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white shadow-lg"></div>`,
+      iconSize: [10, 10],
+      iconAnchor: [5, 5]
+    });
+
+    const getDistance = (lat1, lon1, lat2, lon2) => {
+      const R = 6371e3;
+      const φ1 = lat1 * Math.PI/180;
+      const φ2 = lat2 * Math.PI/180;
+      const Δφ = (lat2-lat1) * Math.PI/180;
+      const Δλ = (lon2-lon1) * Math.PI/180;
+      const a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
+                Math.cos(φ1) * Math.cos(φ2) *
+                Math.sin(Δλ/2) * Math.sin(Δλ/2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+      return R * c;
+    };
+
+    const getBearing = (lat1, lon1, lat2, lon2) => {
+      const y = Math.sin((lon2 - lon1) * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180);
+      const x = Math.cos(lat1 * Math.PI / 180) * Math.sin(lat2 * Math.PI / 180) -
+                Math.sin(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.cos((lon2 - lon1) * Math.PI / 180);
+      return (Math.atan2(y, x) * 180 / Math.PI + 360) % 360;
+    };
+
+    const updateMapMarkers = (selectedGroupId) => {
+        map.stop();
+        groupLayers.clearLayers();
+        activePlantMarkers = [];
+        needsGroupFit = true;
+        const plants = markersByGroup[selectedGroupId] || [];
+        if (plants.length === 0) return;
+
+        const proximityGroups: any[] = [];
+        const threshold = 5.0; 
+
+        plants.forEach((plant: any) => {
+            let foundGroup = proximityGroups.find(g => getDistance(plant.latitude, plant.longitude, g.lat, g.lng) < threshold);
+            if (!foundGroup) {
+                foundGroup = { lat: plant.latitude, lng: plant.longitude, members: [] };
+                proximityGroups.push(foundGroup);
+            }
+            foundGroup.members.push(plant);
+        });
+
+        const activeMarkers: any[] = [];
+
+        proximityGroups.forEach(group => {
+            const count = group.members.length;
+            const centerLat = group.members.reduce((sum, p) => sum + p.latitude, 0) / count;
+            const centerLng = group.members.reduce((sum, p) => sum + p.longitude, 0) / count;
+
+            if (count > 1) {
+                L.marker([centerLat, centerLng], { 
+                    icon: createTrunkIcon(), 
+                    pane: 'spiderPane',
+                    interactive: false 
+                }).addTo(groupLayers);
+
+                const obstacles = (plants as any).filter(p => !group.members.includes(p) && getDistance(centerLat, centerLng, p.latitude, p.longitude) < 15);
+                const obstacleBearings = obstacles.map(p => getBearing(centerLat, centerLng, p.latitude, p.longitude));
+
+                let bestStartAngle = 0;
+                let maxMinDistance = 0;
+                
+                for (let a = 0; a < 360; a += 15) {
+                    let minDistanceToObstacle = 360;
+                    group.members.forEach((_, i) => {
+                        let angle = (a + (i / count) * 360) % 360;
+                        if (count === 2 && i === 1) angle = (a + 135) % 360;
+                        
+                        obstacleBearings.forEach(ob => {
+                            const diff = Math.abs(angle - ob);
+                            const dist = Math.min(diff, 360 - diff);
+                            if (dist < minDistanceToObstacle) minDistanceToObstacle = dist;
+                        });
+                    });
+                    if (minDistanceToObstacle > maxMinDistance) {
+                        maxMinDistance = minDistanceToObstacle;
+                        bestStartAngle = a;
+                    }
+                }
+
+                const radius = 0.00018; 
+                group.members.forEach((plant, i) => {
+                    let angle = (bestStartAngle + (i / count) * 360) % 360;
+                    if (count === 2 && i === 1) angle = (bestStartAngle + 135) % 360;
+                    
+                    const rad = angle * Math.PI / 180;
+                    const newLat = centerLat + (radius * Math.cos(rad));
+                    const newLng = centerLng + (radius * Math.sin(rad));
+
+                    L.polyline([[centerLat, centerLng], [newLat, newLng]], {
+                        color: 'white',
+                        weight: 4.5,
+                        opacity: 0.5,
+                        pane: 'spiderPane'
+                    }).addTo(groupLayers);
+
+                    L.polyline([[centerLat, centerLng], [newLat, newLng]], {
+                        color: '#ef4444',
+                        weight: 2.5,
+                        opacity: 0.8,
+                        dashArray: '4, 4',
+                        pane: 'spiderPane'
+                    }).addTo(groupLayers);
+
+                    const marker = L.marker([newLat, newLng], { 
+                        icon: createPlantIcon(plant.number),
+                        zIndexOffset: 1000 
+                    });
+                    marker.on('click', () => showPlantDetail(plant));
+                    marker.addTo(groupLayers);
+                    activeMarkers.push(marker);
+                });
+            } else {
+                const plant = group.members[0];
+                const marker = L.marker([plant.latitude, plant.longitude], { icon: createPlantIcon(plant.number) });
+                marker.on('click', () => showPlantDetail(plant));
+                marker.addTo(groupLayers);
+                activeMarkers.push(marker);
+            }
+        });
+
+        activePlantMarkers = activeMarkers;
+        fitSelectedGroup();
+    };
+
+    // Map plant detail
+    const closePlantDetail = () => {
+      window.clearTimeout(detailTimer);
+      modal?.classList.add('hidden');
+      document.body.classList.remove('overflow-hidden');
+    };
+
+    const showPlantDetail = (plant) => {
+      window.clearTimeout(detailTimer);
+      const displayUrl = plant.optimizedImageUrl || plant.displayImageUrl || plant.imageUrl;
+      const lightboxUrl = plant.displayImageUrl || plant.imageUrl || displayUrl;
+      const imageCredit = plant.imageCredit ? `Image: ${plant.imageCredit}${plant.imageLicense ? ` · ${plant.imageLicense}` : ''}` : '';
+      const cues = [
+        plant.leafArrangement ? `${plant.leafArrangement} leaves` : '',
+        plant.leafShape || '',
+        plant.leafMargin ? `${plant.leafMargin} margin` : ''
+      ].filter(Boolean);
+      const leafRows = [
+        { label: 'Arrangement', val: plant.leafArrangement },
+        { label: 'Shape', val: plant.leafShape },
+        { label: 'Margin', val: plant.leafMargin },
+        { label: 'Base', val: plant.leafBase },
+        { label: 'Apex', val: plant.leafApex }
+      ].filter(row => row.val);
+      const section = (title, value) => value ? `
+        <section class="plant-info-section">
+          <h3>${escapeHtml(title)}</h3>
+          <p>${escapeHtml(value)}</p>
+        </section>
+      ` : '';
+
+      if (modalTitle) modalTitle.textContent = plant.commonName || plant.scientificName || 'Plant';
+
+      modalContent.innerHTML = `
+        <article class="plant-detail-card overflow-hidden">
+          ${displayUrl ? `
+            <button id="map-detail-image" class="w-full aspect-[4/3] max-h-[430px] bg-black/15 overflow-hidden relative cursor-zoom-in" data-image-url="${escapeHtml(lightboxUrl)}" aria-label="Open larger plant image">
+              <img src="${escapeHtml(displayUrl)}" class="absolute inset-0 w-full h-full object-cover scale-110 blur-2xl opacity-25" aria-hidden="true" alt="" />
+              <div class="absolute inset-0 bg-forest-deep/25"></div>
+              <img src="${escapeHtml(displayUrl)}" class="relative z-10 w-full h-full object-contain" loading="eager" alt="${escapeHtml(plant.commonName || plant.scientificName)}" />
+              ${imageCredit ? `<span class="absolute z-20 bottom-3 right-3 max-w-[85%] rounded-lg bg-forest-deep/80 backdrop-blur-md px-2.5 py-1 text-[9px] font-medium text-cream-warm/70">${escapeHtml(imageCredit)}</span>` : ''}
+            </button>
+          ` : `
+            <div class="w-full aspect-[4/3] max-h-[430px] flex items-center justify-center bg-white/[0.025] text-sage-light/20">
+              <svg xmlns="http://www.w3.org/2000/svg" width="68" height="68" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+            </div>
+          `}
+
+          <div class="px-5 pt-6 pb-8">
+            <div class="min-w-0">
+              <h2 class="text-[30px] font-bold text-cream-warm leading-[1.02] tracking-tight">${escapeHtml(plant.commonName || plant.scientificName)}</h2>
+              <div class="botanical-name text-[22px] text-sage-light mt-2 leading-tight">${escapeHtml(plant.scientificName)}</div>
+              ${plant.family ? `<div class="text-[12px] font-medium text-sage-light/65 mt-2">${escapeHtml(plant.family)}</div>` : ''}
+            </div>
+
+            ${cues.length ? `
+              <div class="mt-5 flex flex-wrap gap-2">
+                ${cues.map(cue => `<span class="inline-flex items-center rounded-full bg-forest-deep/40 border border-white/8 px-3 py-1.5 text-[11px] font-medium text-cream-warm/80 nav-header">${escapeHtml(cue)}</span>`).join('')}
+              </div>
+            ` : ''}
+
+            ${leafRows.length ? `
+              <section class="plant-info-section mt-7">
+                <h3>Leaf</h3>
+                <div class="native-data-list">
+                  ${leafRows.map(row => `<div><span>${escapeHtml(row.label)}</span><strong>${escapeHtml(row.val)}</strong></div>`).join('')}
+                </div>
+              </section>
+            ` : ''}
+
+            ${section('Bark', plant.bark)}
+            ${section('Flower', plant.flower)}
+            ${section('Fruit', plant.fruit)}
+          </div>
+        </article>
+      `;
+
+      modalContent.querySelector('#map-detail-image')?.addEventListener('click', (event) => {
+        const imageUrl = (event.currentTarget as HTMLElement).dataset.imageUrl;
+        if (imageUrl) window.openLightbox?.(imageUrl);
+      });
+
+      modalContent.scrollTo({ top: 0, behavior: 'instant' });
+      modal?.classList.remove('hidden');
+      document.body.classList.add('overflow-hidden');
+    };
+
+    closeModal?.addEventListener('click', closePlantDetail);
+    window.closeMapPlantDetail = () => {
+      closeGroupPicker();
+      closePlantDetail();
+    };
+
+    let loadingTask: Promise<void> | null = null;
+    const loadPlants = () => {
+      if (loadingTask) return loadingTask;
+      loadState = 'loading';
+      updateGroupContext();
+      loadingTask = fetch('/api/plants.json')
+        .then(response => {
+          if (!response.ok) throw new Error(`Plant request failed (${response.status})`);
+          return response.json();
+        })
+        .then(plants => {
+          if (!Array.isArray(plants)) throw new Error('Unexpected plant response');
+          // Preserve the API records, including IDs, photos, details and coordinates.
+          allPlants = plants.filter(plant => plant && typeof plant === 'object' && plant.id && plant.groupId);
+          plantsByGroup = {};
+          Object.keys(markersByGroup).forEach(id => delete markersByGroup[id]);
+          allPlants.forEach(plant => {
+            (plantsByGroup[plant.groupId] ||= []).push(plant);
+          });
+          Object.entries(plantsByGroup).forEach(([id, members]) => {
+            members.sort((a, b) => ((a.sortOrder ?? 9999) - (b.sortOrder ?? 9999)) ||
+              String(a.scientificName || '').localeCompare(String(b.scientificName || '')));
+            markersByGroup[id] = members.filter(hasCoordinates).map(plant => ({
+              ...plant,
+              number: plant.sortOrder ?? (members.findIndex(member => member.id === plant.id) + 1)
+            }));
+          });
+          loadState = 'ready';
+          updateGroupContext();
+          updateMapMarkers(selectedGroupId);
+        })
+        .catch(error => {
+          console.error('Unable to load map plants:', error);
+          loadState = 'error';
+          updateGroupContext();
+        })
+        .finally(() => { loadingTask = null; });
+      return loadingTask;
+    };
+
+    // Library "View on map" uses the same selection path as the picker and search.
+    window.focusPlant = async (_lat, _lng, id) => {
+      if (loadState !== 'ready') await loadPlants();
+      const plant = allPlants.find(plant => plant.id === id);
+      if (plant) focusPlantOnMap(plant);
+    };
+    retryMapData.addEventListener('click', loadPlants);
+    loadPlants();
+  }
+</script>
+
+
+<style is:global>
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .map-group-toolbar, .map-group-dialog, .map-floating-button {
+    color: var(--cream-warm);
+    font-family: 'Outfit', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .map-group-toolbar {
+    position: absolute;
+    z-index: 20;
+    top: 12px;
+    left: 12px;
+    right: 12px;
+    max-width: 420px;
+    padding: 16px 16px 10px;
+    border: 1px solid rgba(231, 226, 214, .16);
+    border-radius: 22px;
+    background: rgba(34, 48, 43, .96);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, .24);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+  }
+  .map-group-toolbar-main { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .map-group-summary { min-width: 0; }
+  .map-eyebrow { margin: 0 0 5px; font-size: 10px; line-height: 1.4; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--sage-light); }
+  #map-current-group { font-size: 26px; line-height: 1.15; font-weight: 700; letter-spacing: -.6px; margin: 0; overflow-wrap: anywhere; }
+  #map-group-summary { margin: 6px 0 0; font-size: 12px; line-height: 1.4; color: var(--sage-light); }
+  .map-change-group { display: flex; align-items: center; justify-content: center; gap: 6px; flex-shrink: 0; min-height: 44px; padding: 0 12px; border-radius: 12px; background: var(--cream-warm); color: var(--forest-deep); font-size: 13px; font-weight: 700; }
+  .map-group-toolbar-actions { display: flex; align-items: center; gap: 8px; margin-top: 13px; padding-top: 9px; border-top: 1px solid rgba(231, 226, 214, .1); }
+  .map-step-group, .map-open-search { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; border-radius: 11px; background: rgba(231, 226, 214, .055); color: var(--cream-warm); }
+  .map-step-group { width: 44px; flex-shrink: 0; }
+  .map-open-search { flex: 1; font-size: 13px; font-weight: 500; }
+  .map-group-toolbar button, .map-group-dialog button, .map-floating-button { cursor: pointer; transition: background-color .15s ease, opacity .15s ease; }
+  .map-group-toolbar button:disabled, .map-group-dialog button:disabled, .map-floating-button:disabled { opacity: .4; cursor: default; }
+  .map-group-toolbar button:focus-visible, .map-group-dialog button:focus-visible, .map-floating-button:focus-visible, #map-search-input:focus-visible { outline: 3px solid var(--cream-warm); outline-offset: 3px; }
+  .map-change-group:focus-visible { outline-offset: 4px; }
+  .map-group-notice { margin-top: 10px; border-top: 1px solid rgba(231, 226, 214, .1); padding-top: 10px; font-size: 12px; line-height: 1.5; color: var(--sage-light); }
+  #retry-map-data { min-height: 44px; margin-top: 4px; color: var(--cream-warm); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+  .map-floating-actions { position: absolute; z-index: 20; right: 16px; bottom: calc(82px + env(safe-area-inset-bottom, 0px)); display: flex; flex-direction: column; gap: 10px; }
+  .map-floating-button { width: 46px; height: 46px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(231, 226, 214, .18); border-radius: 14px; background: rgba(34, 48, 43, .94); box-shadow: 0 4px 18px rgba(0, 0, 0, .25); }
+  /* Keep required map attribution above the app navigation, not underneath it. */
+  #campus-map-shell .leaflet-bottom { bottom: calc(66px + env(safe-area-inset-bottom, 0px)); }
+  .map-group-dialog {
+    box-sizing: border-box;
+    width: min(480px, calc(100% - 24px));
+    max-width: none;
+    max-height: calc(100vh - 32px);
+    max-height: calc(100dvh - 32px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+    margin: auto;
+    padding: 22px;
+    border: 1px solid rgba(231, 226, 214, .18);
+    border-radius: 24px;
+    background: #2a3a34;
+    box-shadow: 0 24px 80px rgba(0, 0, 0, .4);
+    overflow: hidden;
+  }
+  .map-group-dialog[open] { display: flex; flex-direction: column; }
+  .map-group-dialog::backdrop { background: rgba(10, 18, 14, .6); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
+  .map-picker-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-shrink: 0; }
+  #map-group-dialog-title { margin: 0; font-size: 27px; font-weight: 700; line-height: 1.2; letter-spacing: -.6px; }
+  .map-picker-close { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; flex-shrink: 0; border-radius: 50%; background: rgba(231, 226, 214, .07); }
+  .map-picker-description { flex-shrink: 0; margin: 12px 0 18px; color: var(--sage-light); font-size: 13px; line-height: 1.5; }
+  .map-picker-search { flex-shrink: 0; position: relative; margin-bottom: 18px; }
+  .map-picker-search > svg { position: absolute; left: 14px; top: 16px; color: var(--sage-light); pointer-events: none; }
+  #map-search-input { box-sizing: border-box; width: 100%; min-height: 50px; border: 1px solid rgba(231, 226, 214, .16); border-radius: 13px; background: rgba(231, 226, 214, .05); color: var(--cream-warm); font: inherit; font-size: 16px; padding: 12px 44px 12px 41px; }
+  #map-search-input::placeholder { color: var(--sage-light); font-size: 13px; opacity: 1; }
+  #map-search-input::-webkit-search-cancel-button { -webkit-appearance: none; }
+  #clear-map-search { position: absolute; top: 3px; right: 3px; width: 44px; height: 44px; align-items: center; justify-content: center; color: var(--sage-light); }
+  #clear-map-search:not([hidden]) { display: flex; }
+  .map-picker-scroll { overflow-y: auto; overscroll-behavior: contain; min-height: 0; padding: 4px; margin: -4px; scrollbar-width: thin; scrollbar-color: var(--sage-muted) transparent; }
+  .map-picker-caption { margin: 0 0 12px; color: var(--sage-light); font-size: 12px; font-weight: 500; line-height: 1.5; }
+  .map-group-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+  .map-group-dialog .group-filter-btn { display: flex; align-items: center; justify-content: space-between; gap: 6px; text-align: left; min-height: 76px; padding: 13px 12px; border: 1px solid rgba(231, 226, 214, .12); border-radius: 15px; background: rgba(231, 226, 214, .025); color: var(--cream-warm); }
+  .map-group-dialog .group-filter-btn[aria-pressed="true"] { background: var(--cream-warm); border-color: var(--cream-warm); color: var(--forest-deep); }
+  .map-group-option-copy { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+  .map-group-option-name { font-weight: 700; font-size: 16px; line-height: 1.2; }
+  .map-group-count { font-size: 11px; line-height: 1.4; color: var(--sage-light); }
+  .group-filter-btn[aria-pressed="true"] .map-group-count { color: var(--forest-deep); opacity: .8; }
+  .map-group-check { width: 23px; height: 23px; display: flex; align-items: center; justify-content: center; border-radius: 50%; flex-shrink: 0; border: 1px solid rgba(231, 226, 214, .2); }
+  .map-group-check svg { visibility: hidden; }
+  .group-filter-btn[aria-pressed="true"] .map-group-check { background: var(--forest-deep); color: var(--cream-warm); border-color: var(--forest-deep); }
+  .group-filter-btn[aria-pressed="true"] .map-group-check svg { visibility: visible; }
+  .map-search-item { display: flex; align-items: center; gap: 12px; width: 100%; padding: 12px 4px; text-align: left; border-bottom: 1px solid rgba(231, 226, 214, .08); border-radius: 6px; }
+  .map-result-image { width: 46px; height: 46px; overflow: hidden; flex-shrink: 0; background: rgba(231, 226, 214, .08); border-radius: 11px; }
+  .map-result-image img { width: 100%; height: 100%; object-fit: cover; }
+  .map-result-copy { display: flex; flex-direction: column; gap: 3px; min-width: 0; flex: 1; }
+  .map-result-copy strong { font-size: 14px; font-weight: 600; overflow-wrap: anywhere; }
+  .map-result-copy .botanical-name { font-size: 14px; color: var(--sage-light); overflow-wrap: anywhere; }
+  .map-result-group { font-size: 11px; color: var(--sage-light); }
+  .map-search-item > svg { flex-shrink: 0; color: var(--sage-light); }
+  .map-visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+  @media (hover: hover) {
+    .map-step-group:not(:disabled):hover, .map-open-search:not(:disabled):hover, .map-picker-close:hover, .map-search-item:hover { background: rgba(231, 226, 214, .12); }
+    .map-change-group:not(:disabled):hover { background: #f2eee5; }
+    .map-group-dialog .group-filter-btn[aria-pressed="false"]:hover { background: rgba(231, 226, 214, .08); border-color: rgba(231, 226, 214, .3); }
+  }
+  @media (min-width: 640px) { .map-group-toolbar { top: 20px; left: 20px; } }
+  @media (max-width: 359px) {
+    .map-group-toolbar { padding: 13px 12px 8px; }
+    .map-group-toolbar-main { gap: 8px; }
+    .map-change-group { padding: 0 9px; font-size: 12px; }
+    #map-current-group { font-size: 24px; }
+    #map-group-summary { font-size: 11px; }
+    .map-group-dialog { padding: 17px; }
+    .map-group-dialog .group-filter-btn { padding: 12px 9px; }
+    .map-group-option-name { font-size: 15px; }
+    .map-group-count { font-size: 10px; }
+    .map-group-check { width: 20px; height: 20px; }
+  }
+  @media (max-height: 500px) and (min-width: 600px) {
+    .map-group-toolbar { max-width: 350px; top: 8px; left: 8px; padding: 10px 12px 8px; }
+    #map-current-group { font-size: 22px; }
+    .map-group-toolbar-actions { margin-top: 8px; padding-top: 6px; }
+    .map-picker-description { margin: 8px 0; }
+    .map-picker-search { margin-bottom: 10px; }
+  }
+</style>
