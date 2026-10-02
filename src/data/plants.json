@@ -526,63 +526,63 @@
         "sortOrder": 3
       },
       {
+        "scientificName": "Buddleia davidii",
+        "family": "Loganiaceae",
+        "commonName": "butterfly-bush",
+        "sortOrder": 4
+      },
+      {
         "scientificName": "Campsis radicans",
         "family": "Bignoniaceae",
         "commonName": "trumpet vine",
-        "sortOrder": 4
+        "sortOrder": 5
       },
       {
         "scientificName": "Catalpa bignonioides",
         "family": "Bignoniaceae",
         "commonName": "catalpa",
-        "sortOrder": 5
+        "sortOrder": 6
       },
       {
         "scientificName": "Cornus florida",
         "family": "Cornaceae",
         "commonName": "flowering dogwood",
-        "sortOrder": 6
+        "sortOrder": 7
       },
       {
         "scientificName": "Cornus kousa",
         "family": "Cornaceae",
         "commonName": "kousa dogwood",
-        "sortOrder": 7
+        "sortOrder": 8
       },
       {
         "scientificName": "Cotinus coggygria",
         "family": "Anacardiaceae",
         "commonName": "smoketree",
-        "sortOrder": 8
+        "sortOrder": 9
       },
       {
         "scientificName": "Euonymus alatus",
         "family": "Celastraceae",
         "commonName": "burning bush",
-        "sortOrder": 9
+        "sortOrder": 10
       },
       {
         "scientificName": "Euonymus fortunei var. coloratus",
         "family": "Celastraceae",
         "commonName": "wintercreeper",
-        "sortOrder": 10
+        "sortOrder": 11
       },
       {
         "scientificName": "Ficus pumila",
         "family": "Moraceae",
         "commonName": "climbing fig",
-        "sortOrder": 11
+        "sortOrder": 12
       },
       {
         "scientificName": "Gelsemium sempervirens",
         "family": "Loganiaceae",
         "commonName": "Carolina jessamine",
-        "sortOrder": 12
-      },
-      {
-        "scientificName": "Hedera helix",
-        "family": "Araliaceae",
-        "commonName": "English ivy",
         "sortOrder": 13
       },
       {
@@ -652,27 +652,27 @@
         "sortOrder": 3
       },
       {
+        "scientificName": "Deutzia gracilis",
+        "family": "Ranunculaceae",
+        "commonName": "slender deutzia",
+        "sortOrder": 4
+      },
+      {
         "scientificName": "Hydrangea macrophylla",
         "family": "Hydrangeaceae",
         "commonName": "bigleaf hydrangea",
-        "sortOrder": 4
+        "sortOrder": 5
       },
       {
         "scientificName": "Hydrangea paniculata",
         "family": "Hydrangeaceae",
         "commonName": "panicled hydrangea",
-        "sortOrder": 5
+        "sortOrder": 6
       },
       {
         "scientificName": "Hydrangea quercifolia",
         "family": "Hydrangeaceae",
         "commonName": "oakleaf hydrangea",
-        "sortOrder": 6
-      },
-      {
-        "scientificName": "Itea virginica",
-        "family": "Saxifragaceae",
-        "commonName": "Virginia sweetspire",
         "sortOrder": 7
       },
       {
@@ -766,9 +766,9 @@
         "sortOrder": 1
       },
       {
-        "scientificName": "Buddleia davidii",
-        "family": "Loganiaceae",
-        "commonName": "butterfly-bush",
+        "scientificName": "Acca sellowiana",
+        "family": "Myrtaceae",
+        "commonName": "pineapple guava",
         "sortOrder": 2
       },
       {
@@ -784,39 +784,39 @@
         "sortOrder": 4
       },
       {
-        "scientificName": "Deutzia gracilis",
-        "family": "Ranunculaceae",
-        "commonName": "slender deutzia",
-        "sortOrder": 5
-      },
-      {
         "scientificName": "Distylium myricoides",
         "family": "Hamamelidaceae",
         "commonName": "blue isu tree",
-        "sortOrder": 6
+        "sortOrder": 5
       },
       {
         "scientificName": "Edgeworthia chrysantha",
         "family": "Thymelaeaceae",
         "commonName": "paperbush",
-        "sortOrder": 7
+        "sortOrder": 6
       },
       {
         "scientificName": "Fothergilla major",
         "family": "Hamamelidaceae",
         "commonName": "fothergilla",
-        "sortOrder": 8
+        "sortOrder": 7
       },
       {
         "scientificName": "Hamamelis virginiana",
         "family": "Hamamelidaceae",
         "commonName": "witchhazel",
-        "sortOrder": 9
+        "sortOrder": 8
       },
       {
         "scientificName": "Hibiscus syriacus",
         "family": "Malvaceae",
         "commonName": "rose of sharon",
+        "sortOrder": 9
+      },
+      {
+        "scientificName": "Itea virginica",
+        "family": "Saxifragaceae",
+        "commonName": "Virginia sweetspire",
         "sortOrder": 10
       },
       {
@@ -1150,63 +1150,63 @@
     "name": "Group 10",
     "plants": [
       {
-        "scientificName": "Acca sellowiana",
-        "family": "Myrtaceae",
-        "commonName": "pineapple guava",
-        "sortOrder": 1
-      },
-      {
         "scientificName": "Butia capitata",
         "family": "Arecaceae",
         "commonName": "jelly palm",
-        "sortOrder": 2
+        "sortOrder": 1
       },
       {
         "scientificName": "Buxus microphylla",
         "family": "Buxaceae",
         "commonName": "Korean boxwood",
-        "sortOrder": 3
+        "sortOrder": 2
       },
       {
         "scientificName": "Buxus sempervirens",
         "family": "Buxaceae",
         "commonName": "boxwood",
-        "sortOrder": 4
+        "sortOrder": 3
       },
       {
         "scientificName": "Camellia japonica",
         "family": "Theaceae",
         "commonName": "Japanese camellia",
-        "sortOrder": 5
+        "sortOrder": 4
       },
       {
         "scientificName": "Camellia sasanqua",
         "family": "Theaceae",
         "commonName": "sasanqua",
-        "sortOrder": 6
+        "sortOrder": 5
       },
       {
         "scientificName": "Camellia sinensis",
         "family": "Theaceae",
         "commonName": "tea",
-        "sortOrder": 7
+        "sortOrder": 6
       },
       {
         "scientificName": "Cephalotaxus harringtonia",
         "family": "Cephalotaxaceae",
         "commonName": "plum yew",
-        "sortOrder": 8
+        "sortOrder": 7
       },
       {
         "scientificName": "Fatsia japonica",
         "family": "Araliaceae",
         "commonName": "fatsia",
-        "sortOrder": 9
+        "sortOrder": 8
       },
       {
         "scientificName": "Gardenia jasminoides",
         "family": "Rubiaceae",
         "commonName": "gardenia",
+        "sortOrder": 9
+      },
+      {
+        "scientificName": "Hedera helix",
+        "family": "Araliaceae",
+        "commonName": "English ivy",
         "sortOrder": 10
       },
       {
