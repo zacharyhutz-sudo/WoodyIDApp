@@ -508,6 +508,7 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 </Layout>
 
 <script define:vars={{ groups }}>
+	// Astro emits define:vars scripts unchanged. Keep this block plain JavaScript.
 	const tabButtons = document.querySelectorAll('.tab-btn');
 	const listsView = document.getElementById('lists-view');
 	const studyView = document.getElementById('study-view');
@@ -1108,7 +1109,7 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 	const closeStudyMode = (restoreFocus = true) => {
 		studyModeModal.classList.add('hidden');
 		document.body.classList.remove('overflow-hidden');
-		if (restoreFocus) (studyReturnFocus as HTMLElement)?.focus?.();
+		if (restoreFocus) studyReturnFocus?.focus?.();
 	};
 
 	const startQuiz = (plants, options = {}) => {
@@ -1284,7 +1285,7 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 		filterControls?.setAttribute('aria-hidden', String(!open));
 		document.body.classList.toggle('overflow-hidden', open);
 		if (open) requestAnimationFrame(() => closeFilters?.focus());
-		else (filterReturnFocus as HTMLElement)?.focus?.();
+		else filterReturnFocus?.focus?.();
 	};
 	toggleFilters?.addEventListener('click', () => setFilterSheet(true));
 	closeFilters?.addEventListener('click', () => setFilterSheet(false));
