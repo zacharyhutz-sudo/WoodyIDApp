@@ -62,6 +62,9 @@ export default defineConfig({
         theme_color: '#2A3A34',
         background_color: '#2A3A34',
         display: 'standalone',
+        id: '/',
+        start_url: '/',
+        scope: '/',
         icons: [
           {
             src: 'pwa-192x192.png',
@@ -82,7 +85,7 @@ export default defineConfig({
         ]
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,woff,woff2,ttf}'],
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,woff,woff2}'],
         navigateFallback: '/',
         runtimeCaching: [
           {
@@ -92,6 +95,20 @@ export default defineConfig({
               cacheName: 'esri-map-tiles',
               expiration: {
                 maxEntries: 1000,
+                maxAgeSeconds: 60 * 60 * 24 * 30 // 30 Days
+              },
+              cacheableResponse: {
+                statuses: [0, 200]
+              }
+            }
+          },
+          {
+            urlPattern: /^https:\/\/[a-d]\.basemaps\.cartocdn\.com\/light_only_labels\/.*/i,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'carto-map-labels',
+              expiration: {
+                maxEntries: 500,
                 maxAgeSeconds: 60 * 60 * 24 * 30 // 30 Days
               },
               cacheableResponse: {
@@ -115,6 +132,7 @@ export default defineConfig({
             handler: 'NetworkFirst',
             options: {
               cacheName: 'api-data',
+              networkTimeoutSeconds: 5,
               expiration: {
                 maxEntries: 50,
                 maxAgeSeconds: 60 * 60 * 24 // 24 Hours

@@ -12,6 +12,7 @@ import "../styles/global.css";
 		<meta name="theme-color" content="#2A3A34" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg?v=woody-leaf-1" />
 		<link rel="icon" href="/favicon.ico?v=woody-leaf-1" />
+		<link rel="apple-touch-icon" href="/pwa-192x192.png" />
 		<meta name="generator" content={Astro.generator} />
 		<title>Woody ID</title>
 		
@@ -28,21 +29,25 @@ import "../styles/global.css";
 			}
 			
 			body {
-				font-family: 'Outfit', sans-serif;
+				font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 				background-color: var(--forest-deep);
 				color: var(--cream-warm);
 				-webkit-tap-highlight-color: transparent;
 				-webkit-font-smoothing: antialiased;
 				overflow-x: hidden;
 			}
+			:where(button, a, input, select, [tabindex]):focus-visible {
+				outline: 2px solid var(--cream-warm);
+				outline-offset: 3px;
+			}
 
 			/* Interface typography */
-			h1, h2, h3, .nav-header, .font-header { font-family: 'Outfit', sans-serif; }
-			.botanical-name { font-family: 'EB Garamond', serif; font-style: italic; }
+			h1, h2, h3, .nav-header, .font-header { font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+			.botanical-name { font-family: ui-serif, Georgia, Cambria, "Times New Roman", serif; font-style: italic; }
 
 			/* iOS Style Large Title */
 			.large-title {
-				font-family: 'Outfit', sans-serif;
+				font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 				font-size: 34px;
 				font-weight: 700;
 				letter-spacing: -1.1px;
@@ -134,10 +139,24 @@ import "../styles/global.css";
 				border-bottom: 1px solid rgba(255,255,255,.06);
 			}
 			.native-data-list > div:last-child { border-bottom: 0; }
-			.native-data-list span { color: rgba(170,184,176,.68); font-size: 14px; }
+			.native-data-list span { color: rgba(190,203,196,.9); font-size: 14px; }
 			.native-data-list strong { color: var(--cream-warm); font-size: 14px; font-weight: 600; text-align: right; }
-			.tab-btn > div { transition: background-color .15s ease, transform .15s ease; }
-			.tab-btn.is-active > div { background: rgba(231,226,214,.10); transform: translateY(-1px); }
+			.tab-btn { position: relative; }
+			.tab-btn::after {
+				content: '';
+				position: absolute;
+				left: 50%;
+				bottom: 4px;
+				width: 4px;
+				height: 4px;
+				border-radius: 999px;
+				background: var(--cream-warm);
+				opacity: 0;
+				transform: translateX(-50%);
+				transition: opacity .15s ease;
+			}
+			.tab-btn.is-active::after { opacity: 1; }
+			.tab-btn > div { transition: color .15s ease; }
 			.detail-screen { animation: nativePush .22s cubic-bezier(.2,.8,.2,1); }
 			@keyframes nativePush { from { opacity: .75; transform: translateX(18px); } to { opacity: 1; transform: translateX(0); } }
 			@media (prefers-reduced-motion: reduce) {
@@ -214,35 +233,45 @@ import "../styles/global.css";
 		<slot />
 
 		<!-- Shared Image Lightbox -->
-		<div id="image-lightbox" class="hidden fixed inset-0 z-[200] bg-black/95 backdrop-blur-md flex items-center justify-center p-4 animate-in fade-in duration-200">
-			<button id="close-lightbox" class="absolute top-8 right-8 z-10 w-12 h-12 bg-white/10 rounded-full flex items-center justify-center text-white active:scale-90 transition-all">
+		<div id="image-lightbox" class="hidden fixed inset-0 z-[200] bg-black/95 backdrop-blur-md flex items-center justify-center p-4 animate-in fade-in duration-200" role="dialog" aria-modal="true" aria-label="Expanded plant image" aria-hidden="true">
+			<button id="close-lightbox" aria-label="Close expanded image" class="absolute right-4 z-10 w-12 h-12 bg-white/10 rounded-full flex items-center justify-center text-white active:scale-90 transition-all" style="top: calc(env(safe-area-inset-top) + 1rem)">
 				<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
 			</button>
-			<img id="lightbox-img" src="" class="max-w-full max-h-full object-contain rounded-lg shadow-2xl animate-in zoom-in-95 duration-300" />
+			<img id="lightbox-img" src="" alt="Plant image" class="max-w-full max-h-full object-contain rounded-lg shadow-2xl animate-in zoom-in-95 duration-300" />
 		</div>
 
 		<script>
 			const lightbox = document.getElementById('image-lightbox');
 			const lightboxImg = document.getElementById('lightbox-img');
 			const closeLightbox = document.getElementById('close-lightbox');
+			let lightboxReturnFocus = null;
 
-			window.openLightbox = (src) => {
+			window.openLightbox = (src, alt = 'Plant image') => {
 				if (!lightbox || !lightboxImg) return;
+				lightboxReturnFocus = document.activeElement;
 				lightboxImg.src = src;
+				lightboxImg.alt = alt;
 				lightbox.classList.remove('hidden');
+				lightbox.setAttribute('aria-hidden', 'false');
 				document.body.classList.add('overflow-hidden');
+				requestAnimationFrame(() => closeLightbox?.focus());
 			};
 
-			closeLightbox?.addEventListener('click', () => {
+			const dismissLightbox = () => {
 				lightbox?.classList.add('hidden');
+				lightbox?.setAttribute('aria-hidden', 'true');
 				document.body.classList.remove('overflow-hidden');
-			});
+				(lightboxReturnFocus as HTMLElement)?.focus?.();
+			};
+
+			closeLightbox?.addEventListener('click', dismissLightbox);
 
 			lightbox?.addEventListener('click', (e) => {
-				if (e.target === lightbox) {
-					lightbox.classList.add('hidden');
-					document.body.classList.remove('overflow-hidden');
-				}
+				if (e.target === lightbox) dismissLightbox();
+			});
+
+			document.addEventListener('keydown', (event) => {
+				if (event.key === 'Escape' && !lightbox?.classList.contains('hidden')) dismissLightbox();
 			});
 		</script>
 	</body>
