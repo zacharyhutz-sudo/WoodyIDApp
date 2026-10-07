@@ -216,10 +216,10 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 			<div id="detail-list" class="px-4 pb-28 max-w-3xl mx-auto"></div>
 		</div>
 
-			<div id="study-view" class="hidden mt-5 px-4 pb-32 overflow-y-auto no-scrollbar h-full max-w-5xl mx-auto">
-			<p class="mb-5 text-center text-[14px] font-medium text-sage-light/90">Choose a group, direction, and practice mode.</p>
+			<div id="study-view" class="hidden mt-5 px-4 pb-48 overflow-y-auto no-scrollbar h-full max-w-5xl mx-auto">
+			<p class="mb-5 text-center text-[14px] font-medium text-sage-light/90">Select one or more groups to build a study session.</p>
 
-			<button id="study-all-groups" class="w-full mb-4 native-list-card p-4 flex items-center justify-between text-left active:scale-[0.99] transition-transform duration-150">
+			<button id="study-all-groups" type="button" aria-pressed="false" class="w-full mb-4 native-list-card p-4 flex items-center justify-between text-left active:scale-[0.99] transition-all duration-150">
 				<div class="flex items-center gap-4 min-w-0">
 					<div class="w-14 h-14 rounded-2xl bg-cream-warm/10 border border-cream-warm/15 flex items-center justify-center text-cream-warm shrink-0">
 						<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M8 7h6"/><path d="M8 11h8"/></svg>
@@ -227,18 +227,22 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 					<div class="min-w-0">
 						<h2 class="text-[18px] font-semibold text-cream-warm tracking-tight">Cumulative review</h2>
 						<div class="flex flex-wrap items-center gap-2 mt-1">
-							<p class="text-[12px] font-medium text-sage-light/90">All {plantsData.length} species</p>
+							<p class="text-[12px] font-medium text-sage-light/90">Select all · {plantsData.length} species</p>
 							<span class="missed-count-badge hidden bg-red-400/15 border border-red-400/30 text-red-100 text-[10px] font-bold px-2 py-1 rounded-full" data-group-id="all">0 missed</span>
 						</div>
 					</div>
 				</div>
-				<svg aria-hidden="true" class="text-cream-warm/80 shrink-0" xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+				<div class="study-selection-indicator w-9 h-9 rounded-full border border-white/15 bg-white/5 text-cream-warm flex items-center justify-center shrink-0 transition-colors" aria-hidden="true">
+					<svg class="study-selection-check hidden" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4L19 6"/></svg>
+				</div>
 			</button>
 
 			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 				{groups.map((group, index) => (
 					<button 
-						class="study-group-card group w-full native-list-card p-4 flex items-center justify-between active:scale-[0.99] transition-transform duration-150"
+						type="button"
+						aria-pressed="false"
+						class="study-group-card group w-full native-list-card p-4 flex items-center justify-between active:scale-[0.99] transition-all duration-150"
 						data-group-index={index}
 						data-group-id={group.id}
 					>
@@ -258,11 +262,23 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 								</div>
 							</div>
 						</div>
-						<div class="w-10 h-10 rounded-full bg-cream-warm/5 flex items-center justify-center text-cream-warm border border-white/5">
-							<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+						<div class="study-selection-indicator w-9 h-9 rounded-full border border-white/15 bg-white/5 text-cream-warm flex items-center justify-center shrink-0 transition-colors" aria-hidden="true">
+							<svg class="study-selection-check hidden" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4L19 6"/></svg>
 						</div>
 					</button>
 				))}
+			</div>
+
+			<div id="study-selection-bar" class="hidden fixed left-0 right-0 z-[55] px-4 pointer-events-none" style="bottom: calc(4rem + env(safe-area-inset-bottom) + 0.75rem);">
+				<div class="max-w-lg mx-auto pointer-events-auto">
+					<button id="start-study-selection" type="button" class="w-full rounded-2xl bg-cream-warm text-forest-deep px-5 py-4 shadow-2xl flex items-center justify-between gap-4 active:scale-[0.99] transition-transform">
+						<span class="min-w-0 text-left">
+							<span id="study-selection-label" class="block text-[15px] font-bold nav-header">Study selected groups</span>
+							<span id="study-selection-count" class="block text-[11px] font-semibold opacity-70 mt-0.5 nav-header">0 species</span>
+						</span>
+						<svg aria-hidden="true" class="shrink-0" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+					</button>
+				</div>
 			</div>
 		</div>
 
@@ -562,6 +578,10 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 	const modeSelectorGroupName = document.getElementById('mode-selector-group-name');
 	const studyDirectionSelector = document.getElementById('study-direction-selector');
 	const studyAllGroups = document.getElementById('study-all-groups');
+	const studySelectionBar = document.getElementById('study-selection-bar');
+	const startStudySelection = document.getElementById('start-study-selection');
+	const studySelectionLabel = document.getElementById('study-selection-label');
+	const studySelectionCount = document.getElementById('study-selection-count');
 	const selectFlashcards = document.getElementById('select-flashcards');
 	const selectQuiz = document.getElementById('select-quiz');
 	const selectImageQuiz = document.getElementById('select-image-quiz');
@@ -606,7 +626,8 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 	let currentCardIndex = 0;
 	let isFlipped = false;
 	let studyMode = 'sci-to-com';
-	let activeStudyGroup = null;
+	const selectedStudyGroupIds = new Set();
+	let activeStudySession = null;
 	let quizQueue = [];
 	let missedPlants = [];
 	let quizScore = 0;
@@ -859,6 +880,95 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 			});
 	};
 
+	const getMissedPlantsForGroups = (groupIds) => {
+		const ids = new Set((groupIds || []).map(id => String(id)));
+		if (ids.size === 0) return [];
+		if (ids.size === groups.length) return getMissedPlantsForGroup('all');
+
+		const bank = getMissedBank();
+		return allPlants
+			.filter(plant => bank[plant.id] && ids.has(String(plant.groupId)))
+			.sort((a, b) => {
+				const aEntry = bank[a.id];
+				const bEntry = bank[b.id];
+				return (bEntry.misses || 0) - (aEntry.misses || 0) ||
+					String(bEntry.lastMissedAt || '').localeCompare(String(aEntry.lastMissedAt || ''));
+			});
+	};
+
+	const getSelectedStudyGroups = () => groups.filter(group => selectedStudyGroupIds.has(String(group.id)));
+
+	const getStudyGroupLabel = (group) => {
+		const match = String(group.name || '').match(/group\s*0*(\d+)/i);
+		return match ? String(Number(match[1])) : String(group.name || group.id);
+	};
+
+	const buildStudySession = () => {
+		const selectedGroups = getSelectedStudyGroups();
+		if (selectedGroups.length === 0) return null;
+
+		const plantsById = new Map();
+		selectedGroups.forEach(group => {
+			group.plants.forEach(plant => {
+				if (!plantsById.has(String(plant.id))) plantsById.set(String(plant.id), plant);
+			});
+		});
+
+		let name;
+		if (selectedGroups.length === groups.length) {
+			name = 'Cumulative review';
+		} else if (selectedGroups.length === 1) {
+			name = selectedGroups[0].name;
+		} else {
+			const labels = selectedGroups.map(getStudyGroupLabel);
+			const finalLabel = labels.pop();
+			name = `Groups ${labels.join(', ')}${labels.length ? ' & ' : ''}${finalLabel}`;
+		}
+
+		return {
+			groupIds: selectedGroups.map(group => String(group.id)),
+			name,
+			plants: [...plantsById.values()]
+		};
+	};
+
+	const setStudySelectionIndicator = (button, selected) => {
+		if (!button) return;
+		button.setAttribute('aria-pressed', String(selected));
+		button.classList.toggle('ring-2', selected);
+		button.classList.toggle('ring-cream-warm/40', selected);
+
+		const indicator = button.querySelector('.study-selection-indicator');
+		const check = button.querySelector('.study-selection-check');
+		if (!indicator || !check) return;
+		indicator.classList.toggle('bg-cream-warm', selected);
+		indicator.classList.toggle('text-forest-deep', selected);
+		indicator.classList.toggle('border-cream-warm', selected);
+		indicator.classList.toggle('bg-white/5', !selected);
+		indicator.classList.toggle('text-cream-warm', !selected);
+		indicator.classList.toggle('border-white/15', !selected);
+		check.classList.toggle('hidden', !selected);
+	};
+
+	const syncStudySelectionUI = () => {
+		studyGroupCards.forEach(card => {
+			setStudySelectionIndicator(card, selectedStudyGroupIds.has(String(card.dataset.groupId)));
+		});
+
+		const allSelected = groups.length > 0 && selectedStudyGroupIds.size === groups.length;
+		setStudySelectionIndicator(studyAllGroups, allSelected);
+
+		const session = buildStudySession();
+		studySelectionBar?.classList.toggle('hidden', !session);
+		if (!session) return;
+
+		const groupCount = session.groupIds.length;
+		studySelectionLabel.textContent = groupCount === 1
+			? `Study ${getSelectedStudyGroups()[0].name}`
+			: `Study ${groupCount} groups`;
+		studySelectionCount.textContent = `${session.plants.length} species`;
+	};
+
 	const updateStudyBadges = () => {
 		document.querySelectorAll('.missed-count-badge').forEach(badge => {
 			const missedCount = getMissedPlantsForGroup(badge.dataset.groupId).length;
@@ -866,10 +976,12 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 			badge.classList.toggle('hidden', missedCount === 0);
 		});
 
-		if (activeStudyGroup && selectReviewMissed && reviewMissedCount) {
-			const count = getMissedPlantsForGroup(activeStudyGroup.id).length;
+		if (activeStudySession && selectReviewMissed && reviewMissedCount) {
+			const count = getMissedPlantsForGroups(activeStudySession.groupIds).length;
 			reviewMissedCount.textContent = String(count);
 			selectReviewMissed.classList.toggle('hidden', count === 0);
+		} else if (selectReviewMissed) {
+			selectReviewMissed.classList.add('hidden');
 		}
 	};
 
@@ -1095,10 +1207,10 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 			: (studyMode === 'sci-to-com' ? 'Scientific → common' : 'Common → scientific');
 	};
 
-	const openStudyMode = (group, trigger) => {
-		activeStudyGroup = group;
+	const openStudyMode = (session, trigger) => {
+		activeStudySession = session;
 		studyReturnFocus = trigger || document.activeElement;
-		modeSelectorGroupName.textContent = group.name;
+		modeSelectorGroupName.textContent = `${session.name} · ${session.plants.length} species`;
 		updateStudyBadges();
 		syncModeToggle();
 		studyModeModal.classList.remove('hidden');
@@ -1320,16 +1432,24 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 	// Study hub handlers
 	studyGroupCards.forEach(card => {
 		card.addEventListener('click', () => {
-			const gid = card.dataset.groupId;
-			const group = groups.find(g => String(g.id) === String(gid));
-			if (!group) return;
-			rememberActiveGroup(gid, 'study');
-			openStudyMode(group, card);
+			const gid = String(card.dataset.groupId || '');
+			if (!gid) return;
+			if (selectedStudyGroupIds.has(gid)) selectedStudyGroupIds.delete(gid);
+			else selectedStudyGroupIds.add(gid);
+			syncStudySelectionUI();
 		});
 	});
 
 	studyAllGroups.addEventListener('click', () => {
-		openStudyMode({ id: 'all', name: 'Cumulative review', plants: allPlants }, studyAllGroups);
+		const allSelected = groups.length > 0 && selectedStudyGroupIds.size === groups.length;
+		selectedStudyGroupIds.clear();
+		if (!allSelected) groups.forEach(group => selectedStudyGroupIds.add(String(group.id)));
+		syncStudySelectionUI();
+	});
+
+	startStudySelection.addEventListener('click', () => {
+		const session = buildStudySession();
+		if (session) openStudyMode(session, startStudySelection);
 	});
 
 	cancelStudy.addEventListener('click', () => closeStudyMode());
@@ -1344,7 +1464,8 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 	});
 
 	selectFlashcards.addEventListener('click', () => {
-		currentGroupPlants = [...activeStudyGroup.plants];
+		if (!activeStudySession) return;
+		currentGroupPlants = [...activeStudySession.plants];
 		currentFlashcards = [...currentGroupPlants];
 		currentCardIndex = 0;
 		flashcardView.classList.remove('hidden');
@@ -1353,10 +1474,15 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 		updateCard();
 	});
 
-	selectQuiz.addEventListener('click', () => startQuiz(activeStudyGroup.plants, { type: 'typing', source: 'group' }));
-	selectImageQuiz.addEventListener('click', () => startQuiz(activeStudyGroup.plants, { type: 'image', source: 'group' }));
+	selectQuiz.addEventListener('click', () => {
+		if (activeStudySession) startQuiz(activeStudySession.plants, { type: 'typing', source: 'group' });
+	});
+	selectImageQuiz.addEventListener('click', () => {
+		if (activeStudySession) startQuiz(activeStudySession.plants, { type: 'image', source: 'group' });
+	});
 	selectReviewMissed.addEventListener('click', () => {
-		const missed = getMissedPlantsForGroup(activeStudyGroup.id);
+		if (!activeStudySession) return;
+		const missed = getMissedPlantsForGroups(activeStudySession.groupIds);
 		if (missed.length > 0) startQuiz(missed, { type: 'typing', source: 'missed-bank' });
 	});
 
@@ -1372,8 +1498,9 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 	});
 
 	quizRestartAll.addEventListener('click', () => {
+		if (!activeStudySession) return;
 		quizResultsView.classList.add('hidden');
-		startQuiz(activeStudyGroup.plants, { type: quizType, source: 'group' });
+		startQuiz(activeStudySession.plants, { type: quizType, source: 'group' });
 	});
 
 	resultsExit.addEventListener('click', () => {
@@ -1454,5 +1581,6 @@ const groups = await Promise.all(groupsData.map(async (group) => {
 		if (title) title.style.fontSize = compact ? '21px' : '34px';
 	}, { passive: true });
 
+	syncStudySelectionUI();
 	updateStudyBadges();
 </script>
